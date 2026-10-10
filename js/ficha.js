@@ -38,7 +38,7 @@ export async function abrirFicha(id) {
 
 
         const movieModal =
-            document.getElementById("movieModal");
+            document.getElementById("movieDetail");
 
         const movieDetailTitle =
             document.getElementById("movieDetailTitle");
@@ -199,21 +199,40 @@ console.log("Elementos de la ficha:", {
 
 
 
+/* =========================
+   CERRAR FICHA
+========================= */
 
-//CERRAR FICHA
-
-
-const movieModal = document.getElementById("movieModal");
+const movieModal = document.getElementById("movieDetail");
 const movieDetailClose = document.getElementById("movieDetailClose");
-const movieModalBackdrop = document.querySelector(".movie-modal-backdrop");
 
 function cerrarFicha() {
-    movieDetailClose.blur();
+    if (!movieModal) return;
 
     movieModal.classList.remove("is-open");
     movieModal.setAttribute("aria-hidden", "true");
+
+    movieDetailClose?.blur();
 }
 
-movieDetailClose.addEventListener("click", cerrarFicha);
+movieDetailClose?.addEventListener("click", cerrarFicha);
 
-movieModalBackdrop.addEventListener("click", cerrarFicha);
+/* Cerrar al pulsar el fondo de la ficha */
+
+movieModal?.addEventListener("click", (event) => {
+    if (event.target === movieModal) {
+        cerrarFicha();
+    }
+});
+
+/* Cerrar con Escape */
+
+document.addEventListener("keydown", (event) => {
+    if (
+        event.key === "Escape" &&
+        movieModal?.classList.contains("is-open")
+    ) {
+        cerrarFicha();
+    }
+});
+

@@ -1,5 +1,7 @@
 
 
+
+
 /* =========================
    INICIALIZAR INTERFAZ
 ========================= */
@@ -7,7 +9,8 @@
 export function iniciarInterfaz({
     peliculasFrameWave,
     buscarPelicula,
-    abrirFicha
+    abrirFicha,
+    cambiarIdioma
 }) {
 
     /* =========================
@@ -20,16 +23,55 @@ export function iniciarInterfaz({
     const themeIcon =
         document.querySelector(".theme-icon");
 
-    themeButton?.addEventListener("click", () => {
-        document.body.classList.toggle("light-mode");
 
-        if (themeIcon) {
-            themeIcon.textContent =
-                document.body.classList.contains("light-mode")
-                    ? "☀"
-                    : "◐";
-        }
-    });
+    themeButton?.addEventListener("click", () => {
+    const claro = document.documentElement.classList.toggle("light-mode");
+
+    if (themeIcon) {
+        themeIcon.textContent = claro ? "☀" : "◐";
+    }
+});
+
+
+    /* =========================
+       IDIOMA
+    ========================= */
+
+    const languageButton =
+        document.getElementById("languageButton");
+
+    if (languageButton) {
+        const idiomaInicial =
+            document.documentElement.lang === "en" ? "en" : "es";
+
+        languageButton.textContent =
+            idiomaInicial === "es" ? "EN" : "ES";
+
+        languageButton.addEventListener("click", async () => {
+            const idiomaNuevo =
+                document.documentElement.lang === "es" ? "en" : "es";
+
+            try {
+                if (cambiarIdioma) {
+                    await cambiarIdioma(idiomaNuevo);
+                }
+
+                document.documentElement.lang = idiomaNuevo;
+
+                languageButton.textContent =
+                    idiomaNuevo === "es" ? "EN" : "ES";
+
+                languageButton.setAttribute(
+                    "aria-label",
+                    idiomaNuevo === "es"
+                        ? "Change language to English"
+                        : "Cambiar idioma a español"
+                );
+            } catch (error) {
+                console.error("Error al cambiar el idioma:", error);
+            }
+        });
+    }
 
 
     /* =========================
@@ -154,6 +196,83 @@ export function iniciarInterfaz({
             searchMessage?.classList.remove("is-visible");
             searchInput.blur();
         });
+    }
+
+
+    
+    /* =========================
+       CARRUSEL DE PELÍCULAS
+    ========================= */
+
+    const moviesGrid = document.getElementById("rejilla");
+    const moviesPrev = document.getElementById("moviesPrev");
+    const moviesNext = document.getElementById("moviesNext");
+    const moviesProgress = document.getElementById("moviesProgress");
+
+    if (moviesGrid && moviesPrev && moviesNext) {
+
+        function actualizarCarrusel() {
+            const maxScroll =
+                moviesGrid.scrollWidth - moviesGrid.clientWidth;
+
+            const posicion = moviesGrid.scrollLeft;
+
+            moviesPrev.disabled = posicion <= 2;
+            moviesNext.disabled = posicion >= maxScroll - 2;
+
+            if (moviesProgress) {
+                const progreso =
+                    maxScroll > 0
+                        ? (posicion / maxScroll) * 100
+                        : 100;
+
+                moviesProgress.style.width = `${progreso}%`;
+            }
+        }
+
+        function moverCarrusel(direccion) {
+            const tarjeta = moviesGrid.querySelector(".card");
+
+            if (!tarjeta) return;
+
+            const estilos = getComputedStyle(moviesGrid);
+            const espacio = parseFloat(estilos.columnGap) || 0;
+            const distancia = tarjeta.getBoundingClientRect().width + espacio;
+
+            moviesGrid.scrollBy({
+                left: distancia * direccion,
+                behavior: "smooth"
+            });
+        }
+
+        moviesPrev.addEventListener("click", () => {
+            moverCarrusel(-1);
+        });
+
+        moviesNext.addEventListener("click", () => {
+            moverCarrusel(1);
+        });
+
+        moviesGrid.addEventListener("scroll", actualizarCarrusel, {
+            passive: true
+        });
+
+        window.addEventListener("resize", actualizarCarrusel);
+
+        /*
+         * Las películas se cargan después desde TMDB.
+         * Observamos los cambios para actualizar las flechas.
+         */
+
+        const observer = new MutationObserver(() => {
+            requestAnimationFrame(actualizarCarrusel);
+        });
+
+        observer.observe(moviesGrid, {
+            childList: true
+        });
+
+        actualizarCarrusel();
     }
 
 

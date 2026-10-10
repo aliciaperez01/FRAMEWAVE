@@ -1,11 +1,13 @@
 
+import { obtenerFavoritos, alternarFavorito } from "../js/favoritos.js";
+
 export default class Pelicula {
-    constructor({id, titulo, anio, nota, poster}) {
+    constructor({ id, titulo, anio, nota, poster }) {
         this.id = id;
         this.titulo = titulo;
         this.anio = anio;
-        this.poster = poster;
         this.nota = nota;
+        this.poster = poster;
     }
 
     get posterUrl() {
@@ -13,121 +15,68 @@ export default class Pelicula {
         return `https://image.tmdb.org/t/p/w342${this.poster}`;
     }
 
-    static desdeTMDB({id, title, release_date, vote_average, poster_path = null}) {
-        const anio = release_date
-            ? release_date.slice(0, 4)
-            : "----";
-
+    static desdeTMDB({ id, title, release_date, vote_average, poster_path = null }) {
         return new Pelicula({
             id,
             titulo: title,
-            anio,
+            anio: release_date ? release_date.slice(0, 4) : "----",
             nota: vote_average,
             poster: poster_path
         });
     }
 
-    //BOTON FAVORITO
-
-
-    
-toCard() {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    card.dataset.id = this.id;
-
-    if (this.posterUrl) {
-        const img = document.createElement("img");
-        img.src = this.posterUrl;
-        img.alt = `Poster de ${this.titulo}`;
-        card.append(img);
-    }
-
-    const tituloFila = document.createElement("div");
-    tituloFila.className = "card-title-row";
-
-    const titulo = document.createElement("h3");
-    titulo.textContent = this.titulo;
-
-    const info = document.createElement("p");
-    info.textContent = `${this.anio} * ${this.nota.toFixed(1)}`;
-
-    const favorito = document.createElement("button");
-    favorito.className = "favorite-button";
-    favorito.type = "button";
-
-    favorito.setAttribute(
-        "aria-label",
-        `Añadir ${this.titulo} a favoritas`
-    );
-
-    // Recuperar favoritos guardados
-    const favoritosGuardados = JSON.parse(
-        localStorage.getItem("framewaveFavoritas") || "[]"
-    );
-
-    const idPelicula = String(this.id);
-    const esFavorita = favoritosGuardados.includes(idPelicula);
-
-    favorito.textContent = esFavorita ? "♥" : "♡";
-
-    if (esFavorita) {
-        favorito.classList.add("is-favorite");
-        favorito.setAttribute(
+    /* Aspecto del botón de favorito según su estado */
+    static pintarFavorito(boton, titulo, esFavorita) {
+        boton.textContent = esFavorita ? "♥" : "♡";
+        boton.classList.toggle("is-favorite", esFavorita);
+        boton.setAttribute(
             "aria-label",
-            `Quitar ${this.titulo} de favoritas`
+            esFavorita
+                ? `Quitar ${titulo} de favoritas`
+                : `Añadir ${titulo} a favoritas`
         );
     }
 
-    tituloFila.append(titulo, favorito);
+    toCard() {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.id = this.id;
 
-    card.append(tituloFila, info);
-
-
-    // GESTIONAR CLICK EN FAVORITOS
-
-    favorito.addEventListener("click", (event) => {
-        event.stopPropagation();
-
-        const favoritos = JSON.parse(
-            localStorage.getItem("framewaveFavoritas") || "[]"
-        );
-
-        const id = String(this.id);
-        const indice = favoritos.indexOf(id);
-
-        if (indice === -1) {
-            favoritos.push(id);
-        } else {
-            favoritos.splice(indice, 1);
+        if (this.posterUrl) {
+            const img = document.createElement("img");
+            img.src = this.posterUrl;
+            img.alt = `Póster de ${this.titulo}`;
+            card.append(img);
         }
 
-        localStorage.setItem(
-            "framewaveFavoritas",
-            JSON.stringify(favoritos)
+        const titulo = document.createElement("h3");
+        titulo.textContent = this.titulo;
+
+        const favorito = document.createElement("button");
+        favorito.className = "favorite-button";
+        favorito.type = "button";
+
+        Pelicula.pintarFavorito(
+            favorito,
+            this.titulo,
+            obtenerFavoritos().includes(String(this.id))
         );
 
-        window.dispatchEvent(
-            new CustomEvent("framewaveFavoritasActualizadas")
-        );
+        favorito.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const esFavorita = alternarFavorito(this.id);
+            Pelicula.pintarFavorito(favorito, this.titulo, esFavorita);
+        });
 
-        const ahoraEsFavorita = favoritos.includes(id);
+        const fila = document.createElement("div");
+        fila.className = "card-title-row";
+        fila.append(titulo, favorito);
 
-        favorito.classList.toggle(
-            "is-favorite",
-            ahoraEsFavorita
-        );
+        const info = document.createElement("p");
+        info.textContent = `${this.anio} · ${this.nota.toFixed(1)}`;
 
-        favorito.textContent = ahoraEsFavorita ? "♥" : "♡";
+        card.append(fila, info);
 
-        favorito.setAttribute(
-            "aria-label",
-            ahoraEsFavorita
-                ? `Quitar ${this.titulo} de favoritas`
-                : `Añadir ${this.titulo} a favoritas`
-        );
-    });
-
-    return card;
-}};
+        return card;
+    }
+}

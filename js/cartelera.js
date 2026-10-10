@@ -1,9 +1,9 @@
 
 
-
 import Pelicula from "../modelos/modelo.js";
 import {
-    pedirTMBD
+    pedirTMDB,
+    establecerIdiomaTMDB
 } from "../api_services/tmdb.js";
 import { abrirFicha } from "./ficha.js";
 import { iniciarInterfaz } from "./script.js";
@@ -50,15 +50,24 @@ const peliculasFrameWave = [
 ];
 
 const peliculasCargadas = [];
+const idsPeliculas = new Map();
+
+let idiomaActual =
+    localStorage.getItem("framewaveIdioma") === "en"
+        ? "en"
+        : "es";
+
+establecerIdiomaTMDB(idiomaActual);
+document.documentElement.lang = idiomaActual;
 
 /* =========================
    BUSCAR UNA PELÍCULA
 ========================= */
 
 async function buscarPelicula(titulo) {
-    const { results } = await pedirTMBD(
+    const { results } = await pedirTMDB(
         "/search/movie",
-        `&query=${encodeURIComponent(titulo)}`
+        { query: titulo }
     );
 
     return results[0] ?? null;
@@ -73,11 +82,27 @@ async function iniciarCartelera() {
 
     if (!rejilla) return;
 
-    try {
-        for (const titulo of peliculasFrameWave) {
-            const resultado = await buscarPelicula(titulo);
+    rejilla.replaceChildren();
+    peliculasCargadas.length = 0;
 
-            if (!resultado) continue;
+    try {
+        
+        for (const titulo of peliculasFrameWave) {
+            let resultado;
+
+            const idGuardado = idsPeliculas.get(titulo);
+
+            if (idGuardado) {
+                resultado = await pedirTMDB(`/movie/${idGuardado}`);
+            } else {
+                resultado = await buscarPelicula(titulo);
+
+                if (!resultado) continue;
+
+                idsPeliculas.set(titulo, resultado.id);
+
+                resultado = await pedirTMDB(`/movie/${resultado.id}`);
+            }
 
             const pelicula = Pelicula.desdeTMDB(resultado);
 
@@ -96,8 +121,15 @@ async function iniciarCartelera() {
         actualizarFavoritas();
 
     } catch (error) {
-        console.error("Error cargando la cartelera:", error);
-        rejilla.textContent = "No se ha podido cargar la cartelera.";
+        console.error(
+            "Error cargando la cartelera:",
+            error
+        );
+
+        rejilla.textContent =
+            idiomaActual === "en"
+                ? "The movie collection could not be loaded."
+                : "No se ha podido cargar la cartelera.";
     }
 }
 
@@ -109,15 +141,39 @@ function actualizarFavoritas() {
     const favoritesGrid =
         document.querySelector("#favoritesGrid");
 
-    if (!favoritesGrid) return;
+    const rejilla =
+        document.querySelector("#rejilla");
+
+    if (!favoritesGrid || !rejilla) return;
 
     const favoritosGuardados = obtenerFavoritos();
 
     favoritesGrid.replaceChildren();
 
     peliculasCargadas.forEach((pelicula) => {
-        if (favoritosGuardados.includes(String(pelicula.id))) {
+        if (
+            favoritosGuardados.includes(
+                String(pelicula.id)
+            )
+        ) {
             favoritesGrid.append(pelicula.toCard());
+        }
+    });
+
+    rejilla.querySelectorAll(".card").forEach((card) => {
+        const pelicula = peliculasCargadas.find(
+            (p) => String(p.id) === card.dataset.id
+        );
+
+        const boton =
+            card.querySelector(".favorite-button");
+
+        if (pelicula && boton) {
+            Pelicula.pintarFavorito(
+                boton,
+                pelicula.titulo,
+                favoritosGuardados.includes(card.dataset.id)
+            );
         }
     });
 }
@@ -136,7 +192,12 @@ document.addEventListener("click", (event) => {
 
     const card = event.target.closest(".card");
 
-    if (!card || event.target.closest(".favorite-button")) return;
+    if (
+        !card ||
+        event.target.closest(".favorite-button")
+    ) {
+        return;
+    }
 
     const id = card.dataset.id;
 
@@ -152,7 +213,20 @@ document.addEventListener("click", (event) => {
 iniciarInterfaz({
     peliculasFrameWave,
     buscarPelicula,
-    abrirFicha
+    abrirFicha,
+
+    cambiarIdioma: async (idioma) => {
+        idiomaActual = idioma;
+
+        establecerIdiomaTMDB(idiomaActual);
+
+        localStorage.setItem(
+            "framewaveIdioma",
+            idiomaActual
+        );
+
+        await iniciarCartelera();
+    }
 });
 
 iniciarAnimaciones();

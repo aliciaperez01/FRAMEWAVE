@@ -1,32 +1,38 @@
 
-
 import { API_KEY } from "./api.js";
-import Pelicula from "../modelos/modelo.js";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
-export async function pedirTMBD(url, extra = "") {
-    const rutaURL =
-        `${BASE_URL}${url}?api_key=${API_KEY}&language=es-ES${extra}`;
+let idiomaTMDB = "es-ES";
 
-    const res = await fetch(rutaURL);
+/* =========================
+   CAMBIAR IDIOMA DE TMDB
+========================= */
+
+export function establecerIdiomaTMDB(idioma) {
+    idiomaTMDB = idioma === "en" ? "en-US" : "es-ES";
+}
+
+/* =========================
+   PETICIONES A TMDB
+========================= */
+
+export async function pedirTMDB(ruta, parametros = {}) {
+    const url = new URL(`${BASE_URL}${ruta}`);
+
+    url.search = new URLSearchParams({
+        api_key: API_KEY,
+        language: idiomaTMDB,
+        ...parametros
+    });
+
+    const res = await fetch(url);
 
     if (!res.ok) {
-        throw new Error(`Error ${res.status}`);
+        throw new Error(`TMDB ${ruta}: error ${res.status}`);
     }
 
     return res.json();
-}
-
-export async function buscarPeliculas(texto) {
-    const { results } = await pedirTMBD(
-        "/search/movie",
-        `&query=${encodeURIComponent(texto)}`
-    );
-
-    return {
-        pelis: results.map(json => Pelicula.desdeTMDB(json))
-    };
 }
 
 /* =========================
@@ -34,50 +40,24 @@ export async function buscarPeliculas(texto) {
 ========================= */
 
 export async function obtenerDetallesPelicula(id) {
-    const [detalle, videos, creditos] = await Promise.all([
-        pedirTMBD(`/movie/${id}`),
-        pedirTMBD(`/movie/${id}/videos`),
-        pedirTMBD(`/movie/${id}/credits`)
-    ]);
+    const detalle = await pedirTMDB(`/movie/${id}`, {
+        append_to_response: "videos,credits,images",
+        include_video_language: "es,en",
+        include_image_language: "es,en,null"
+    });
 
-    let fotogramas = [];
-
-    try {
-        const imagenes = await pedirTMBD(
-            `/movie/${id}/images`,
-            "&include_image_language=es,en,null"
+    const director = detalle.credits?.crew
+        .find(persona => persona.job === "Director")?.name
+        ?? (
+            idiomaTMDB === "en"
+                ? "Director unavailable"
+                : "Director no disponible"
         );
-
-        fotogramas = imagenes.backdrops ?? [];
-    } catch (error) {
-        console.warn(
-            "No se pudieron cargar los fotogramas:",
-            error
-        );
-    }
-
-    const director =
-        creditos.crew.find(
-            persona => persona.job === "Director"
-        )?.name ?? "Director no disponible";
 
     return {
         detalle,
-        videos: videos.results ?? [],
+        videos: detalle.videos?.results ?? [],
         director,
-        fotogramas
+        fotogramas: detalle.images?.backdrops ?? []
     };
-}
-
-/* =========================
-   FOTOGRAMAS
-========================= */
-
-export async function buscarFotogramasPelicula(id) {
-    const data = await pedirTMBD(
-        `/movie/${id}/images`,
-        "&include_image_language=es,null"
-    );
-
-    return data.backdrops?.[0] ?? null;
 }

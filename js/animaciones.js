@@ -7,95 +7,94 @@
 
 export function iniciarAnimaciones() {
 
-    /* =========================
+
+        /* =========================
        SCROLL + HERO
     ========================= */
 
-    const framewave =
-        document.getElementById("framewave");
+    const framewave = document.getElementById("framewave");
+    const heroDescription = document.querySelector(".hero-description");
 
-    const heroDescription =
-        document.querySelector(".hero-description");
-
-    window.addEventListener("scroll", () => {
-
+    function actualizarHero() {
         const scroll = window.scrollY;
-
         const progress = Math.min(
             scroll / (window.innerHeight * 1.4),
             1
         );
 
+        /* Movimiento de la descripción */
         const descriptionMove =
             progress * (window.innerHeight * 0.08);
-
-        const descriptionOpacity =
-            1 - Math.min(progress * 1.8, 1);
 
         if (heroDescription) {
             heroDescription.style.transform =
                 `translate(-50%, ${-descriptionMove}px)`;
 
             heroDescription.style.opacity =
-                descriptionOpacity;
+                1 - Math.min(progress * 1.8, 1);
         }
+
+        /* Movimiento del logo */
+        if (!framewave) return;
+
+                /* Movimiento del logo */
 
         if (!framewave) return;
 
-        /* MÓVIL */
+        let scale;
+        let vertical;
 
         if (window.innerWidth <= 600) {
+            // Móvil: el logo sube hasta quedarse en la barra de navegación
+            scale = 1 - progress * 0.35;
 
-            const scale = 1 - (progress * 0.35);
-
-            const nav =
-                document.querySelector(".navigation");
-
+            const nav = document.querySelector(".navigation");
             if (!nav) return;
 
             const navRect = nav.getBoundingClientRect();
+            const centroNav = navRect.top + navRect.height / 2;
 
-            const destino =
-                navRect.top + navRect.height / 2 - 28;
+            const centroInicial =
+                window.innerHeight * 0.25 + framewave.offsetHeight / 2;
 
-            const posicionInicial =
-                window.innerHeight * 0.25;
-
-            const posicionActual =
-                posicionInicial -
-                progress * (posicionInicial - destino);
-
-            const vertical =
-                posicionActual - posicionInicial;
+            vertical = progress * (centroNav - centroInicial);
 
             framewave.style.transform =
                 `translate(-50%, ${vertical}px) scale(${scale})`;
-
-        /* TABLET */
-
-        } else if (window.innerWidth <= 900) {
-
-            const scale = 1 - (progress * 0.45);
-
-            const vertical =
-                progress * (window.innerHeight * 0.17);
-
-            framewave.style.transform =
-                `translate(-50%, ${-vertical}px) scale(${scale})`;
-
-        /* ESCRITORIO */
-
-        } else {
-
-            const scale = 1 - (progress * 0.40);
-
-            const vertical =
-                progress * (window.innerHeight * 0.19);
-
-            framewave.style.transform =
-                `translate(-50%, ${-vertical}px) scale(${scale})`;
+            return;
         }
-    });
+
+        if (window.innerWidth <= 900) {
+            // Tablet
+            scale = 1 - progress * 0.45;
+            vertical = progress * window.innerHeight * 0.17;
+        } else {
+            // Escritorio
+            scale = 1 - progress * 0.40;
+            vertical = progress * window.innerHeight * 0.19;
+        }
+
+        framewave.style.transform =
+            `translate(-50%, ${-vertical}px) scale(${scale})`;
+    
+    }
+
+    let pendiente = false;
+
+    function alMoverse() {
+        if (pendiente) return;
+        pendiente = true;
+
+        requestAnimationFrame(() => {
+            actualizarHero();
+            pendiente = false;
+        });
+    }
+
+    window.addEventListener("scroll", alMoverse, { passive: true });
+    window.addEventListener("resize", alMoverse);
+
+    actualizarHero();
 
 
     /* =========================
