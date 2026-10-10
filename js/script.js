@@ -1,116 +1,175 @@
 
-/* =========================
-   TEMA
-========================= */
-
-const themeButton =
-    document.getElementById("themeButton");
-
-const themeIcon =
-    document.querySelector(".theme-icon");
-
-themeButton.addEventListener("click", () => {
-
-    document.body.classList.toggle("light-mode");
-
-    if (document.body.classList.contains("light-mode")) {
-        themeIcon.textContent = "☀";
-    } else {
-        themeIcon.textContent = "◐";
-    }
-});
-
 
 /* =========================
-   MENÚ MÓVIL
+   INICIALIZAR INTERFAZ
 ========================= */
 
-const menuButton = document.getElementById("menuButton");
+export function iniciarInterfaz({
+    peliculasFrameWave,
+    buscarPelicula,
+    abrirFicha
+}) {
 
-const menuList = document.getElementById("menuList");
+    /* =========================
+       TEMA
+    ========================= */
 
-menuButton.addEventListener("click", () => {
+    const themeButton =
+        document.getElementById("themeButton");
 
-const abierto = menuList.classList.toggle("is-open");
+    const themeIcon =
+        document.querySelector(".theme-icon");
 
-    menuButton.classList.toggle("is-open",abierto);
+    themeButton?.addEventListener("click", () => {
+        document.body.classList.toggle("light-mode");
 
-    menuButton.setAttribute("aria-expanded",abierto);
-});
-
-const desktopSearchButton = document.getElementById("desktopSearchButton");
-const searchForm = document.getElementById("searchForm");
-const searchInput = document.getElementById("searchInput");
-const searchMessage = document.getElementById("searchMessage");
-
-function alternarBusqueda() {
-    const abierta = searchForm.classList.toggle("is-open");
-
-    if (abierta) {
-        searchInput.focus();
-    }
-}
-
-desktopSearchButton.addEventListener("click", alternarBusqueda);
-
-
-searchForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const texto = searchInput.value.trim().toLowerCase();
-
-    if (!texto) return;
-
-    const peliculaEncontrada = peliculasFrameWave.find(
-        (titulo) => titulo.toLowerCase() === texto
-    );
-
-    if (!peliculaEncontrada) {
-        searchMessage.textContent = "No está :(";
-        searchMessage.classList.add("is-visible");
-        return;
-    }
-
-    searchMessage.textContent = "";
-    searchMessage.classList.remove("is-visible");
-
-    const pelicula = await buscarPelicula(peliculaEncontrada);
-
-    if (pelicula) {
-        abrirFicha(pelicula.id);
-    }
-});
+        if (themeIcon) {
+            themeIcon.textContent =
+                document.body.classList.contains("light-mode")
+                    ? "☀"
+                    : "◐";
+        }
+    });
 
 
+    /* =========================
+       MENÚ MÓVIL
+    ========================= */
 
-/* =========================
-   CERRAR MENÚ AL NAVEGAR
-========================= */
+    const menuButton =
+        document.getElementById("menuButton");
 
-const menuLinks =
-    menuList.querySelectorAll("a");
+    const menuList =
+        document.getElementById("menuList");
 
-menuLinks.forEach((link) => {
+    menuButton?.addEventListener("click", () => {
+        if (!menuList) return;
 
-    link.addEventListener("click", () => {
+        const abierto =
+            menuList.classList.toggle("is-open");
 
-        menuList.classList.remove("is-open");
-
-        menuButton.classList.remove("is-open");
+        menuButton.classList.toggle("is-open", abierto);
 
         menuButton.setAttribute(
             "aria-expanded",
-            "false"
+            String(abierto)
         );
-
     });
 
-});
+
+    /* =========================
+       BÚSQUEDA
+    ========================= */
+
+    const desktopSearchButton =
+        document.getElementById("desktopSearchButton");
+
+    const searchForm =
+        document.getElementById("searchForm");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const searchMessage =
+        document.getElementById("searchMessage");
+
+    if (searchInput && searchForm) {
+
+        const placeholderOriginal =
+            searchInput.placeholder;
+
+        searchInput.addEventListener("input", () => {
+            searchInput.placeholder = placeholderOriginal;
+
+            searchMessage?.classList.remove("is-visible");
+        });
+
+        function alternarBusqueda() {
+            const abierta =
+                searchForm.classList.toggle("is-open");
+
+            if (abierta) {
+                searchInput.focus();
+            } else {
+                searchMessage?.classList.remove("is-visible");
+            }
+        }
+
+        desktopSearchButton?.addEventListener(
+            "click",
+            alternarBusqueda
+        );
+
+        searchForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const texto =
+                searchInput.value.trim().toLowerCase();
+
+            if (!texto) return;
+
+            const peliculaEncontrada =
+                peliculasFrameWave.find(
+                    titulo => titulo.toLowerCase() === texto
+                );
+
+            if (!peliculaEncontrada) {
+                searchInput.value = "";
+                searchInput.placeholder = "No está :(";
+                searchMessage?.classList.remove("is-visible");
+                return;
+            }
+
+            try {
+                const pelicula =
+                    await buscarPelicula(peliculaEncontrada);
+
+                if (!pelicula) {
+                    searchInput.placeholder = "No está :(";
+                    return;
+                }
+
+                searchForm.classList.remove("is-open");
+                searchMessage?.classList.remove("is-visible");
+                searchInput.blur();
+
+                abrirFicha(pelicula.id);
+
+            } catch (error) {
+                console.error("Error al buscar la película:", error);
+            }
+        });
 
 
+        /* Cerrar búsqueda al pulsar una tarjeta */
+
+        document.addEventListener("click", (event) => {
+            if (!(event.target instanceof Element)) return;
+
+            const card = event.target.closest(".card");
+
+            if (!card) return;
+
+            searchForm.classList.remove("is-open");
+            searchMessage?.classList.remove("is-visible");
+            searchInput.blur();
+        });
+    }
 
 
+    /* =========================
+       CERRAR MENÚ AL NAVEGAR
+    ========================= */
 
+    menuList?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            menuList.classList.remove("is-open");
+            menuButton?.classList.remove("is-open");
 
-
-    
+            menuButton?.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+        });
+    });
+}

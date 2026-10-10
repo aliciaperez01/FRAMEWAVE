@@ -1,8 +1,24 @@
+
+
+import {
+    obtenerFavoritos,
+    alternarFavorito
+} from "./favoritos.js";
+
+import {
+    obtenerDetallesPelicula
+} from "../api_services/tmdb.js";
+
+import {
+    mostrarGaleriaFotogramas
+} from "./fotogramas.js";
+
+
 /* =========================
    FICHA TÉCNICA
 ========================= */
 
-async function abrirFicha(id) {
+export async function abrirFicha(id) {
     try {
 
         const {
@@ -26,6 +42,9 @@ async function abrirFicha(id) {
 
         const movieDetailTitle =
             document.getElementById("movieDetailTitle");
+        
+        const movieDetailFavorite =
+        document.getElementById("movieDetailFavorite");
 
         const movieDetailYear =
             document.getElementById("movieDetailYear");
@@ -42,6 +61,18 @@ async function abrirFicha(id) {
         const movieDetailTrailer =
             document.getElementById("movieDetailTrailer");
 
+            
+console.log("Elementos de la ficha:", {
+    movieModal,
+    movieDetailTitle,
+    movieDetailFavorite,
+    movieDetailYear,
+    movieDetailMeta,
+    movieDetailOverview,
+    movieDetailExtra,
+    movieDetailTrailer
+});
+
 
         /* =========================
            INFORMACIÓN DE LA PELÍCULA
@@ -49,6 +80,43 @@ async function abrirFicha(id) {
 
         movieDetailTitle.textContent =
             detalle.title;
+
+    /* =========================
+        BOTÓN DE FAVORITOS
+    ========================= */
+
+    function actualizarCorazon() {
+        const favoritos = obtenerFavoritos();
+        const esFavorita = favoritos.includes(String(id));
+
+        movieDetailFavorite.textContent =
+            esFavorita ? "♥" : "♡";
+
+        movieDetailFavorite.classList.toggle(
+            "is-favorite",
+            esFavorita
+        );
+
+        movieDetailFavorite.setAttribute(
+            "aria-pressed",
+            String(esFavorita)
+        );
+
+        movieDetailFavorite.setAttribute(
+            "aria-label",
+            esFavorita
+                ? "Quitar de favoritas"
+                : "Añadir a favoritas"
+        );
+    }
+
+    actualizarCorazon();
+
+    movieDetailFavorite.onclick = () => {
+        alternarFavorito(id);
+        actualizarCorazon();
+    };
+
 
         movieDetailYear.textContent =
             detalle.release_date?.slice(0, 4) ?? "----";
@@ -126,35 +194,26 @@ async function abrirFicha(id) {
         console.error("Error cargando la ficha:", error);
 
     }
+
 }
 
-document.addEventListener("click", (event) => {
-    const card = event.target.closest(".card");
-
-    if (!card) return;
-
-    const id = card.dataset.id;
-
-    if (id) {
-        abrirFicha(id);
-    }
-});
 
 
 
 //CERRAR FICHA
 
+
 const movieModal = document.getElementById("movieModal");
 const movieDetailClose = document.getElementById("movieDetailClose");
-
-movieDetailClose.addEventListener("click", () => {
-    movieModal.classList.remove("is-open");
-    movieModal.setAttribute("aria-hidden", "true");
-});
-
 const movieModalBackdrop = document.querySelector(".movie-modal-backdrop");
 
-movieModalBackdrop.addEventListener("click", () => {
+function cerrarFicha() {
+    movieDetailClose.blur();
+
     movieModal.classList.remove("is-open");
     movieModal.setAttribute("aria-hidden", "true");
-});
+}
+
+movieDetailClose.addEventListener("click", cerrarFicha);
+
+movieModalBackdrop.addEventListener("click", cerrarFicha);

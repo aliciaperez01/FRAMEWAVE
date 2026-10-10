@@ -1,10 +1,8 @@
 
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -20,32 +18,25 @@
     <title>FrameWave</title>
 
     <link rel="stylesheet" href="style/style.css">
-
 </head>
-
 
 <body>
 
-
     <div class="page-background" aria-hidden="true">
-
-    <span class="page-bubble bubble-one"></span>
-    <span class="page-bubble bubble-two"></span>
-    <span class="page-bubble bubble-three"></span>
-    <span class="page-bubble bubble-four"></span>
-    <span class="page-bubble bubble-five"></span>
-    <span class="page-bubble bubble-six"></span>
-
+        <span class="page-bubble bubble-one"></span>
+        <span class="page-bubble bubble-two"></span>
+        <span class="page-bubble bubble-three"></span>
+        <span class="page-bubble bubble-four"></span>
+        <span class="page-bubble bubble-five"></span>
+        <span class="page-bubble bubble-six"></span>
     </div>
 
     <header class="header">
 
         <!-- Navegación -->
-
         <nav class="navigation">
 
             <div class="mobile-navigation">
-
                 <button
                     class="menu-button"
                     id="menuButton"
@@ -55,60 +46,40 @@
                 >
                     MENU
                 </button>
-
             </div>
 
-
-            <ul
-                class="menu-list"
-                id="menuList"
-            >
-
+            <ul class="menu-list" id="menuList">
                 <li><a href="#inicio">Inicio</a></li>
-
                 <li><a href="#movies">Películas</a></li>
-
                 <li><a href="#genres">Géneros</a></li>
-
                 <li><a href="#favorites">Favoritas</a></li>
-
                 <li><a href="#about">Sobre FrameWave</a></li>
-
             </ul>
 
-
             <!-- Campo de búsqueda -->
-
-            <form
-                class="search-form"
-                id="searchForm"
-            >
-
+            <form class="search-form" id="searchForm">
                 <input
                     type="search"
                     id="searchInput"
                     placeholder="Buscar..."
                     aria-label="Buscar películas"
                 >
-
             </form>
 
             <p class="search-message" id="searchMessage"></p>
 
         </nav>
 
-
         <!-- Botones de tema e idioma -->
-
         <div class="controls">
 
             <button
-            id="desktopSearchButton"
-            class="control-button search-control"
-            type="button"
-            aria-label="Buscar películas"
-        >
-            ⌕
+                id="desktopSearchButton"
+                class="control-button search-control"
+                type="button"
+                aria-label="Buscar películas"
+            >
+                ⌕
             </button>
 
             <button
@@ -120,181 +91,147 @@
                 <span class="theme-icon">◐</span>
             </button>
 
-
             <button
-            id="languageButton"
-            class="control-button"
-            type="button"
-            aria-label="Cambiar idioma"
+                id="languageButton"
+                class="control-button"
+                type="button"
+                aria-label="Cambiar idioma"
             >
-            EN
+                EN
             </button>
 
         </div>
 
     </header>
 
-
     <main id="inicio">
 
         <!-- HERO -->
-
         <section class="hero" id="hero">
 
             <p class="hero-description">
                 <span class="hero-kicker">cine · Cult &amp; alternativo</span>
 
-            ···
-            <strong>
-                Una selección de lo <em>extraño,</em> lo singular y lo inolvidable.
-            </strong>
+                ···
 
-            <span class="hero-text">
-                Treinta películas en los márgenes del cine. Otros mundos, lógica de sueños y miradas que no encajan en ninguna estantería.
-            </span>
-            ···
+                <strong>
+                    Una selección de lo <em>extraño,</em> lo singular y lo inolvidable.
+                </strong>
 
+                <span class="hero-text">
+                    Treinta y dos películas en los márgenes del cine. Otros mundos,
+                    lógica de sueños y miradas que no encajan en ninguna estantería.
+                </span>
+
+                ···
             </p>
 
-
-
             <div class="hero-background">
-
                 <span class="background-shape shape-one"></span>
-
                 <span class="background-shape shape-two"></span>
-
                 <span class="background-shape shape-three"></span>
-
                 <span class="background-glow glow-one"></span>
-
                 <span class="background-glow glow-two"></span>
-
             </div>
 
-                
-
-            <div
-                class="framewave"
-                id="framewave"
-            >
+            <div class="framewave" id="framewave">
 
                 <div class="framewave-full">
 
-                    <span class="framewave-word">
-                        
-                    </span>
+                    <span class="framewave-word"></span>
 
                     <div
-                    class="framewave-compact"
-                    aria-hidden="true"
-                >
-                    framewave<span>~</span>
+                        class="framewave-compact"
+                        aria-hidden="true"
+                    >
+                        framewave<span>~</span>
                     </div>
 
+                </div>
+
             </div>
-            
-         
 
         </section>
 
-        
-
-
+        <!-- PELÍCULAS -->
         <section class="section" id="movies">
 
-            <div class="section-heading reveal">
+            <header class="section-heading reveal">
+                <span class="section-kicker">
+                    01 · TREINTA Y DOS FORMAS DE MIRAR
+                </span>
 
-                <span class="section-kicker">01 · TREINTA FORMAS DE MIRAR </span>
-                
                 <h2>Películas</h2>
 
                 <p>
-
                     Descubre películas, directoras, directores y mundos cinematográficos.
-                
                 </p>
-
-            </div>
+            </header>
 
             <div id="rejilla"></div>
 
         </section>
 
+        <!-- GÉNEROS -->
         <section class="section" id="genres">
 
-    <div class="section-heading">
+            <header class="section-heading">
+                <span class="section-kicker">
+                    02 · CRUZAR LAS FRONTERAS
+                </span>
 
-        <span class="section-kicker">
+                <h2>Géneros</h2>
 
-            02 · CRUZAR LAS FRONTERAS
+                <p>Cada género, otros mundos.</p>
+            </header>
 
-        </span>
+            <div class="genres-list">
+                <a href="#">Surrealismo</a>
+                <a href="#">Fantástico</a>
+                <a href="#">Horror</a>
+                <a href="#">Ciencia ficción</a>
+                <a href="#">Fantasía oscura</a>
+                <a href="#">Drama psicológico</a>
+                <a href="#">Romance</a>
+                <a href="#">Experimental</a>
+            </div>
 
-        <h2>Géneros</h2>
+        </section>
 
-        <p>
-            Cada género, otros mundos.
-        </p>
-
-    </div>
-
-
-    <div class="genres-list">
-
-        <a href="#">Surrealismo</a>
-        <a href="#">Fantástico</a>
-        <a href="#">Horror</a>
-        <a href="#">Ciencia ficción</a>
-        <a href="#">Fantasía oscura</a>
-        <a href="#">Drama psicológico</a>
-        <a href="#">Romance</a>
-        <a href="#">Experimental</a>
-
-    </div>
-
-</section>
-
-
+        <!-- FAVORITAS -->
         <section class="section" id="favorites">
 
-            <div class="section-heading">
+            <header class="section-heading">
+                <span class="section-kicker">
+                    03 · LAS QUE SE QUEDAN CONTIGO
+                </span>
 
-                <span class="section-kicker">03 · LAS QUE SE QUEDAN CONTIGO</span>
-                
                 <h2>Favoritas</h2>
 
                 <p>Tu selección durante esta sesión.</p>
-
-            </div>
+            </header>
 
             <div id="favoritesGrid"></div>
-            
+
         </section>
 
-
-
+        <!-- SOBRE FRAMEWAVE -->
         <section class="section" id="about">
 
-            <div class="section-heading">
-
+            <header class="section-heading">
                 <span class="section-kicker">
                     04 · UNA CINEMATECA PERSONAL
                 </span>
 
                 <h2>Sobre FrameWave</h2>
 
-                <p>
-                    Películas que miran el mundo
-                    desde otro lugar.
-                </p>
-
-            </div>
+                <p>Películas que miran el mundo desde otro lugar.</p>
+            </header>
 
             <div class="about-content">
 
                 <p class="about-text">
-                    Un archivo de treinta películas que se mueven entre
+                    Un archivo de treinta y dos películas que se mueven entre
                     <em>el cine de culto y lo fantástico</em>, entre el sueño
                     y el extrañamiento: una selección personal, sin rankings
                     ni algoritmos.
@@ -309,47 +246,40 @@
 
         </section>
 
-</section>    
-        
+    </main>
 
-    
+    <!-- FICHA DE LA PELÍCULA -->
+    <div class="movie-modal" id="movieModal" aria-hidden="true">
 
+        <div class="movie-modal-backdrop"></div>
 
-
-
-
-<div class="movie-modal" id="movieModal" aria-hidden="true">
-    <div class="movie-modal-backdrop"></div>
-
-    <article class="movie-detail" role="dialog" aria-modal="true">
-
-        <button
-            class="movie-detail-close"
-            id="movieDetailClose"
-            type="button"
-            aria-label="Cerrar"
+        <article
+            class="movie-detail"
+            role="dialog"
+            aria-modal="true"
         >
-            ×
-        </button>
 
-        <div class="movie-detail-content">
+            <button
+                class="movie-detail-close"
+                id="movieDetailClose"
+                type="button"
+                aria-label="Cerrar"
+            >
+                ×
+            </button>
 
-            <div class="movie-detail-left">
+            <div class="movie-detail-content">
 
-                <!-- GALERÍA DE FOTOGRAMAS -->
-                <div class="movie-detail-poster">
+                <!-- Galería de fotogramas -->
+                <figure class="movie-detail-poster">
 
-                    <img
-                        id="movieDetailPoster"
-                        src=""
-                        alt=""
-                    >
+                    <img id="movieDetailPoster" src="" alt="">
 
                     <button
                         class="gallery-arrow gallery-arrow-prev"
                         id="galleryPrev"
                         type="button"
-                        aria-label="Fotograma anterior"
+                        aria-label="Imagen anterior"
                     >
                         &#10094;
                     </button>
@@ -358,7 +288,7 @@
                         class="gallery-arrow gallery-arrow-next"
                         id="galleryNext"
                         type="button"
-                        aria-label="Fotograma siguiente"
+                        aria-label="Imagen siguiente"
                     >
                         &#10095;
                     </button>
@@ -368,40 +298,43 @@
                         id="galleryCounter"
                     ></span>
 
+                </figure>
+
+                <!-- Título y favoritos -->
+                <header class="movie-detail-title-row">
+
+                    <h2 id="movieDetailTitle"></h2>
+
+                    <button
+                        class="movie-detail-favorite"
+                        id="movieDetailFavorite"
+                        type="button"
+                        aria-label="Añadir a favoritos"
+                        aria-pressed="false"
+                    >
+                        ♡
+                    </button>
+
+                </header>
+
+                <!-- Metadatos -->
+                <div class="movie-detail-metadata">
+                    <span id="movieDetailYear"></span>
+                    <span id="movieDetailMeta"></span>
                 </div>
 
-                <!-- INFORMACIÓN DE LA PELÍCULA -->
-                <div class="movie-detail-meta-block">
+                <div
+                    class="movie-detail-extra"
+                    id="movieDetailExtra"
+                ></div>
 
-                    <span
-                        class="movie-detail-year"
-                        id="movieDetailYear"
-                    ></span>
-
-                    <p
-                        class="movie-detail-meta"
-                        id="movieDetailMeta"
-                    ></p>
-
-                    <div
-                        class="movie-detail-extra"
-                        id="movieDetailExtra"
-                    ></div>
-
-                </div>
-
-            </div>
-
-            <!-- SINOPSIS Y TRÁILER -->
-            <div class="movie-detail-info">
-
-                <h2 id="movieDetailTitle"></h2>
-
+                <!-- Sinopsis -->
                 <p
                     class="movie-detail-overview"
                     id="movieDetailOverview"
                 ></p>
 
+                <!-- Tráiler -->
                 <div
                     class="movie-detail-trailer"
                     id="movieDetailTrailer"
@@ -409,34 +342,15 @@
 
             </div>
 
-        </div>
+        </article>
 
-    </article>
-</div>
-
-
+    </div>
 
     <footer class="footer">
-
-        <p>
-            &copy; 2026 FrameWave
-        </p>
-
+        <p>&copy; 2026 FrameWave</p>
     </footer>
 
- 
-   
-    <script src="api_services/api.js"></script>
-    <script src="modelos/modelo.js"></script>
-    <script src="api_services/tmdb.js"></script>
-
-    <script src="js/cartelera.js"></script>
-    <script src="js/fotogramas.js"></script>
-    <script src="js/ficha.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/animaciones.js"></script>
+    <script type="module" src="js/cartelera.js"></script>
 
 </body>
-
 </html>
-

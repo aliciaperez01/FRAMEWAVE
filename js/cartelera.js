@@ -1,5 +1,19 @@
 
 
+
+import Pelicula from "../modelos/modelo.js";
+import {
+    pedirTMBD
+} from "../api_services/tmdb.js";
+import { abrirFicha } from "./ficha.js";
+import { iniciarInterfaz } from "./script.js";
+import { iniciarAnimaciones } from "./animaciones.js";
+import { obtenerFavoritos } from "./favoritos.js";
+
+/* =========================
+   PELÍCULAS FRAMEWAVE
+========================= */
+
 const peliculasFrameWave = [
     "La favorita",
     "Fallen Angels",
@@ -35,48 +49,112 @@ const peliculasFrameWave = [
     "Lost in Translation"
 ];
 
-async function buscarPelicula(titulo) {
-    const { results } =
-        await pedirTMBD(
-            "/search/movie",
-            `&query=${encodeURIComponent(titulo)}`
-        );
+const peliculasCargadas = [];
 
-    return results[0];
+/* =========================
+   BUSCAR UNA PELÍCULA
+========================= */
+
+async function buscarPelicula(titulo) {
+    const { results } = await pedirTMBD(
+        "/search/movie",
+        `&query=${encodeURIComponent(titulo)}`
+    );
+
+    return results[0] ?? null;
 }
 
-async function iniciar() {
-    const rejilla =
-        document.querySelector("#rejilla");
+/* =========================
+   CARGAR CARTELERA
+========================= */
+
+async function iniciarCartelera() {
+    const rejilla = document.querySelector("#rejilla");
+
+    if (!rejilla) return;
 
     try {
         for (const titulo of peliculasFrameWave) {
-            const resultado =
-                await buscarPelicula(titulo);
+            const resultado = await buscarPelicula(titulo);
 
-            if (resultado) {
-                const pelicula =
-                    Pelicula.desdeTMDB(resultado);
+            if (!resultado) continue;
 
-                const card =
-                    pelicula.toCard();
+            const pelicula = Pelicula.desdeTMDB(resultado);
 
-                card.style.setProperty(
-                    "--i",
-                    rejilla.children.length
-                );
+            peliculasCargadas.push(pelicula);
 
-                rejilla.append(card);
-            }
+            const card = pelicula.toCard();
+
+            card.style.setProperty(
+                "--i",
+                rejilla.children.length
+            );
+
+            rejilla.append(card);
         }
 
+        actualizarFavoritas();
+
     } catch (error) {
-        rejilla.textContent =
-            `No hay na ${error.message}`;
+        console.error("Error cargando la cartelera:", error);
+        rejilla.textContent = "No se ha podido cargar la cartelera.";
     }
 }
 
-iniciar();
+/* =========================
+   ACTUALIZAR FAVORITAS
+========================= */
 
+function actualizarFavoritas() {
+    const favoritesGrid =
+        document.querySelector("#favoritesGrid");
 
+    if (!favoritesGrid) return;
 
+    const favoritosGuardados = obtenerFavoritos();
+
+    favoritesGrid.replaceChildren();
+
+    peliculasCargadas.forEach((pelicula) => {
+        if (favoritosGuardados.includes(String(pelicula.id))) {
+            favoritesGrid.append(pelicula.toCard());
+        }
+    });
+}
+
+window.addEventListener(
+    "framewaveFavoritasActualizadas",
+    actualizarFavoritas
+);
+
+/* =========================
+   ABRIR FICHA AL PULSAR TARJETA
+========================= */
+
+document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const card = event.target.closest(".card");
+
+    if (!card || event.target.closest(".favorite-button")) return;
+
+    const id = card.dataset.id;
+
+    if (id) {
+        abrirFicha(id);
+    }
+});
+
+/* =========================
+   INICIAR FRAMEWAVE
+========================= */
+
+iniciarInterfaz({
+    peliculasFrameWave,
+    buscarPelicula,
+    abrirFicha
+});
+
+iniciarAnimaciones();
+
+iniciarCartelera();

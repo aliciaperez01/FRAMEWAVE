@@ -4,7 +4,7 @@
 ========================= */
 
 
-function mostrarGaleriaFotogramas(fotogramas, detalle) {
+export function mostrarGaleriaFotogramas(fotogramas, detalle) {
 
 
 
