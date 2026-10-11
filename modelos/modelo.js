@@ -2,12 +2,14 @@
 import { obtenerFavoritos, alternarFavorito } from "../js/favoritos.js";
 
 export default class Pelicula {
-    constructor({ id, titulo, anio, nota, poster }) {
+    constructor({ id, titulo, anio, nota, poster, generos }) {
         this.id = id;
         this.titulo = titulo;
         this.anio = anio;
         this.nota = nota;
         this.poster = poster;
+        this.generos = generos;
+
     }
 
     get posterUrl() {
@@ -15,15 +17,25 @@ export default class Pelicula {
         return `https://image.tmdb.org/t/p/w342${this.poster}`;
     }
 
-    static desdeTMDB({ id, title, release_date, vote_average, poster_path = null }) {
-        return new Pelicula({
-            id,
-            titulo: title,
-            anio: release_date ? release_date.slice(0, 4) : "----",
-            nota: vote_average,
-            poster: poster_path
-        });
-    }
+    static desdeTMDB({
+        id,
+        title,
+        release_date,
+        vote_average,
+        poster_path = null,
+        genres = []
+    }) {
+
+    return new Pelicula({
+        id,
+        titulo: title,
+        anio: release_date ? release_date.slice(0, 4) : "----",
+        nota: vote_average,
+        poster: poster_path,
+        generos: genres.map(genero => genero.name)
+        
+    });
+}
 
     /* Aspecto del botón de favorito según su estado */
     static pintarFavorito(boton, titulo, esFavorita) {

@@ -1,0 +1,634 @@
+
+
+
+/* =========================
+   CONTROLES DE CARTELERA
+========================= */
+
+.movies-toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.genre-filter-dropdown {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+}
+
+#verTodasPeliculas {
+    display: block;
+    flex-shrink: 0;
+    margin: 0 12px 0 auto;
+}
+
+
+.genre-filter-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 11px 16px;
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    background: var(--superficie);
+    color: var(--texto);
+    font-family: var(--fuente-texto);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.genre-filter-toggle:hover,
+.genre-filter-dropdown.is-open .genre-filter-toggle {
+    border-color: var(--oro);
+}
+
+.genre-filter-chevron {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.genre-filter-dropdown.is-open .genre-filter-chevron {
+    transform: rotate(180deg);
+}
+
+.genre-filters[hidden] {
+    display: none;
+}
+
+.genre-filters:not([hidden]) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 10px);
+    left: 0;
+    width: min(340px, calc(100vw - 40px));
+    padding: 14px;
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    background: var(--superficie);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================
+   FILTROS DE GÉNERO
+========================= */
+
+.genre-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 28px;
+}
+
+.genre-filter {
+    padding: 9px 16px;
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: 0.85rem;
+    cursor: pointer;
+
+    transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.genre-filter:hover {
+    border-color: var(--secundario);
+    color: var(--texto);
+    transform: translateY(-2px);
+}
+
+.genre-filter.is-active {
+    border-color: var(--principal);
+    background: var(--principal);
+    color: var(--texto);
+}
+
+.genre-filter:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 3px;
+}
+
+
+
+/* =========================
+   PELÍCULAS — CARRUSEL
+========================= */
+
+#rejilla {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(155px, 52vw, 210px);
+    grid-template-rows: auto;
+
+    gap: 22px;
+    width: 100%;
+    min-width: 0;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 24px 8px 35px;
+
+    scroll-padding-inline: 8px;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+#rejilla::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================
+   TARJETAS DE PELÍCULAS
+========================= */
+
+#rejilla .card {
+    position: relative;
+    width: 195px;
+    min-width: 0;
+    max-width: 180px;
+    justify-self: center;
+    align-self: start;
+    overflow: visible;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    scroll-snap-align: center;
+    transition:
+        transform 0.5s ease,
+        opacity 0.5s ease,
+        filter 0.5s ease;
+    animation: cardAppear 0.8s ease backwards;
+    animation-delay: calc(var(--i, 0) * 0.08s);
+}
+
+
+#rejilla .card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.20),
+        0 20px 42px rgba(0, 0, 0, 0.12),
+        0 0 24px rgba(113, 59, 89, 0.10);
+
+    transition:
+        transform 0.55s ease,
+        filter 0.55s ease,
+        box-shadow 0.55s ease;
+}
+
+
+/* =========================
+   TEXTO DE LAS TARJETAS
+========================= */
+
+#rejilla .card h3 {
+    min-height: 0;
+    padding: 12px 2px 0;
+    margin: 0;
+
+    color: var(--texto);
+    font-family: var(--fuente-titulo);
+    font-size: clamp(1.05rem, 1.2vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+
+    text-wrap: pretty;
+    transition:
+        color 0.4s ease,
+        transform 0.4s ease,
+        opacity 0.4s ease;
+}
+
+/* Pequeño acento dorado */
+#rejilla .card h3::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 1px;
+    margin-bottom: 9px;
+
+    background: var(--oro);
+    opacity: 0.55;
+
+    transition:
+        width 0.4s ease,
+        opacity 0.4s ease;
+}
+
+/* Año de estreno */
+#rejilla .card p {
+    padding: 8px 2px 10px;
+    margin: 0;
+
+    color: var(--texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: 0.72rem;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.16em;
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
+}
+
+
+#rejilla:has(.card:hover) .card:not(:hover) h3,
+#rejilla:has(.card:hover) .card:not(:hover) p {
+    opacity: 0.82;
+}
+
+
+
+/* =========================
+   INTERACCIÓN DE TARJETAS
+========================= */
+
+/* Profundidad del póster */
+#rejilla .card:hover img {
+    transform: scale(1.035) translateY(-3px);
+    filter: brightness(1.08) contrast(1.04);
+
+    box-shadow:
+        0 18px 34px rgba(0, 0, 0, 0.28),
+        0 28px 55px rgba(0, 0, 0, 0.18),
+        0 0 32px rgba(113, 59, 89, 0.22);
+}
+
+/* Realce del título */
+#rejilla .card:hover h3 {
+    color: var(--oro);
+    transform: translateX(4px);
+}
+
+/* Expansión del acento dorado */
+#rejilla .card:hover h3::before {
+    width: 45px;
+    opacity: 1;
+}
+
+/* Desplazamiento sutil del año */
+#rejilla .card:hover p {
+    transform: translateX(4px);
+}
+
+/* Atenuar las tarjetas vecinas */
+
+#rejilla:has(.card:hover) .card:not(:hover) {
+    opacity: 0.72;
+    filter: saturate(0.82);
+    transform: scale(0.97);
+}
+
+#rejilla .card:hover {
+    position: relative;
+    z-index: 2;
+    transform: translateY(-7px) scale(1.015);
+}
+
+
+/* =========================
+   ACCESIBILIDAD DE TARJETAS
+========================= */
+
+#rejilla .card-open {
+    all: unset;
+    cursor: pointer;
+}
+
+#rejilla .card-open::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+#rejilla .card:has(.card-open:focus-visible) {
+    outline: 2px solid var(--oro);
+    outline-offset: 6px;
+}
+
+#rejilla:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 5px;
+}
+
+
+
+
+/* =========================
+   ANIMACIÓN DE ENTRADA
+========================= */
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Respetar las preferencias de movimiento */
+
+@media (prefers-reduced-motion: reduce) {
+    #rejilla {
+        scroll-behavior: auto;
+    }
+
+    .card {
+        animation: none;
+        transition: none;
+    }
+
+    .card img,
+    .card h3,
+    .card p {
+        transition: none;
+    }
+}
+
+
+/* =========================
+   CONTROLES DEL CARRUSEL
+========================= */
+
+
+.movies-carousel {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+}
+
+/* Resplandor ambiental cinematográfico */
+.movies-carousel::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 8%;
+    left: 8%;
+    width: 84%;
+    height: 70%;
+    pointer-events: none;
+    background:
+        radial-gradient(
+            ellipse at 30% 45%,
+            rgba(113, 59, 89, 0.16),
+            transparent 65%
+        ),
+        radial-gradient(
+            ellipse at 75% 55%,
+            rgba(168, 117, 150, 0.10),
+            transparent 60%
+        );
+    filter: blur(28px);
+}
+
+/* Flechas */
+
+.carousel-arrow {
+    position: absolute;
+    top: 38%;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+
+    color: var(--texto);
+    font-size: 1.35rem;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 50%;
+
+    cursor: pointer;
+    opacity: 0.85;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+
+    transition:
+        color 0.3s ease,
+        background 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        opacity 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.carousel-arrow:hover:not(:disabled) {
+    color: var(--oro);
+    background: var(--superficie);
+    border-color: var(--oro);
+    transform: scale(1.08);
+    opacity: 1;
+    box-shadow: 0 0 22px rgba(184, 154, 90, 0.12);
+}
+
+.carousel-arrow--prev {
+    left: 4px;
+}
+
+.carousel-arrow--next {
+    right: 4px;
+}
+
+
+.carousel-arrow:disabled {
+    opacity: 0.25;
+    cursor: default;
+}
+
+.carousel-arrow:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 4px;
+}
+
+
+/* Indicador de progreso */
+
+.carousel-progress {
+    width: 100%;
+    max-width: 240px;
+    height: 2px;
+    margin: 2px auto 0;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--borde);
+}
+
+.carousel-progress span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+        90deg,
+        var(--principal),
+        var(--oro)
+    );
+    box-shadow: 0 0 10px rgba(184, 154, 90, 0.25);
+    transition: width 0.25s ease;
+}
+
+/* En escritorio, las flechas quedan fuera de los pósteres */
+
+@media (min-width: 1024px) {
+    .carousel-arrow--prev {
+        left: -12px;
+    }
+
+    .carousel-arrow--next {
+        right: -12px;
+    }
+}
+
+/* En móvil, botones algo más compactos */
+
+@media (max-width: 599px) {
+    .carousel-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1.15rem;
+    }
+
+    .carousel-arrow--prev {
+        left: 2px;
+    }
+
+    .carousel-arrow--next {
+        right: 2px;
+    }
+}
+
+
+
+/* =========================
+   TAMAÑO DE LAS PELÍCULAS
+========================= */
+
+/* Carrusel: tarjetas más compactas */
+
+#rejilla > .card {
+    width: 195px;
+    min-width: 0;
+    max-width: 195px;
+    justify-self: center;
+}
+
+/* Mantener la proporción de los carteles */
+
+#rejilla > .card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+}
+
+
+
+/* =========================
+   BOTÓN VER TODO
+========================= */
+
+.view-all-button,
+#verTodasPeliculas {
+    display: block;
+    position: relative;
+    flex-shrink: 0;
+    margin: 0 8px 0 auto;
+    padding: 10px 20px;
+    border: 1px solid var(--secundario);
+    border-radius: 30px;
+    background: transparent;
+    color: var(--texto);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition:
+        color 0.3s ease,
+        background 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.view-all-button:hover {
+    color: var(--fondo);
+    background: var(--secundario);
+    border-color: var(--secundario);
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   VISTA COMPLETA
+========================= */
+
+#rejilla.ver-todas {
+    display: grid;
+
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns:
+        repeat(auto-fill, minmax(125px, 1fr));
+
+    gap: 32px 20px;
+
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: visible;
+
+    padding: 20px 8px 35px;
+}
+
+#rejilla.ver-todas > .card {
+    width: 100%;
+    min-width: 0;
+    max-width: 155px;
+
+    justify-self: center;
+    align-self: start;
+}
+
+/* Carteles de la cuadrícula */
+
+#rejilla.ver-todas > .card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+}
+

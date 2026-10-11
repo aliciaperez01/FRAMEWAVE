@@ -141,35 +141,36 @@ export function iniciarAnimaciones() {
     const genreLinks =
         genresList.querySelectorAll("a");
 
-    genresList.addEventListener("mousemove", (event) => {
+    
+        genresList.addEventListener("mousemove", (event) => {
 
-        const rect = genresList.getBoundingClientRect();
+            const rect = genresList.getBoundingClientRect();
 
-        const mouseX =
-            (event.clientX - rect.left) / rect.width - 0.5;
+            const mouseX =
+                (event.clientX - rect.left) / rect.width - 0.5;
 
-        const mouseY =
-            (event.clientY - rect.top) / rect.height - 0.5;
+            const mouseY =
+                (event.clientY - rect.top) / rect.height - 0.5;
 
-        genreLinks.forEach((genre) => {
+            genreLinks.forEach((genre) => {
 
-            const depth =
-                parseFloat(
-                    getComputedStyle(genre)
-                        .getPropertyValue("--depth")
-                ) || 1;
+                const depth =
+                    parseFloat(
+                        getComputedStyle(genre)
+                            .getPropertyValue("--depth")
+                    ) || 1;
 
-            genre.style.setProperty(
-                "--move-x",
-                `${mouseX * -55 * depth}px`
-            );
+                genre.style.setProperty(
+                    "--move-x",
+                    `${mouseX * -35 * depth}px`
+                );
 
-            genre.style.setProperty(
-                "--move-y",
-                `${mouseY * -40 * depth}px`
-            );
+                genre.style.setProperty(
+                    "--move-y",
+                    `${mouseY * -25 * depth}px`
+                );
+            });
         });
-    });
 
     genresList.addEventListener("mouseleave", () => {
 

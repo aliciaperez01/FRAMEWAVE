@@ -1,0 +1,81 @@
+
+/* =========================
+FAVORITAS — CUADRÍCULA
+========================= */
+
+#favoritesGrid {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 40px 20px;
+min-height: 120px;
+}
+
+#favoritesGrid:empty::before {
+content: "Todavía no has guardado ninguna película.";
+display: block;
+grid-column: 1 / -1;
+padding: 45px 0;
+
+color: var(--texto-secundario);
+font-family: var(--fuente-titulo);
+font-size: 1.35rem;
+font-style: italic;
+letter-spacing: 0.01em;
+opacity: 0.65;
+
+
+}
+
+
+/* =========================
+   FAVORITOS EN LAS TARJETAS
+========================= */
+
+.card-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.card-title-row h3 {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+}
+
+.card-title-row .favorite-button {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.favorite-button {
+    position: relative;
+    z-index: 1;
+
+    display: grid;
+    place-items: center;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 8px 4px 0;
+
+    border: none;
+    background: transparent;
+
+    color: var(--texto-secundario);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.favorite-button:hover {
+    color: var(--oro);
+    transform: scale(1.15);
+}
+
+.favorite-button.is-favorite {
+    color: var(--oro);
+}

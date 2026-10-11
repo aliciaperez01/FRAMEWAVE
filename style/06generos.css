@@ -1,0 +1,147 @@
+
+
+
+/* =========================
+   GÉNEROS
+========================= */
+
+.genres-list {
+    --spread: 0.70;
+
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    height: 430px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* =========================
+   ESFERA DE GÉNEROS · ESCRITORIO
+========================= */
+
+@media (min-width: 900px) {
+    .genres-list {
+        --spread: 1.15;
+        max-width: 1200px;
+        height: 580px;
+    }
+}
+
+.genres-list a {
+    --x: 0px;
+    --y: 0px;
+    --move-x: 0px;
+    --move-y: 0px;
+    --scale: 1;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    color: var(--texto);
+    font-family: var(--fuente-titulo);
+    font-size: clamp(1.4rem, 2.8vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    white-space: nowrap;
+    max-width: none;
+    text-decoration: none;
+    opacity: var(--depth, 1);
+
+    transform:
+        translate(-50%, -50%)
+        translate(
+            calc(var(--x) * var(--spread)),
+            calc(var(--y) * var(--spread))
+        )
+        translate(var(--move-x), var(--move-y))
+        scale(var(--scale));
+
+    transition:
+    color 0.45s ease,
+    opacity 0.5s ease,
+    filter 0.5s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+
+    will-change: transform;
+}
+
+/* Posiciones de la esfera */
+
+.genres-list a:nth-child(1) { --x: 0px; --y: -170px; --depth: 1; }
+.genres-list a:nth-child(2) { --x: -185px; --y: -75px; --depth: 0.8; }
+.genres-list a:nth-child(3) { --x: 195px; --y: -80px; --depth: 0.9; }
+.genres-list a:nth-child(4) { --x: -205px; --y: 30px; --depth: 0.7; }
+.genres-list a:nth-child(5) { --x: 10px; --y: -20px; --depth: 1; }
+.genres-list a:nth-child(6) { --x: 215px; --y: 40px; --depth: 0.7; }
+.genres-list a:nth-child(7) { --x: -120px; --y: 130px; --depth: 0.85; }
+.genres-list a:nth-child(8) { --x: 130px; --y: 135px; --depth: 0.8; }
+
+
+/* =========================
+   PROFUNDIDAD VISUAL
+========================= */
+
+.genres-list a:nth-child(1) {
+    font-size: clamp(1.7rem, 3.2vw, 3rem);
+    filter: blur(0);
+}
+
+.genres-list a:nth-child(2),
+.genres-list a:nth-child(7) {
+    font-size: clamp(1.25rem, 2.4vw, 2.2rem);
+}
+
+.genres-list a:nth-child(3),
+.genres-list a:nth-child(8) {
+    font-size: clamp(1.5rem, 2.8vw, 2.6rem);
+}
+
+.genres-list a:nth-child(4),
+.genres-list a:nth-child(6) {
+    font-size: clamp(1.35rem, 2.6vw, 2.5rem);
+}
+
+.genres-list a:nth-child(5) {
+    font-size: clamp(1.8rem, 3.4vw, 3.1rem);
+}
+
+/* Sensación de distancia */
+
+.genres-list a:nth-child(2),
+.genres-list a:nth-child(4),
+.genres-list a:nth-child(6),
+.genres-list a:nth-child(8) {
+    filter: blur(0.2px);
+}
+
+/* Interacción */
+
+.genres-list:has(a:hover) a:not(:hover) {
+    opacity: 0.28;
+    filter: blur(1px);
+}
+
+.genres-list a:hover {
+    --scale: 1.14;
+    z-index: 10;
+    color: var(--oro);
+}
+
+.genres-list a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0;
+    height: 1px;
+    background-color: var(--oro);
+    transition: width 0.4s ease;
+}
+
+.genres-list a:hover::after {
+    width: 100%;
+}

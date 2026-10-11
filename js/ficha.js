@@ -13,14 +13,50 @@ import {
     mostrarGaleriaFotogramas
 } from "./fotogramas.js";
 
-
 /* =========================
    FICHA TÉCNICA
 ========================= */
 
 export async function abrirFicha(id) {
-    try {
+    const movieModal =
+        document.getElementById("movieDetail");
 
+    if (!movieModal) {
+        console.error(
+            'No se encuentra el elemento HTML "#movieDetail".'
+        );
+        return;
+    }
+
+    const movieDetailTitle =
+        document.getElementById("movieDetailTitle");
+
+    const movieDetailFavorite =
+        document.getElementById("movieDetailFavorite");
+
+    const movieDetailYear =
+        document.getElementById("movieDetailYear");
+
+    const movieDetailMeta =
+        document.getElementById("movieDetailMeta");
+
+    const movieDetailOverview =
+        document.getElementById("movieDetailOverview");
+
+    const movieDetailExtra =
+        document.getElementById("movieDetailExtra");
+
+    const movieDetailTrailer =
+        document.getElementById("movieDetailTrailer");
+
+    /* =========================
+       ABRIR LA FICHA
+    ========================= */
+
+    movieModal.classList.add("is-open");
+    movieModal.setAttribute("aria-hidden", "false");
+
+    try {
         const {
             detalle,
             videos,
@@ -28,183 +64,194 @@ export async function abrirFicha(id) {
             fotogramas
         } = await obtenerDetallesPelicula(id);
 
+        if (!detalle) {
+            throw new Error(
+                "No se han recibido los detalles de la película."
+            );
+        }
 
         /* =========================
-        GALERÍA DE FOTOGRAMAS
+           GALERÍA DE FOTOGRAMAS
         ========================= */
 
-
-        mostrarGaleriaFotogramas(fotogramas, detalle);
-
-
-        const movieModal =
-            document.getElementById("movieDetail");
-
-        const movieDetailTitle =
-            document.getElementById("movieDetailTitle");
-        
-        const movieDetailFavorite =
-        document.getElementById("movieDetailFavorite");
-
-        const movieDetailYear =
-            document.getElementById("movieDetailYear");
-
-        const movieDetailMeta =
-            document.getElementById("movieDetailMeta");
-
-        const movieDetailOverview =
-            document.getElementById("movieDetailOverview");
-
-        const movieDetailExtra =
-            document.getElementById("movieDetailExtra");
-
-        const movieDetailTrailer =
-            document.getElementById("movieDetailTrailer");
-
-            
-console.log("Elementos de la ficha:", {
-    movieModal,
-    movieDetailTitle,
-    movieDetailFavorite,
-    movieDetailYear,
-    movieDetailMeta,
-    movieDetailOverview,
-    movieDetailExtra,
-    movieDetailTrailer
-});
-
+        try {
+            mostrarGaleriaFotogramas(
+                fotogramas,
+                detalle
+            );
+        } catch (error) {
+            console.error(
+                "Error cargando la galería:",
+                error
+            );
+        }
 
         /* =========================
-           INFORMACIÓN DE LA PELÍCULA
+           INFORMACIÓN
         ========================= */
 
-        movieDetailTitle.textContent =
-            detalle.title;
+        if (movieDetailTitle) {
+            movieDetailTitle.textContent =
+                detalle.title ?? "Película";
+        }
 
-    /* =========================
-        BOTÓN DE FAVORITOS
-    ========================= */
+        if (movieDetailYear) {
+            movieDetailYear.textContent =
+                detalle.release_date?.slice(0, 4) ?? "----";
+        }
 
-    function actualizarCorazon() {
-        const favoritos = obtenerFavoritos();
-        const esFavorita = favoritos.includes(String(id));
+        if (movieDetailMeta) {
+            const nota = Number(detalle.vote_average ?? 0);
 
-        movieDetailFavorite.textContent =
-            esFavorita ? "♥" : "♡";
-
-        movieDetailFavorite.classList.toggle(
-            "is-favorite",
-            esFavorita
-        );
-
-        movieDetailFavorite.setAttribute(
-            "aria-pressed",
-            String(esFavorita)
-        );
-
-        movieDetailFavorite.setAttribute(
-            "aria-label",
-            esFavorita
-                ? "Quitar de favoritas"
-                : "Añadir a favoritas"
-        );
-    }
-
-    actualizarCorazon();
-
-    movieDetailFavorite.onclick = () => {
-        alternarFavorito(id);
-        actualizarCorazon();
-    };
-
-
-        movieDetailYear.textContent =
-            detalle.release_date?.slice(0, 4) ?? "----";
-
-        movieDetailMeta.textContent =
-            `${detalle.vote_average.toFixed(1)} ★ · ${detalle.genres
+            const generos = (detalle.genres ?? [])
                 .map(genero => genero.name)
-                .join(" · ")}`;
+                .join(" · ");
 
-        const duracion = detalle.runtime
-            ? `${detalle.runtime} min`
-            : "Duración no disponible";
+            movieDetailMeta.textContent =
+                `${nota.toFixed(1)} ★${generos ? ` · ${generos}` : ""}`;
+        }
 
-        const pais = detalle.production_countries?.[0]?.name
-            ?? "País no disponible";
+        if (movieDetailExtra) {
+            const duracion = detalle.runtime
+                ? `${detalle.runtime} min`
+                : "Duración no disponible";
 
-        movieDetailExtra.innerHTML = `
-            <span>${duracion}</span>
-            <span>${pais}</span>
-            <span>${director}</span>
-        `;
+            const pais =
+                detalle.production_countries?.[0]?.name
+                ?? "País no disponible";
 
-        movieDetailOverview.textContent =
-            detalle.overview || "No hay descripción disponible.";
+            movieDetailExtra.replaceChildren();
 
+            [duracion, pais, director || ""]
+                .filter(Boolean)
+                .forEach(texto => {
+                    const elemento = document.createElement("span");
+                    elemento.textContent = texto;
+                    movieDetailExtra.append(elemento);
+                });
+        }
+
+        if (movieDetailOverview) {
+            movieDetailOverview.textContent =
+                detalle.overview ||
+                "No hay descripción disponible.";
+        }
+
+        /* =========================
+           FAVORITOS
+        ========================= */
+
+        if (movieDetailFavorite) {
+            function actualizarCorazon() {
+                const favoritos = obtenerFavoritos();
+
+                const esFavorita = favoritos.includes(
+                    String(id)
+                );
+
+                movieDetailFavorite.textContent =
+                    esFavorita ? "♥" : "♡";
+
+                movieDetailFavorite.classList.toggle(
+                    "is-favorite",
+                    esFavorita
+                );
+
+                movieDetailFavorite.setAttribute(
+                    "aria-pressed",
+                    String(esFavorita)
+                );
+
+                movieDetailFavorite.setAttribute(
+                    "aria-label",
+                    esFavorita
+                        ? "Quitar de favoritas"
+                        : "Añadir a favoritas"
+                );
+            }
+
+            actualizarCorazon();
+
+            movieDetailFavorite.onclick = () => {
+                alternarFavorito(id);
+                actualizarCorazon();
+            };
+        }
 
         /* =========================
            TRÁILER
         ========================= */
 
-        const trailer = videos.find(
-            video => video.site === "YouTube" && video.type === "Trailer"
-        );
+        if (movieDetailTrailer) {
+            const trailer = (videos ?? []).find(
+                video =>
+                    video.site === "YouTube" &&
+                    video.type === "Trailer" &&
+                    video.key
+            );
 
-        if (trailer) {
+            if (trailer) {
+                const iframe = document.createElement("iframe");
 
-            movieDetailTrailer.innerHTML = `
-                <iframe
-                    src="https://www.youtube.com/embed/${trailer.key}"
-                    title="Tráiler de ${detalle.title}"
-                    allowfullscreen>
-                </iframe>
-            `;
+                iframe.src =
+                    `https://www.youtube.com/embed/${encodeURIComponent(trailer.key)}`;
 
-        } else {
+                iframe.title =
+                    `Tráiler de ${detalle.title ?? "la película"}`;
 
-            const busquedaYouTube =
-                `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                    detalle.title + " trailer"
-                )}`;
+                iframe.allowFullscreen = true;
 
-            movieDetailTrailer.innerHTML = `
-                <a
-                    href="${busquedaYouTube}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="movie-trailer-link"
-                >
-                    Ver tráiler en YouTube ↗
-                </a>
-            `;
+                iframe.setAttribute(
+                    "allow",
+                    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                );
 
+                movieDetailTrailer.replaceChildren(iframe);
+            } else {
+                const enlace = document.createElement("a");
+
+                enlace.href =
+                    `https://www.youtube.com/results?search_query=${
+                        encodeURIComponent(
+                            `${detalle.title ?? ""} trailer`
+                        )
+                    }`;
+
+                enlace.target = "_blank";
+                enlace.rel = "noopener noreferrer";
+                enlace.className = "movie-trailer-link";
+                enlace.textContent = "Ver tráiler en YouTube ↗";
+
+                movieDetailTrailer.replaceChildren(enlace);
+            }
         }
 
-
-        /* =========================
-           ABRIR FICHA
-        ========================= */
-
-        movieModal.classList.add("is-open");
-        movieModal.setAttribute("aria-hidden", "false");
-
     } catch (error) {
+        console.error(
+            "Error cargando la ficha:",
+            error
+        );
 
-        console.error("Error cargando la ficha:", error);
+        if (movieDetailTitle) {
+            movieDetailTitle.textContent =
+                "No se ha podido cargar la película";
+        }
 
+        if (movieDetailOverview) {
+            movieDetailOverview.textContent =
+                "Ha ocurrido un error al cargar los detalles. Cierra la ficha e inténtalo de nuevo.";
+        }
     }
-
 }
-
-
 
 /* =========================
    CERRAR FICHA
 ========================= */
 
 const movieModal = document.getElementById("movieDetail");
-const movieDetailClose = document.getElementById("movieDetailClose");
+
+const movieDetailClose =
+    document.getElementById("movieDetailClose");
 
 function cerrarFicha() {
     if (!movieModal) return;
@@ -215,9 +262,12 @@ function cerrarFicha() {
     movieDetailClose?.blur();
 }
 
-movieDetailClose?.addEventListener("click", cerrarFicha);
+movieDetailClose?.addEventListener(
+    "click",
+    cerrarFicha
+);
 
-/* Cerrar al pulsar el fondo de la ficha */
+/* Cerrar al pulsar el fondo */
 
 movieModal?.addEventListener("click", (event) => {
     if (event.target === movieModal) {
@@ -235,4 +285,3 @@ document.addEventListener("keydown", (event) => {
         cerrarFicha();
     }
 });
-

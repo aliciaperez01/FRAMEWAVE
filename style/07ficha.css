@@ -1,0 +1,657 @@
+
+/* =========================
+   FICHA DE PELÍCULA
+========================= */
+
+.movie-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.movie-modal.is-open {
+    display: flex;
+}
+
+.movie-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 16, 24, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+
+/* =========================
+   FICHA · ESTRUCTURA
+========================= */
+
+.movie-detail {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    isolation: isolate;
+
+    width: calc(100% - 28px);
+    max-width: 680px;
+    max-height: 82dvh;
+    margin: 0;
+    padding: 16px;
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(113, 59, 89, 0.10),
+            transparent 38%
+        ),
+        rgba(24, 29, 41, 0.97);
+
+    border: 1px solid rgba(168, 117, 150, 0.18);
+    border-radius: 18px;
+
+    box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.42),
+        0 0 55px rgba(113, 59, 89, 0.12);
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
+}
+
+.movie-detail:not(.is-open) {
+    display: none;
+}
+
+.movie-detail.is-open {
+    display: block;
+}
+
+:root.light-mode .movie-detail {
+    background: rgba(243, 238, 232, 0.97);
+
+    box-shadow:
+        0 20px 50px rgba(48, 32, 45, 0.18),
+        0 0 45px rgba(112, 68, 95, 0.08);
+}
+
+.movie-detail::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(184, 154, 90, 0.75),
+        rgba(168, 117, 150, 0.55),
+        transparent
+    );
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   FICHA · DISTRIBUCIÓN
+========================= */
+
+.movie-detail-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+
+    width: 100%;
+    min-width: 0;
+}
+
+/* Imagen y galería */
+
+.movie-detail-visual {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+
+/* Contenedor de la imagen y las flechas */
+
+.movie-detail-poster-container {
+    position: relative;
+
+    width: calc(100% + 32px);
+    margin: -16px -16px 0;
+    aspect-ratio: 2 / 1;
+
+    overflow: hidden;
+    background: transparent;
+}
+
+.movie-detail-poster-container > .movie-detail-poster {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+    margin: 0;
+
+    object-fit: cover;
+    object-position: center 25%;
+
+    border: 0;
+    border-radius: 0;
+
+    /* Degradado suave hacia el fondo */
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 55%,
+        rgba(0, 0, 0, 0.85) 70%,
+        rgba(0, 0, 0, 0.4) 85%,
+        transparent 100%
+    );
+
+    mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 55%,
+        rgba(0, 0, 0, 0.85) 70%,
+        rgba(0, 0, 0, 0.4) 85%,
+        transparent 100%
+    );
+}
+
+/* Galería superpuesta a la imagen */
+
+.movie-detail-gallery {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 10px;
+    box-sizing: border-box;
+
+    pointer-events: none;
+}
+
+/* Botones de la galería */
+
+.gallery-button {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+
+    background: rgba(13, 16, 24, 0.7);
+    color: var(--texto);
+
+    font-size: 1.5rem;
+    line-height: 1;
+
+    cursor: pointer;
+    pointer-events: auto;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.gallery-button:hover {
+    background: rgba(113, 59, 89, 0.9);
+    border-color: var(--secundario);
+    transform: scale(1.08);
+}
+
+/* Contador de fotogramas */
+
+.gallery-counter {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    left: auto;
+    transform: none;
+
+    padding: 5px 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+
+    background: rgba(13, 16, 24, 0.75);
+    color: var(--texto);
+
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+
+    pointer-events: none;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Ocultar controles cuando no se necesitan */
+
+.gallery-button[hidden],
+.gallery-counter[hidden] {
+    display: none;
+}
+
+
+/* =========================
+   FICHA · TEXTO E INFORMACIÓN
+========================= */
+
+.movie-detail-info {
+    position: relative;
+    grid-row: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 24px;
+
+    color: var(--texto);
+    text-align: left;
+}
+
+/* Título y corazón en la misma línea */
+
+.movie-detail-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    width: 100%;
+    margin: -8px 0 14px;
+}
+
+.movie-detail-heading h2 {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+
+    color: var(--texto);
+    font-family: var(--fuente-titulo);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+/* Corazón de favoritos en la ficha */
+
+.movie-detail-heading .movie-detail-favorite {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+/* Año, puntuación y metadatos */
+
+.movie-detail-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+
+    width: 100%;
+    margin: 0 0 12px;
+
+    color: var(--texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+#movieDetailYear {
+    color: var(--oro);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+}
+
+#movieDetailMeta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+
+    min-width: 0;
+}
+
+/* País y datos adicionales */
+
+.movie-detail-extra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px 14px;
+
+    width: 100%;
+    margin: 0 0 20px;
+
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+/* Descripción */
+
+.movie-detail-overview {
+    width: 100%;
+    margin: 0 0 24px;
+
+    color: var(--texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: 0.94rem;
+    font-weight: 400;
+    line-height: 1.8;
+
+    overflow-wrap: anywhere;
+}
+
+/* Tráiler */
+
+.movie-detail-trailer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    margin-top: auto;
+    padding-top: 16px;
+
+    border-top: 1px solid var(--borde);
+}
+
+.movie-detail-trailer a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    max-width: 100%;
+    padding: 11px 18px;
+
+    border: 1px solid var(--secundario);
+    border-radius: 999px;
+
+    background: rgba(168, 117, 150, 0.1);
+    color: var(--texto);
+
+    font-family: var(--fuente-texto);
+    font-size: 0.82rem;
+    text-decoration: none;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.movie-detail-trailer a:hover {
+    transform: translateY(-2px);
+
+    border-color: var(--oro);
+    background: rgba(168, 117, 150, 0.2);
+}
+
+.movie-detail-trailer a:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 4px;
+}
+
+
+/* =========================
+   CORAZÓN DE FAVORITOS
+========================= */
+
+.movie-detail-favorite {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 44px;
+    height: 44px;
+    padding: 0;
+
+    background: rgba(168, 117, 150, 0.10);
+    border: 1px solid rgba(168, 117, 150, 0.35);
+    border-radius: 50%;
+
+    color: var(--secundario);
+    font-family: var(--fuente-texto);
+    font-size: 1.45rem;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.movie-detail-favorite:hover {
+    background: rgba(168, 117, 150, 0.20);
+    border-color: var(--secundario);
+    color: #D99AB8;
+
+    transform: scale(1.08);
+    box-shadow: 0 0 18px rgba(168, 117, 150, 0.16);
+}
+
+.movie-detail-favorite:active {
+    transform: scale(0.92);
+}
+
+.movie-detail-favorite[aria-pressed="true"] {
+    color: #D982A7;
+    background: rgba(217, 130, 167, 0.15);
+    border-color: rgba(217, 130, 167, 0.55);
+    box-shadow: 0 0 16px rgba(217, 130, 167, 0.12);
+}
+
+:root.light-mode .movie-detail-favorite {
+    background: rgba(112, 68, 95, 0.06);
+    border-color: rgba(112, 68, 95, 0.25);
+    color: var(--principal);
+}
+
+:root.light-mode .movie-detail-favorite.is-favorite,
+:root.light-mode .movie-detail-favorite[aria-pressed="true"] {
+    color: #A34270;
+    background: rgba(163, 66, 112, 0.10);
+    border-color: rgba(163, 66, 112, 0.4);
+}
+
+
+/* =========================
+   GALERÍA DE FOTOGRAMAS
+========================= */
+
+/* Imagen */
+
+#movieDetailPoster {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Flechas */
+
+#galleryPrev,
+#galleryNext {
+    position: absolute;
+    top: 50%;
+    z-index: 20;
+
+    display: grid;
+    place-items: center;
+
+    width: 42px;
+    height: 42px;
+    padding: 0;
+
+    transform: translateY(-50%);
+
+    border: 1px solid rgba(168, 117, 150, 0.32);
+    border-radius: 50%;
+
+    background: rgba(13, 16, 24, 0.58);
+    color: var(--texto);
+
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    line-height: 1;
+
+    cursor: pointer;
+    opacity: 0.82;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.18),
+        0 0 20px rgba(113, 59, 89, 0.12);
+
+    transition:
+        opacity 0.3s ease,
+        color 0.3s ease,
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+
+#galleryPrev {
+    left: 8px;
+}
+
+#galleryNext {
+    right: 8px;
+}
+
+#galleryPrev:hover,
+#galleryNext:hover {
+    transform: translateY(-50%) scale(1.08);
+
+    opacity: 1;
+    background: rgba(113, 59, 89, 0.82);
+    border-color: rgba(184, 154, 90, 0.7);
+
+    box-shadow:
+        0 0 22px rgba(168, 117, 150, 0.22),
+        0 0 32px rgba(184, 154, 90, 0.1);
+}
+
+#galleryPrev:focus-visible,
+#galleryNext:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 3px;
+}
+
+#galleryPrev[hidden],
+#galleryNext[hidden] {
+    display: none !important;
+}
+
+/* Tema claro */
+
+:root.light-mode #galleryPrev,
+:root.light-mode #galleryNext {
+    background: rgba(243, 238, 232, 0.88);
+    border-color: rgba(113, 59, 89, 0.25);
+    color: var(--texto);
+}
+
+:root.light-mode #galleryPrev:hover,
+:root.light-mode #galleryNext:hover {
+    background: rgba(231, 222, 212, 0.97);
+    border-color: rgba(113, 59, 89, 0.6);
+}
+
+/* Móvil */
+
+@media (max-width: 600px) {
+    #galleryPrev,
+    #galleryNext {
+        width: 34px;
+        height: 34px;
+        font-size: 1.2rem;
+    }
+
+    #galleryPrev {
+        left: 5px;
+    }
+
+    #galleryNext {
+        right: 5px;
+    }
+}
+
+
+/* =========================
+   CERRAR FICHA
+========================= */
+
+.movie-detail .movie-detail-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 1100;
+
+    display: grid;
+    place-items: center;
+
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(13, 16, 24, 0.72);
+    color: var(--texto);
+
+    font-size: 1.8rem;
+    cursor: pointer;
+}

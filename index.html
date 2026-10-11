@@ -16,8 +16,8 @@
     >
 
     <title>FrameWave</title>
-
-    <link rel="stylesheet" href="style/style.css">
+    
+    <link rel="stylesheet" href="./style/01style.css">
 </head>
 
 <body>
@@ -195,6 +195,89 @@
 
             </header>
 
+            
+        
+
+<!-- CONTROLES DE CARTELERA -->
+
+<div class="movies-toolbar">
+
+    <!-- FILTRO DESPLEGABLE DE GÉNEROS -->
+    <div class="genre-filter-dropdown" id="genreFilterDropdown">
+
+        <button
+            class="genre-filter-toggle"
+            id="genreFilterToggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="genreFilters"
+        >
+            <span id="genreFilterLabel">Filtrar por género</span>
+            <span class="genre-filter-chevron" aria-hidden="true">⌄</span>
+        </button>
+
+        <div
+            class="genre-filters"
+            id="genreFilters"
+            aria-label="Filtrar películas por género"
+            hidden
+        >
+                <button class="genre-filter is-active"
+                    type="button" data-genre="all" aria-pressed="true">
+                    Todas
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Drama">
+                    Drama
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Terror">
+                    Terror
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Comedia">
+                    Comedia
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Romance">
+                    Romance
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Thriller">
+                    Thriller
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Misterio">
+                    Misterio
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Aventura">
+                    Aventura
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Animación">
+                    Animación
+                </button>
+
+                <button class="genre-filter"
+                    type="button" data-genre="Crimen">
+                    Crimen
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+
             <div class="movies-carousel">
 
                 <button
@@ -230,6 +313,8 @@
                 <span id="moviesProgress"></span>
             </div>
 
+
+
         </section>
 
         <!-- GÉNEROS -->
@@ -252,12 +337,12 @@
 
             <div class="genres-list">
 
-                <a href="#">Surrealismo</a>
+                <a href="#">Ciencia ficción</a>
                 <a href="#">Fantástico</a>
                 <a href="#">Horror</a>
-                <a href="#">Ciencia ficción</a>
-                <a href="#">Fantasía oscura</a>
                 <a href="#">Drama psicológico</a>
+                <a href="#">Fantasía oscura</a>
+                <a href="#">Surrealismo</a>
                 <a href="#">Romance</a>
                 <a href="#">Experimental</a>
 
@@ -342,97 +427,94 @@
                 ×
             </button>
 
-            <div class="movie-detail-content">
 
-                <div class="movie-detail-visual">
+        <div class="movie-detail-content">
 
-                    <div class="movie-detail-poster-container">
+            <div class="movie-detail-visual">
 
-                        <img
-                            id="movieDetailPoster"
-                            class="movie-detail-poster"
-                            src=""
-                            alt=""
-                        >
+                <div class="movie-detail-poster-container">
 
-                    </div>
-
-                    <div class="movie-detail-gallery">
-
-                        <button
-                            id="galleryPrev"
-                            class="gallery-button"
-                            type="button"
-                            aria-label="Imagen anterior"
-                        >
-                            ‹
-                        </button>
-
-                        <span
-                            id="galleryCounter"
-                            class="gallery-counter"
-                            aria-live="polite"
-                        ></span>
-
-                        <button
-                            id="galleryNext"
-                            class="gallery-button"
-                            type="button"
-                            aria-label="Imagen siguiente"
-                        >
-                            ›
-                        </button>
-
-                    </div>
+                    <img
+                        id="movieDetailPoster"
+                        class="movie-detail-poster"
+                        src=""
+                        alt=""
+                    >
 
                 </div>
 
-                <div class="movie-detail-info">
+                <div class="movie-detail-gallery">
 
-                    <div class="movie-detail-heading">
+                    <button
+                        id="galleryPrev"
+                        class="gallery-button"
+                        type="button"
+                        aria-label="Imagen anterior"
+                        hidden
+                    >
+                        ‹
+                    </button>
 
-                        <h2 id="movieDetailTitle"></h2>
+                    <span
+                        id="galleryCounter"
+                        class="gallery-counter"
+                        aria-live="polite"
+                        hidden
+                    ></span>
 
-                        <button
-                            id="movieDetailFavorite"
-                            class="favorite-button"
-                            type="button"
-                            aria-label="Añadir a favoritas"
-                            aria-pressed="false"
-                        >
-                            ♡
-                        </button>
-
-                    </div>
-
-                    <div class="movie-detail-metadata">
-
-                        <span id="movieDetailYear"></span>
-
-                        <div id="movieDetailMeta"></div>
-
-                    </div>
-
-                    <div
-                        id="movieDetailExtra"
-                        class="movie-detail-extra"
-                    ></div>
-
-                    <p
-                        id="movieDetailOverview"
-                        class="movie-detail-overview"
-                    ></p>
-
-                    <div
-                        id="movieDetailTrailer"
-                        class="movie-detail-trailer"
-                    ></div>
+                    <button
+                        id="galleryNext"
+                        class="gallery-button"
+                        type="button"
+                        aria-label="Imagen siguiente"
+                        hidden
+                    >
+                        ›
+                    </button>
 
                 </div>
 
             </div>
 
-        </section>
+            
+        <div class="movie-detail-info">
+
+            <div class="movie-detail-heading">
+                <h2 id="movieDetailTitle"></h2>
+
+                <button
+                    id="movieDetailFavorite"
+                    class= "favorite-button movie-detail-favorite"
+                    type="button"
+                    aria-label="Añadir a favoritas"
+                    aria-pressed="false"
+                >
+                    ♡
+                </button>
+            </div>
+
+            <div class="movie-detail-metadata">
+                <span id="movieDetailYear"></span>
+                <div id="movieDetailMeta"></div>
+            </div>
+
+            <div
+                id="movieDetailExtra"
+                class="movie-detail-extra"
+            ></div>
+
+            <p
+                id="movieDetailOverview"
+                class="movie-detail-overview"
+            ></p>
+
+            <div
+                id="movieDetailTrailer"
+                class="movie-detail-trailer"
+            ></div>
+
+        </div>
+
 
     </main>
 

@@ -1,0 +1,54 @@
+
+
+
+.frames-arrow:hover {
+    opacity: 1;
+
+    color: var(--texto);
+    background: rgba(113, 59, 89, 0.72);
+    border-color: rgba(184, 154, 90, 0.65);
+
+    box-shadow:
+        0 0 22px rgba(168, 117, 150, 0.2),
+        0 0 32px rgba(184, 154, 90, 0.1);
+
+    transform: translateY(-50%) scale(1.08);
+}
+
+.frames-arrow:focus-visible {
+    outline: 2px solid var(--enfasis);
+    outline-offset: 4px;
+}
+
+.frames-arrow:disabled {
+    opacity: 0.25;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Posición lateral */
+
+.frames-arrow--prev {
+    left: 12px;
+}
+
+.frames-arrow--next {
+    right: 12px;
+}
+
+/* Tema claro */
+
+:root.light-mode .frames-arrow {
+    color: var(--texto);
+    background: rgba(243, 238, 232, 0.78);
+    border-color: rgba(113, 59, 89, 0.22);
+
+    box-shadow:
+        0 4px 18px rgba(48, 32, 45, 0.12),
+        0 0 18px rgba(112, 68, 95, 0.08);
+}
+
+:root.light-mode .frames-arrow:hover {
+    background: rgba(231, 222, 212, 0.96);
+    border-color: rgba(113, 59, 89, 0.55);
+}
