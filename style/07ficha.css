@@ -1,4 +1,5 @@
 
+
 /* =========================
    FICHA DE PELÍCULA
 ========================= */
@@ -25,7 +26,6 @@
     -webkit-backdrop-filter: blur(10px);
 }
 
-
 /* =========================
    FICHA · ESTRUCTURA
 ========================= */
@@ -37,18 +37,15 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
     isolation: isolate;
-
     width: calc(100% - 28px);
     max-width: 680px;
     max-height: 82dvh;
     margin: 0;
     padding: 16px;
     box-sizing: border-box;
-
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
-
     background:
         linear-gradient(
             145deg,
@@ -56,14 +53,11 @@
             transparent 38%
         ),
         rgba(24, 29, 41, 0.97);
-
     border: 1px solid rgba(168, 117, 150, 0.18);
     border-radius: 18px;
-
     box-shadow:
         0 30px 90px rgba(0, 0, 0, 0.42),
         0 0 55px rgba(113, 59, 89, 0.12);
-
     scrollbar-width: thin;
     scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
 }
@@ -72,25 +66,15 @@
     display: none;
 }
 
-
 /* =========================
    FICHA · ADAPTACIÓN RESPONSIVE
 ========================= */
-
 /* Móvil y tablet: ficha vertical */
+
 .movie-detail {
     width: calc(100% - 28px);
     max-width: 680px;
     max-height: 82dvh;
-}
-
-/* Escritorio: ficha horizontal */
-@media (min-width: 1024px) {
-    .movie-detail {
-        width: calc(100% - 64px);
-        max-width: 1100px;
-        max-height: 86dvh;
-    }
 }
 
 .movie-detail.is-open {
@@ -99,7 +83,6 @@
 
 :root.light-mode .movie-detail {
     background: rgba(243, 238, 232, 0.97);
-
     box-shadow:
         0 20px 50px rgba(48, 32, 45, 0.18),
         0 0 45px rgba(112, 68, 95, 0.08);
@@ -112,9 +95,7 @@
     left: 0;
     right: 0;
     z-index: 5;
-
     height: 1px;
-
     background: linear-gradient(
         90deg,
         transparent,
@@ -122,11 +103,8 @@
         rgba(168, 117, 150, 0.55),
         transparent
     );
-
     pointer-events: none;
 }
-
-
 
 /* =========================
    FICHA · DISTRIBUCIÓN
@@ -166,12 +144,9 @@
     width: 100%;
     height: 100%;
     margin: 0;
-
-    
     object-fit: cover;
     object-position: center 30%;
     image-rendering: auto;
-
     border: 0;
     border-radius: 0;
 
@@ -184,7 +159,6 @@
         rgba(0, 0, 0, 0.4) 85%,
         transparent 100%
     );
-
     mask-image: linear-gradient(
         to bottom,
         #000 0%,
@@ -199,149 +173,13 @@
     position: relative;
 }
 
-
-
 /* =========================
    ESCRITORIO · FICHA HORIZONTAL
 ========================= */
 
-@media (min-width: 1024px) {
-
-    .movie-detail {
-        width: calc(100% - 64px);
-        max-width: 1100px;
-        max-height: 86dvh;
-        padding: 24px;
-    }
-
-    /* Una sola columna: fotograma arriba e información debajo */
-    .movie-detail-content {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-        align-items: start;
-        gap: 0;
-    }
-
-    .movie-detail-visual {
-        position: relative;
-        grid-column: 1;
-        grid-row: 1;
-        width: 100%;
-        min-width: 0;
-    }
-
-    /* Fotograma panorámico */
-    .movie-detail-poster-container {
-        width: calc(100% + 48px);
-        height: clamp(220px, 24vw, 300px);
-        margin: -24px -24px 0;
-        aspect-ratio: auto;
-        overflow: hidden;
-    }
-
-    .movie-detail-poster-container > .movie-detail-poster {
-        object-position: center 30%;
-
-        -webkit-mask-image: linear-gradient(
-            to bottom,
-            #000 0%,
-            #000 55%,
-            rgba(0, 0, 0, 0.85) 70%,
-            rgba(0, 0, 0, 0.4) 85%,
-            transparent 100%
-        );
-
-        mask-image: linear-gradient(
-            to bottom,
-            #000 0%,
-            #000 55%,
-            rgba(0, 0, 0, 0.85) 70%,
-            rgba(0, 0, 0, 0.4) 85%,
-            transparent 100%
-        );
-    }
-
-    /* Título superpuesto en la parte inferior del fotograma */
-    .movie-detail-heading {
-        position: absolute;
-        z-index: 10;
-        right: 24px;
-        bottom: 18px;
-        left: 24px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-start;
-        gap: 16px;
-        width: auto;
-        margin: 0;
-        transform: translateY(8px);
-    }
-
-    .movie-detail-heading h2 {
-        flex: 1;
-        min-width: 0;
-        margin: 0;
-        padding-left: 0;
-        transform: translateX(-24px);
-        color: #fff;
-        font-size: clamp(1.6rem, 2.5vw, 2.7rem);
-        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
-    }
-
-    /* Toda la información ocupa el ancho de la ficha */
-    .movie-detail-info {
-        grid-column: 1;
-        grid-row: 2;
-        min-width: 0;
-        padding: 0 0 8px;
-    }
-
-    .movie-detail-metadata {
-        margin-bottom: 12px;
-    }
-
-    .movie-detail-extra {
-        margin-bottom: 12px;
-    }
-
-    .movie-detail-overview {
-        margin-bottom: 0;
-        line-height: 1.7;
-    }
-
-    .movie-detail-read-more {
-        margin: 4px 0 10px;
-    }
-
-    .movie-detail-trailer {
-        margin-top: 0;
-        padding-top: 10px;
-    }
-
-    
-    .movie-detail-trailer iframe {
-        display: block;
-        width: 100%;
-        max-width: 420px;
-        aspect-ratio: 16 / 9;
-        height: auto;
-        border: 0;
-        border-radius: 10px;
-    }
-}
-
-
 /* =========================
    TABLET · TÍTULO Y FAVORITOS
 ========================= */
-
-@media (min-width: 601px) and (max-width: 1023px) {
-    .movie-detail-heading {
-        bottom: 0;
-        margin: 0;
-        transform: translateY(0);
-    }
-}
 
 /* =========================
    GALERÍA SUPERPUESTA
@@ -350,11 +188,9 @@
 .movie-detail-gallery {
     position: absolute;
     inset: 0;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 10px;
     box-sizing: border-box;
     pointer-events: none;
@@ -366,26 +202,19 @@
     display: grid;
     place-items: center;
     flex: 0 0 auto;
-
     width: 36px;
     height: 36px;
     padding: 0;
-
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 50%;
-
     background: rgba(13, 16, 24, 0.7);
     color: var(--texto);
-
     font-size: 1.5rem;
     line-height: 1;
-
     cursor: pointer;
     pointer-events: auto;
-
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-
     transition:
         background 0.25s ease,
         border-color 0.25s ease,
@@ -398,7 +227,6 @@
     transform: scale(1.08);
 }
 
-
 /* =========================
    CONTADOR DE FOTOGRAMAS
 ========================= */
@@ -410,23 +238,17 @@
     bottom: auto;
     left: auto;
     transform: none;
-
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-
     background: rgba(13, 16, 24, 0.35);
     color: var(--texto-secundario);
-
     font-size: 0.68rem;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.04em;
-
     opacity: 0.65;
     pointer-events: none;
-
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-
     transition: opacity 0.3s ease;
 }
 
@@ -436,7 +258,6 @@
 .gallery-counter[hidden] {
     display: none;
 }
-
 
 /* =========================
    FICHA · TEXTO E INFORMACIÓN
@@ -451,7 +272,6 @@
     gap: 0;
     width: 100%;
     min-width: 0;
-
     padding: 0 0 24px;
     color: var(--texto);
     text-align: left;
@@ -464,7 +284,6 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-
     width: 100%;
     margin: -8px 0 14px;
 }
@@ -473,18 +292,15 @@
     flex: 1;
     min-width: 0;
     margin: 0;
-
     color: var(--texto);
     font-family: var(--fuente-titulo);
     font-size: clamp(1.8rem, 4vw, 3rem);
     font-weight: 500;
     line-height: 1.05;
     letter-spacing: -0.035em;
-
     text-align: left;
     overflow-wrap: anywhere;
 }
-
 
 /* Año, puntuación y metadatos */
 
@@ -493,10 +309,8 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 8px 14px;
-
     width: 100%;
     margin: 0 0 12px;
-
     color: var(--texto-secundario);
     font-family: var(--fuente-texto);
     font-size: 0.82rem;
@@ -514,7 +328,6 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 6px 12px;
-
     min-width: 0;
 }
 
@@ -525,17 +338,14 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 7px 14px;
-
     width: 100%;
     margin: 0 0 20px;
-
     color: var(--texto-secundario);
     font-size: 0.8rem;
     line-height: 1.6;
 }
 
 /* Descripción */
-
 
 .movie-detail-overview {
     display: -webkit-box;
@@ -559,11 +369,9 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 12px;
-
     width: 100%;
     margin-top: 0;
     padding-top: 10px;
-
     border-top: 1px solid var(--borde);
 }
 
@@ -572,20 +380,15 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-
     max-width: 100%;
     padding: 11px 18px;
-
     border: 1px solid var(--secundario);
     border-radius: 999px;
-
     background: rgba(168, 117, 150, 0.1);
     color: var(--texto);
-
     font-family: var(--fuente-texto);
     font-size: 0.82rem;
     text-decoration: none;
-
     transition:
         background 0.25s ease,
         border-color 0.25s ease,
@@ -594,7 +397,6 @@
 
 .movie-detail-trailer a:hover {
     transform: translateY(-2px);
-
     border-color: var(--oro);
     background: rgba(168, 117, 150, 0.2);
 }
@@ -603,8 +405,6 @@
     outline: 2px solid var(--oro);
     outline-offset: 4px;
 }
-
-
 
 /* =========================
    FAVORITOS · ESTILO DELICADO
@@ -624,11 +424,13 @@
 }
 
 /* Contorno en reposo */
+
 .movie-detail-favorite:not(.is-favorite) {
     color: #E8DCE7;
 }
 
 /* Hover discreto */
+
 .movie-detail-favorite:hover {
     color: #D7B7D0;
     background: transparent;
@@ -638,6 +440,7 @@
 }
 
 /* Favorito activo */
+
 .movie-detail-favorite.is-favorite,
 .movie-detail-favorite[aria-pressed="true"] {
     color: var(--secundario);
@@ -648,11 +451,13 @@
 }
 
 /* Pulsación */
+
 .movie-detail-favorite:active {
     transform: scale(0.96);
 }
 
 /* Evitar fondos heredados en tema claro */
+
 :root.light-mode .movie-detail-favorite {
     background: transparent;
     border: none;
@@ -685,36 +490,26 @@
     position: absolute;
     top: 50%;
     z-index: 20;
-
     display: grid;
     place-items: center;
-
     width: 42px;
     height: 42px;
     padding: 0;
-
     transform: translateY(-50%);
-
     border: 1px solid rgba(168, 117, 150, 0.32);
     border-radius: 50%;
-
     background: rgba(13, 16, 24, 0.58);
     color: var(--texto);
-
     font-family: "Space Grotesk", sans-serif;
     font-size: 1.5rem;
     line-height: 1;
-
     cursor: pointer;
     opacity: 0.82;
-
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-
     box-shadow:
         0 4px 18px rgba(0, 0, 0, 0.18),
         0 0 20px rgba(113, 59, 89, 0.12);
-
     transition:
         opacity 0.3s ease,
         color 0.3s ease,
@@ -735,11 +530,9 @@
 #galleryPrev:hover,
 #galleryNext:hover {
     transform: translateY(-50%) scale(1.08);
-
     opacity: 1;
     background: rgba(113, 59, 89, 0.82);
     border-color: rgba(184, 154, 90, 0.7);
-
     box-shadow:
         0 0 22px rgba(168, 117, 150, 0.22),
         0 0 32px rgba(184, 154, 90, 0.1);
@@ -773,24 +566,6 @@
 
 /* Móvil */
 
-@media (max-width: 600px) {
-    #galleryPrev,
-    #galleryNext {
-        width: 34px;
-        height: 34px;
-        font-size: 1.2rem;
-    }
-
-    #galleryPrev {
-        left: 5px;
-    }
-
-    #galleryNext {
-        right: 5px;
-    }
-}
-
-
 /* =========================
    CERRAR FICHA
 ========================= */
@@ -800,41 +575,21 @@
     top: 12px;
     right: 14px;
     z-index: 1100;
-
     display: grid;
     place-items: center;
-
     width: 42px;
     height: 42px;
-
     border: 0;
     border-radius: 50%;
-
     background: rgba(13, 16, 24, 0.72);
     color: var(--texto);
-
     font-size: 1.8rem;
     cursor: pointer;
 }
 
-
-
 /* =========================
    FICHA · SUPERPOSICIÓN MÓVIL
 ========================= */
-
-@media (max-width: 1023px) {
-    .movie-detail {
-        z-index: 1000;
-        max-height: 82dvh;
-        overflow-x: hidden;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        -webkit-overflow-scrolling: touch;
-    }
-}
-
-
 
 /* =========================
    CAPA EXTERIOR DE LA FICHA
@@ -879,11 +634,6 @@
     display: block;
 }
 
-
-
-
-
-
 /* =========================
    FICHA · CORAZÓN EN METADATOS
    TODAS LAS PANTALLAS
@@ -905,6 +655,7 @@
 }
 
 /* Metadatos y corazón alineados */
+
 .movie-detail-metadata {
     display: flex;
     flex-wrap: wrap;
@@ -913,149 +664,7 @@
 }
 
 /* Integrar los datos internos en la misma fila */
+
 .movie-detail-metadata #movieDetailMeta {
     display: contents;
 }
-
-@media (max-width: 600px) {
-    .movie-detail-heading {
-        position: relative;
-        inset: auto;
-        display: block;
-        width: 100%;
-        margin: -8px 0 10px;
-        transform: none;
-    }
-
-    .movie-detail-heading h2 {
-        width: 100%;
-        transform: none;
-    }
-}
-
-
-/* =========================
-   FICHA · TABLET Y ESCRITORIO
-   CONTENIDO COMPACTO SIN SCROLL
-========================= */
-
-@media (min-width: 601px) {
-
-    /* La ficha aprovecha mejor la altura disponible */
-    .movie-detail {
-        max-height: 94dvh;
-        padding: 18px;
-        overflow-y: auto;
-    }
-
-    /* Fotograma más compacto en tablet */
-    .movie-detail-poster-container {
-        aspect-ratio: 2 / 1;
-    }
-
-    /* Título */
-    .movie-detail-heading {
-        gap: 10px;
-        margin-bottom: 8px;
-    }
-
-    .movie-detail-heading h2 {
-        font-size: clamp(1.45rem, 2.5vw, 2.3rem);
-        line-height: 1.05;
-    }
-
-    /* Año, nota, géneros y duración */
-    .movie-detail-metadata {
-        gap: 4px 10px;
-        margin-bottom: 6px;
-        font-size: 0.76rem;
-        line-height: 1.35;
-    }
-
-    .movie-detail-extra {
-        gap: 4px 10px;
-        margin-bottom: 8px;
-        font-size: 0.74rem;
-        line-height: 1.4;
-    }
-
-    /* Sinopsis contraída */
-    .movie-detail-overview {
-        margin-bottom: 0;
-        font-size: 0.92rem;
-        line-height: 1.55;
-    }
-
-    /* Leer más / leer menos */
-    .movie-detail-read-more {
-        margin: 2px 0 6px;
-        font-size: 0.76rem;
-    }
-
-    /* Tráiler */
-    .movie-detail-trailer {
-        gap: 8px;
-        margin-top: 0;
-        padding-top: 8px;
-    }
-
-    .movie-detail-trailer a {
-        padding: 8px 14px;
-        font-size: 0.76rem;
-    }
-
-    .movie-detail-metadata {
-    font-size: 0.84rem;
-}
-
-    .movie-detail-extra {
-        font-size: 0.82rem;
-    }
-}
-
-/* Escritorio: conservar la composición panorámica */
-@media (min-width: 1024px) {
-
-    .movie-detail {
-        max-height: 97dvh;
-        padding: 18px;
-    }
-
-    .movie-detail-poster-container {
-    width: calc(100% + 36px);
-    height: clamp(280px, 34vh, 390px);
-    margin: -18px -18px 0;
-    aspect-ratio: auto;
-    overflow: hidden;
-}
-
-    .movie-detail-heading {
-        right: 20px;
-        bottom: 14px;
-        left: 20px;
-        margin: 0;
-    }
-
-    .movie-detail-heading h2 {
-        font-size: clamp(1.5rem, 2.2vw, 2.3rem);
-    }
-
-    .movie-detail-info {
-        padding-bottom: 4px;
-    }
-
-    .movie-detail-metadata {
-        margin-bottom: 6px;
-    }
-
-    .movie-detail-extra {
-        margin-bottom: 8px;
-    }
-
-    .movie-detail-trailer iframe {
-        max-width: 360px;
-    }
-}
-
-
-

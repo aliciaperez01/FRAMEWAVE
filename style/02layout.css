@@ -135,55 +135,7 @@ MOVIMIENTO AMPLIO Y ORGÁNICO
 }
 
 
-/* =========================
-   ADAPTACIÓN MÓVIL · POMPAS
-========================= */
 
-@media (max-width: 600px) {
-
-    .page-bubble {
-        filter: blur(5px);
-    }
-
-    .bubble-one {
-        width: 260px;
-        height: 260px;
-    }
-
-    .bubble-two {
-        width: 220px;
-        height: 220px;
-    }
-
-    .bubble-three {
-        width: 170px;
-        height: 170px;
-    }
-
-    .bubble-four {
-        width: 250px;
-        height: 250px;
-    }
-
-    .bubble-five {
-        width: 160px;
-        height: 160px;
-    }
-
-    .bubble-six {
-        width: 210px;
-        height: 210px;
-    }
-}
-
-/* Respetar la preferencia de movimiento reducido */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .page-bubble {
-        animation: none;
-    }
-}
 
 /* =========================
    HEADER
@@ -769,37 +721,6 @@ de tu regla original si ya la tienes. */
 }
 
 
-/* =========================
-   HERO · MÓVIL
-========================= */
-
-@media (max-width: 600px) {
-    .hero-divider-main {
-        margin-top: 20px;
-        margin-bottom: 24px;
-    }
-
-    .hero-divider {
-        width: min(270px, 72vw);
-    }
-
-    .hero-divider-small {
-        width: min(190px, 52vw);
-        margin-top: 20px;
-    }
-
-    .hero-star {
-        width: 27px;
-        height: 27px;
-    }
-}
-
-/* Respetar la preferencia de movimiento reducido */
-@media (prefers-reduced-motion: reduce) {
-    .hero-star {
-        animation: none;
-    }
-}
 
 
 /* sombras de fondo */
@@ -1167,63 +1088,5 @@ de tu regla original si ya la tienes. */
     color: var(--texto-secundario);
 }
 
-/* HERO · Ajuste de posición en escritorio */
-@media (min-width: 1025px) {
-.hero-description {
-top: 42vh;
 
-}}
-
-
-
-
-/* =========================
-   ESCRITORIO · NAV Y LOGO
-========================= */
-
-@media (min-width: 1025px) {
-
-    .header {
-        gap: 16px;
-        padding: 18px 30px;
-    }
-
-    .navigation {
-        position: relative;
-        display: flex;
-        align-items: center;
-        flex: 0 0 auto;
-        min-width: max-content;
-    }
-
-    
-    .navigation .menu-button {
-        display: inline-flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: relative;
-        z-index: 120;
-        flex-shrink: 0;
-    }
-
-    .navigation .menu-list {
-        display: none !important;
-        flex-direction: column;
-        align-items: center;
-        gap: 26px;
-    }
-
-    .navigation .menu-list.is-open {
-        display: flex !important;
-    }
-
-    .header-controls {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: clamp(8px, 1.2vw, 18px);
-        flex-shrink: 0;
-    }
-
-}
 

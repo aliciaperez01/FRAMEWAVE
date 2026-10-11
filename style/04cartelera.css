@@ -1,4 +1,3 @@
-
 /* ═══════════════════════════════════════
    FRAMEWAVE · CARTELERA
    MOBILE FIRST
@@ -25,11 +24,6 @@
     margin: 0;
 }
 
-#verTodasPeliculas {
-    display: block;
-    flex-shrink: 0;
-    margin: 0 12px 0 auto;
-}
 
 /* Filtro desplegable de géneros */
 
@@ -124,7 +118,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin: 0 0 28px;
 }
 
@@ -420,59 +414,6 @@
    6. INTERACCIÓN DE LAS TARJETAS
 ======================================== */
 
-@media (hover: hover) and (pointer: fine) {
-
-    #rejilla > .card:hover {
-        position: relative;
-        z-index: 2;
-        transform: translateY(-7px) scale(1.025);
-    }
-
-    #rejilla > .card:hover img {
-        transform: translateY(-2px);
-
-        filter: brightness(1.06) contrast(1.035) saturate(1.06);
-
-        box-shadow:
-            0 18px 35px rgba(0, 0, 0, 0.28),
-            0 30px 55px rgba(0, 0, 0, 0.17),
-            0 0 25px rgba(113, 59, 89, 0.20),
-            0 0 0 1px var(--borde);
-    }
-
-    #rejilla > .card:hover::before {
-        opacity: 0.32;
-        transform: scale(1.08);
-    }
-
-    #rejilla > .card:hover h3 {
-        color: var(--oro);
-        transform: translateX(4px);
-    }
-
-    #rejilla > .card:hover h3::before {
-        width: 45px;
-        opacity: 1;
-    }
-
-    #rejilla > .card:hover p {
-        color: var(--texto);
-        opacity: 0.95;
-        transform: translateX(4px);
-    }
-
-    #rejilla:has(> .card:hover) > .card:not(:hover) {
-        opacity: 0.82;
-        filter: saturate(0.88);
-        transform: scale(0.985);
-    }
-
-    #rejilla:has(> .card:hover) > .card:not(:hover) h3,
-    #rejilla:has(> .card:hover) > .card:not(:hover) p {
-        opacity: 0.88;
-    }
-}
-
 
 /* ========================================
    7. ACCESIBILIDAD DE TARJETAS
@@ -637,13 +578,12 @@
    11. BOTÓN VER TODAS LAS PELÍCULAS
 ======================================== */
 
-.view-all-button,
-#verTodasPeliculas {
+.view-all-button, #verTodasPeliculas {
     display: block;
     position: relative;
     flex-shrink: 0;
 
-    margin: 0 8px 0 auto;
+    margin: 0px;
     padding: 10px 20px;
 
     border: 1px solid var(--secundario);
@@ -678,8 +618,6 @@
     outline: 2px solid var(--oro);
     outline-offset: 4px;
 }
-
-
 
 
 /* ========================================
@@ -746,205 +684,4 @@
     font-size: 0.55rem;
     letter-spacing: 0.04em;
 }
-
-/* Evitar que el hover atenúe las demás tarjetas */
-
-@media (hover: hover) and (pointer: fine) {
-    #rejilla.ver-todas:has(> .card:hover) > .card:not(:hover) {
-        opacity: 1;
-        filter: none;
-        transform: none;
-    }
-}
-
-/* Tablet */
-
-@media (min-width: 600px) {
-    #rejilla.ver-todas {
-        grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-        gap: 30px 20px;
-        padding: 20px 8px 35px;
-    }
-
-    #rejilla.ver-todas > .card {
-        max-width: 165px;
-        justify-self: center;
-    }
-
-    #rejilla.ver-todas .card h3 {
-        font-size: 0.9rem;
-        line-height: 1.3;
-    }
-
-    #rejilla.ver-todas .card p {
-        font-size: 0.62rem;
-        letter-spacing: 0.12em;
-    }
-}
-
-/* Escritorio */
-
-@media (min-width: 1024px) {
-    #rejilla.ver-todas {
-        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-        gap: 38px 26px;
-    }
-
-    #rejilla.ver-todas > .card {
-        max-width: 175px;
-    }
-
-    #rejilla.ver-todas .card h3 {
-        font-size: 1rem;
-    }
-}
-
-
-/* ========================================
-   13. TABLET
-======================================== */
-
-@media (min-width: 600px) {
-
-    .genre-filters:not([hidden]) {
-        width: min(380px, calc(100vw - 48px));
-    }
-
-    #rejilla:not(.ver-todas) {
-        grid-auto-columns: 230px;
-        gap: 32px;
-        padding: 22px 16px 30px;
-        scroll-padding-inline: 16px;
-    }
-
-    #rejilla:not(.ver-todas) > .card {
-        width: 205px;
-        max-width: 205px;
-    }
-
-    #rejilla:not(.ver-todas) .card h3 {
-        padding-top: 13px;
-        font-size: clamp(1rem, 1.25vw, 1.15rem);
-        line-height: 1.3;
-    }
-
-    #rejilla:not(.ver-todas) .card h3::before {
-        width: 28px;
-        margin-bottom: 10px;
-    }
-
-    #rejilla:not(.ver-todas) .card p {
-        padding: 8px 2px 10px;
-        font-size: 0.7rem;
-        letter-spacing: 0.19em;
-    }
-
-    .carousel-arrow {
-        width: 36px;
-        height: 36px;
-        font-size: 1.15rem;
-    }
-
-    .carousel-arrow--prev {
-        left: 4px;
-    }
-
-    .carousel-arrow--next {
-        right: 4px;
-    }
-
-    
-}
-
-
-
-/* ========================================
-   14. ESCRITORIO
-======================================== */
-
-@media (min-width: 1024px) {
-
-    #rejilla:not(.ver-todas) {
-        grid-auto-columns: 170px;
-        gap: 28px;
-        padding: 18px 20px 25px;
-        scroll-padding-inline: 20px;
-    }
-
-    #rejilla:not(.ver-todas) > .card {
-        width: 155px;
-        max-width: 155px;
-    }
-
-    #rejilla:not(.ver-todas) .card h3 {
-        font-size: 0.95rem;
-    }
-
-    .carousel-arrow {
-        width: 42px;
-        height: 42px;
-        font-size: 1.3rem;
-    }
-
-    .carousel-arrow--prev {
-        left: -12px;
-    }
-
-    .carousel-arrow--next {
-        right: -12px;
-    }
-}
-
-/* ========================================
-   15. RESPUESTA TÁCTIL
-======================================== */
-
-@media (hover: none) {
-
-    #rejilla > .card:active {
-        transform: scale(0.97);
-        transition-duration: 0.12s;
-    }
-
-    #rejilla > .card:active img {
-        filter: brightness(0.88);
-    }
-}
-
-
-/* ========================================
-   16. MOVIMIENTO REDUCIDO
-======================================== */
-
-@media (prefers-reduced-motion: reduce) {
-
-    #rejilla {
-        scroll-behavior: auto;
-    }
-
-    #rejilla > .card,
-    #rejilla > .card img,
-    #rejilla > .card::before,
-    #rejilla .card h3,
-    #rejilla .card h3::before,
-    #rejilla .card p,
-    .genre-filter-toggle,
-    .genre-filter-chevron,
-    .genre-filter,
-    .carousel-arrow,
-    .carousel-progress span,
-    .view-all-button,
-    #verTodasPeliculas {
-        animation: none;
-        transition: none;
-    }
-
-    #rejilla > .card:active {
-        transform: none;
-    }
-}
-
-
-
-
 

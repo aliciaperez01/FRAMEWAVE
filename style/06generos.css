@@ -17,17 +17,6 @@
     overflow: hidden;
 }
 
-/* =========================
-   ESFERA DE GÉNEROS · ESCRITORIO
-========================= */
-
-@media (min-width: 900px) {
-    .genres-list {
-        --spread: 1.15;
-        max-width: 1200px;
-        height: 580px;
-    }
-}
 
 .genres-list a {
     --x: 0px;
