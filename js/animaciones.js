@@ -6,12 +6,7 @@
 ========================= */
 
 export function iniciarAnimaciones() {
-
-
     
-    /* =========================
-       CREAR BURBUJAS DEL FONDO
-    ========================= */
 
     const pageBackground = document.querySelector(".page-background");
 
@@ -90,15 +85,25 @@ export function iniciarAnimaciones() {
             return;
         }
 
-        // Escritorio: conservar el movimiento actual
-        scale = 1 - progress * 0.40;
-        vertical = progress * window.innerHeight * 0.19;
+        
+    // Escritorio: el logo termina alineado con la navegación
+    scale = 1 - progress * 0.48;
 
-        framewave.style.transform =
-            `translate(-50%, ${-vertical}px) scale(${scale})`;
+    const nav = document.querySelector(".navigation");
+    if (!nav) return;
+
+    const navRect = nav.getBoundingClientRect();
+    const centroNav = navRect.top + navRect.height / 2;
+
+    const centroInicial =
+        window.innerHeight * 0.25 + framewave.offsetHeight / 2;
+
+    vertical = progress * (centroNav - centroInicial);
+
+    framewave.style.transform =
+        `translate(-50%, ${vertical}px) scale(${scale})`;
     }
-
-    let pendiente = false;
+     let pendiente = false;
 
     function alMoverse() {
         if (pendiente) return;

@@ -144,7 +144,6 @@
 /* Imagen y galería */
 
 .movie-detail-visual {
-    position: relative;
     width: 100%;
     min-width: 0;
 }
@@ -196,9 +195,14 @@
     );
 }
 
+.movie-detail-visual {
+    position: relative;
+}
+
+
+
 /* =========================
-   ESCRITORIO
-   Panel ancho y cartel compacto
+   ESCRITORIO · FICHA HORIZONTAL
 ========================= */
 
 @media (min-width: 1024px) {
@@ -207,49 +211,136 @@
         width: calc(100% - 64px);
         max-width: 1100px;
         max-height: 86dvh;
+        padding: 24px;
     }
 
-    
-    
-    .movie-detail-poster-container {
-        width: calc(100% + 48px);
-        height: clamp(240px, 28vw, 360px);
-        margin: -24px -24px 0;
-        aspect-ratio: auto;
+    /* Una sola columna: fotograma arriba e información debajo */
+    .movie-detail-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 0;
     }
 
     .movie-detail-visual {
         position: relative;
+        grid-column: 1;
+        grid-row: 1;
+        width: 100%;
+        min-width: 0;
     }
 
-    /* Título superpuesto al cartel */
+    /* Fotograma panorámico */
+    .movie-detail-poster-container {
+        width: calc(100% + 48px);
+        height: clamp(220px, 24vw, 300px);
+        margin: -24px -24px 0;
+        aspect-ratio: auto;
+        overflow: hidden;
+    }
 
+    .movie-detail-poster-container > .movie-detail-poster {
+        object-position: center 30%;
+
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 55%,
+            rgba(0, 0, 0, 0.85) 70%,
+            rgba(0, 0, 0, 0.4) 85%,
+            transparent 100%
+        );
+
+        mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 55%,
+            rgba(0, 0, 0, 0.85) 70%,
+            rgba(0, 0, 0, 0.4) 85%,
+            transparent 100%
+        );
+    }
+
+    /* Título superpuesto en la parte inferior del fotograma */
     .movie-detail-heading {
         position: absolute;
         z-index: 10;
         right: 24px;
         bottom: 18px;
         left: 24px;
-
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        gap: 16px;
         width: auto;
         margin: 0;
-
-        align-items: flex-end;
-        gap: 16px;
+        transform: translateY(8px);
     }
 
     .movie-detail-heading h2 {
+        flex: 1;
+        min-width: 0;
+        margin: 0;
+        padding-left: 0;
+        transform: translateX(-24px);
         color: #fff;
-        font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+        font-size: clamp(1.6rem, 2.5vw, 2.7rem);
         text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
     }
 
-    .movie-detail-heading .movie-detail-favorite {
-        color: #fff;
-        background: rgba(13, 16, 24, 0.65);
-        border-color: rgba(255, 255, 255, 0.3);
+    /* Toda la información ocupa el ancho de la ficha */
+    .movie-detail-info {
+        grid-column: 1;
+        grid-row: 2;
+        min-width: 0;
+        padding: 0 0 8px;
     }
 
+    .movie-detail-metadata {
+        margin-bottom: 12px;
+    }
+
+    .movie-detail-extra {
+        margin-bottom: 12px;
+    }
+
+    .movie-detail-overview {
+        margin-bottom: 0;
+        line-height: 1.7;
+    }
+
+    .movie-detail-read-more {
+        margin: 4px 0 10px;
+    }
+
+    .movie-detail-trailer {
+        margin-top: 0;
+        padding-top: 10px;
+    }
+
+    
+    .movie-detail-trailer iframe {
+        display: block;
+        width: 100%;
+        max-width: 420px;
+        aspect-ratio: 16 / 9;
+        height: auto;
+        border: 0;
+        border-radius: 10px;
+    }
+}
+
+
+/* =========================
+   TABLET · TÍTULO Y FAVORITOS
+========================= */
+
+@media (min-width: 601px) and (max-width: 1023px) {
+    .movie-detail-heading {
+        bottom: 0;
+        margin: 0;
+        transform: translateY(0);
+    }
 }
 
 /* =========================
@@ -307,31 +398,36 @@
     transform: scale(1.08);
 }
 
-/* Contador de fotogramas */
+
+/* =========================
+   CONTADOR DE FOTOGRAMAS
+========================= */
 
 .gallery-counter {
     position: absolute;
-    right: 12px;
-    bottom: 12px;
+    right: 1%;
+    top: 70%;
+    bottom: auto;
     left: auto;
-
     transform: none;
 
-    padding: 5px 10px;
-
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
 
-    background: rgba(13, 16, 24, 0.75);
-    color: var(--texto);
+    background: rgba(13, 16, 24, 0.35);
+    color: var(--texto-secundario);
 
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
 
+    opacity: 0.65;
     pointer-events: none;
 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    transition: opacity 0.3s ease;
 }
 
 /* Ocultar controles cuando no se necesitan */
@@ -355,7 +451,7 @@
     gap: 0;
     width: 100%;
     min-width: 0;
-    margin: 0;
+
     padding: 0 0 24px;
     color: var(--texto);
     text-align: left;
@@ -389,12 +485,6 @@
     overflow-wrap: anywhere;
 }
 
-/* Corazón de favoritos en la ficha */
-
-.movie-detail-heading .movie-detail-favorite {
-    flex-shrink: 0;
-    margin: 0;
-}
 
 /* Año, puntuación y metadatos */
 
@@ -446,16 +536,19 @@
 
 /* Descripción */
 
-.movie-detail-overview {
-    width: 100%;
-    margin: 0 0 24px;
 
+.movie-detail-overview {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 0 8px;
     color: var(--texto-secundario);
     font-family: var(--fuente-texto);
     font-size: 0.94rem;
     font-weight: 400;
     line-height: 1.8;
-
     overflow-wrap: anywhere;
 }
 
@@ -468,8 +561,8 @@
     gap: 12px;
 
     width: 100%;
-    margin-top: auto;
-    padding-top: 16px;
+    margin-top: 0;
+    padding-top: 10px;
 
     border-top: 1px solid var(--borde);
 }
@@ -512,74 +605,65 @@
 }
 
 
+
 /* =========================
-   CORAZÓN DE FAVORITOS
+   FAVORITOS · ESTILO DELICADO
 ========================= */
 
-.movie-detail-favorite {
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-
-    width: 44px;
-    height: 44px;
-    padding: 0;
-
-    background: rgba(168, 117, 150, 0.10);
-    border: 1px solid rgba(168, 117, 150, 0.35);
-    border-radius: 50%;
-
-    color: var(--secundario);
-    font-family: var(--fuente-texto);
-    font-size: 1.45rem;
-    line-height: 1;
-
-    cursor: pointer;
-
+.movie-detail-favorite,
+.movie-detail-heading .movie-detail-favorite {
+    color: #E8DCE7;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 1.5rem;
     transition:
-        background 0.25s ease,
-        color 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-
-    -webkit-appearance: none;
-    appearance: none;
+        color 0.3s ease,
+        transform 0.3s ease,
+        filter 0.3s ease;
 }
 
+/* Contorno en reposo */
+.movie-detail-favorite:not(.is-favorite) {
+    color: #E8DCE7;
+}
+
+/* Hover discreto */
 .movie-detail-favorite:hover {
-    background: rgba(168, 117, 150, 0.20);
-    border-color: var(--secundario);
-    color: #D99AB8;
-
-    transform: scale(1.08);
-    box-shadow: 0 0 18px rgba(168, 117, 150, 0.16);
+    color: #D7B7D0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transform: scale(1.07);
 }
 
-.movie-detail-favorite:active {
-    transform: scale(0.92);
-}
-
+/* Favorito activo */
+.movie-detail-favorite.is-favorite,
 .movie-detail-favorite[aria-pressed="true"] {
-    color: #D982A7;
-    background: rgba(217, 130, 167, 0.15);
-    border-color: rgba(217, 130, 167, 0.55);
-    box-shadow: 0 0 16px rgba(217, 130, 167, 0.12);
+    color: var(--secundario);
+    background: transparent;
+    border: none;
+    box-shadow: 0 0 12px rgba(168, 117, 150, 0.12);
+    filter: drop-shadow(0 0 3px rgba(168, 117, 150, 0.2));
 }
 
+/* Pulsación */
+.movie-detail-favorite:active {
+    transform: scale(0.96);
+}
+
+/* Evitar fondos heredados en tema claro */
 :root.light-mode .movie-detail-favorite {
-    background: rgba(112, 68, 95, 0.06);
-    border-color: rgba(112, 68, 95, 0.25);
-    color: var(--principal);
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 :root.light-mode .movie-detail-favorite.is-favorite,
 :root.light-mode .movie-detail-favorite[aria-pressed="true"] {
-    color: #A34270;
-    background: rgba(163, 66, 112, 0.10);
-    border-color: rgba(163, 66, 112, 0.4);
+    color: var(--principal);
+    filter: none;
 }
-
 
 /* =========================
    GALERÍA DE FOTOGRAMAS
@@ -734,25 +818,6 @@
 }
 
 
-/* =========================
-   FICHA · ADAPTACIÓN RESPONSIVE
-========================= */
-
-/* Móvil y tablet: ficha vertical */
-.movie-detail {
-    width: calc(100% - 28px);
-    max-width: 680px;
-    max-height: 82dvh;
-}
-
-/* Escritorio: ficha horizontal */
-@media (min-width: 1024px) {
-    .movie-detail {
-        width: calc(100% - 64px);
-        max-width: 1100px;
-        max-height: 86dvh;
-    }
-}
 
 /* =========================
    FICHA · SUPERPOSICIÓN MÓVIL
@@ -814,8 +879,183 @@
     display: block;
 }
 
+
+
+
+
+
+/* =========================
+   FICHA · CORAZÓN EN METADATOS
+   TODAS LAS PANTALLAS
+========================= */
+
+.movie-detail-metadata .movie-detail-favorite {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Metadatos y corazón alineados */
+.movie-detail-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+}
+
+/* Integrar los datos internos en la misma fila */
+.movie-detail-metadata #movieDetailMeta {
+    display: contents;
+}
+
 @media (max-width: 600px) {
-    .movie-detail-overlay {
-        padding: 10px;
+    .movie-detail-heading {
+        position: relative;
+        inset: auto;
+        display: block;
+        width: 100%;
+        margin: -8px 0 10px;
+        transform: none;
+    }
+
+    .movie-detail-heading h2 {
+        width: 100%;
+        transform: none;
     }
 }
+
+
+/* =========================
+   FICHA · TABLET Y ESCRITORIO
+   CONTENIDO COMPACTO SIN SCROLL
+========================= */
+
+@media (min-width: 601px) {
+
+    /* La ficha aprovecha mejor la altura disponible */
+    .movie-detail {
+        max-height: 94dvh;
+        padding: 18px;
+        overflow-y: auto;
+    }
+
+    /* Fotograma más compacto en tablet */
+    .movie-detail-poster-container {
+        aspect-ratio: 2 / 1;
+    }
+
+    /* Título */
+    .movie-detail-heading {
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .movie-detail-heading h2 {
+        font-size: clamp(1.45rem, 2.5vw, 2.3rem);
+        line-height: 1.05;
+    }
+
+    /* Año, nota, géneros y duración */
+    .movie-detail-metadata {
+        gap: 4px 10px;
+        margin-bottom: 6px;
+        font-size: 0.76rem;
+        line-height: 1.35;
+    }
+
+    .movie-detail-extra {
+        gap: 4px 10px;
+        margin-bottom: 8px;
+        font-size: 0.74rem;
+        line-height: 1.4;
+    }
+
+    /* Sinopsis contraída */
+    .movie-detail-overview {
+        margin-bottom: 0;
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    /* Leer más / leer menos */
+    .movie-detail-read-more {
+        margin: 2px 0 6px;
+        font-size: 0.76rem;
+    }
+
+    /* Tráiler */
+    .movie-detail-trailer {
+        gap: 8px;
+        margin-top: 0;
+        padding-top: 8px;
+    }
+
+    .movie-detail-trailer a {
+        padding: 8px 14px;
+        font-size: 0.76rem;
+    }
+
+    .movie-detail-metadata {
+    font-size: 0.84rem;
+}
+
+    .movie-detail-extra {
+        font-size: 0.82rem;
+    }
+}
+
+/* Escritorio: conservar la composición panorámica */
+@media (min-width: 1024px) {
+
+    .movie-detail {
+        max-height: 97dvh;
+        padding: 18px;
+    }
+
+    .movie-detail-poster-container {
+    width: calc(100% + 36px);
+    height: clamp(280px, 34vh, 390px);
+    margin: -18px -18px 0;
+    aspect-ratio: auto;
+    overflow: hidden;
+}
+
+    .movie-detail-heading {
+        right: 20px;
+        bottom: 14px;
+        left: 20px;
+        margin: 0;
+    }
+
+    .movie-detail-heading h2 {
+        font-size: clamp(1.5rem, 2.2vw, 2.3rem);
+    }
+
+    .movie-detail-info {
+        padding-bottom: 4px;
+    }
+
+    .movie-detail-metadata {
+        margin-bottom: 6px;
+    }
+
+    .movie-detail-extra {
+        margin-bottom: 8px;
+    }
+
+    .movie-detail-trailer iframe {
+        max-width: 360px;
+    }
+}
+
+
+

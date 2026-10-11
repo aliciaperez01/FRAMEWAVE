@@ -208,6 +208,75 @@ button {
 }
 
 
+/* Igualar tamaño de los controles de películas */
+#genreFilterToggle,
+#verTodasPeliculas {
+    box-sizing: border-box;
+    min-height: 42px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+}
+
+
+
+/* =========================
+   FICHA · LEER MÁS / LEER MENOS
+========================= */
+
+.movie-detail-synopsis {
+    width: 100%;
+    min-width: 0;
+}
+
+
+.movie-detail-overview {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.movie-detail-overview.is-expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+
+.movie-detail-trailer {
+    margin-top: 8px;
+}
+
+
+.movie-detail-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: -30px 0 20px;
+    padding: 4px 0;
+    border: none;
+    background: transparent;
+    color: var(--secundario);
+    font-family: var(--fuente-texto);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.movie-detail-read-more:hover {
+    color: var(--oro);
+}
+
+.movie-detail-read-more:focus-visible {
+    outline: 1px solid var(--oro);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+.movie-detail-read-more[hidden] {
+    display: none;
+}
+
+
 
 
 

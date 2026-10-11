@@ -96,7 +96,7 @@ export async function abrirFicha(id) {
         document.getElementById("movieDetailTitle");
 
     const movieDetailFavorite =
-        document.getElementById("movieDetailFavorite");
+    document.getElementById("movieDetailFavorite");
 
     const movieDetailYear =
         document.getElementById("movieDetailYear");
@@ -104,8 +104,12 @@ export async function abrirFicha(id) {
     const movieDetailMeta =
         document.getElementById("movieDetailMeta");
 
+    
     const movieDetailOverview =
         document.getElementById("movieDetailOverview");
+
+    const movieDetailReadMore =
+        document.getElementById("movieDetailReadMore");
 
     const movieDetailExtra =
         document.getElementById("movieDetailExtra");
@@ -168,7 +172,7 @@ export async function abrirFicha(id) {
 
 
         /* =========================
-           INFORMACIÓN
+            INFORMACIÓN
         ========================= */
 
         if (movieDetailTitle) {
@@ -214,24 +218,72 @@ export async function abrirFicha(id) {
                 });
         }
 
-        if (movieDetailOverview) {
-            movieDetailOverview.textContent =
-                detalle.overview ||
-                "No hay descripción disponible.";
+        
+    /* =========================
+        SINOPSIS · LEER MÁS
+    ========================= */
+
+    if (movieDetailOverview) {
+        movieDetailOverview.textContent =
+            detalle.overview ||
+            "No hay descripción disponible.";
+
+        // Contraer la sinopsis al abrir cada película
+        movieDetailOverview.classList.remove("is-expanded");
+
+        if (movieDetailReadMore) {
+            movieDetailReadMore.hidden = true;
+            movieDetailReadMore.textContent = "Leer más ↓";
+
+            movieDetailReadMore.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            // Comprobar si el texto ocupa más de tres líneas
+            requestAnimationFrame(() => {
+                const necesitaDesplegar =
+                    movieDetailOverview.scrollHeight >
+                    movieDetailOverview.clientHeight + 1;
+
+                movieDetailReadMore.hidden =
+                    !necesitaDesplegar;
+            });
+
+            // Alternar entre sinopsis completa y contraída
+            movieDetailReadMore.onclick = () => {
+                const expandida =
+                    movieDetailOverview.classList.toggle(
+                        "is-expanded"
+                    );
+
+                movieDetailReadMore.textContent =
+                    expandida
+                        ? "Leer menos ↑"
+                        : "Leer más ↓";
+
+                movieDetailReadMore.setAttribute(
+                    "aria-expanded",
+                    String(expandida)
+                );
+            };
         }
+    }
+
+
+        
 
 
         /* =========================
-           FAVORITOS
+            FAVORITOS · FICHA DE PELÍCULA
         ========================= */
 
         if (movieDetailFavorite) {
+
             function actualizarCorazon() {
                 const favoritos = obtenerFavoritos();
 
-                const esFavorita = favoritos.includes(
-                    String(id)
-                );
+                const esFavorita = favoritos.includes(String(id));
 
                 movieDetailFavorite.textContent =
                     esFavorita ? "♥" : "♡";

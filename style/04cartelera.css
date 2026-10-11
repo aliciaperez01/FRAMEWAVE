@@ -213,7 +213,7 @@
     grid-auto-columns: 34vw;
     grid-template-rows: auto;
 
-    gap: 9px;
+    gap: 12px;
 
     width: 100%;
     min-width: 0;
@@ -221,7 +221,7 @@
     overflow-x: auto;
     overflow-y: hidden;
 
-    padding: 12px 6px 16px;
+    padding: 8px 6px 12px;
 
     scroll-padding-inline: 6px;
     scroll-snap-type: x proximity;
@@ -349,12 +349,12 @@
 #rejilla .card h3 {
     min-height: 0;
     margin: 0;
-    padding: 10px 2px 0;
+    padding: 8px 2px 0;
 
     color: var(--texto);
 
     font-family: var(--fuente-titulo);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 400;
     font-style: normal;
     line-height: 1.25;
@@ -397,12 +397,12 @@
 
 #rejilla .card p {
     margin: 0;
-    padding: 6px 2px 8px;
+    padding: 4px 2px 6px;
 
     color: var(--texto-secundario);
 
     font-family: var(--fuente-texto);
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 400;
     line-height: 1.5;
     letter-spacing: 0.12em;
@@ -522,7 +522,7 @@
 
 .carousel-arrow {
     position: absolute;
-    top: 38%;
+    top: 33%;
     z-index: 5;
 
     display: grid;
@@ -603,7 +603,7 @@
     width: 100%;
     max-width: 260px;
     height: 3px;
-    margin: 2px auto 0;
+    margin: 0 auto;
 
     overflow: hidden;
     border-radius: 999px;
@@ -857,6 +857,7 @@
 }
 
 
+
 /* ========================================
    14. ESCRITORIO
 ======================================== */
@@ -864,19 +865,19 @@
 @media (min-width: 1024px) {
 
     #rejilla:not(.ver-todas) {
-        grid-auto-columns: 230px;
-        gap: 38px;
-        padding: 24px 24px 35px;
-        scroll-padding-inline: 24px;
+        grid-auto-columns: 170px;
+        gap: 28px;
+        padding: 18px 20px 25px;
+        scroll-padding-inline: 20px;
     }
 
     #rejilla:not(.ver-todas) > .card {
-        width: 215px;
-        max-width: 215px;
+        width: 155px;
+        max-width: 155px;
     }
 
     #rejilla:not(.ver-todas) .card h3 {
-        font-size: clamp(1.05rem, 1.25vw, 1.22rem);
+        font-size: 0.95rem;
     }
 
     .carousel-arrow {
@@ -892,10 +893,7 @@
     .carousel-arrow--next {
         right: -12px;
     }
-
-    
 }
-
 
 /* ========================================
    15. RESPUESTA TÁCTIL

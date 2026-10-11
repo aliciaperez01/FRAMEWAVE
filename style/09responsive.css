@@ -81,8 +81,9 @@
 
     /* Cartelera */
 
+    
     #movies.section {
-        padding: 55px 14px 45px;
+        padding: 42px 14px 35px;
     }
 
     #movies .section-heading {
@@ -146,8 +147,13 @@
 
     /* Cartelera */
 
+    
     #movies .section-heading {
-        margin-bottom: 32px;
+        margin-bottom: 26px;
+    }
+
+    .section {
+        padding: 75px 40px;
     }
 
     #verTodasPeliculas {
@@ -169,12 +175,6 @@
         gap: clamp(8px, 1.4vw, 16px);
     }
 
-
-    /* Secciones */
-
-    .section {
-        padding: 100px 40px;
-    }
 
 
     /* Esfera de géneros */
@@ -276,8 +276,13 @@
 
     /* Secciones */
 
+    
     .section {
-        padding: 120px 80px;
+        padding: 90px 80px;
+    }
+
+    #movies .section-heading {
+        margin-bottom: 30px;
     }
 
 

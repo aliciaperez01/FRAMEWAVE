@@ -96,50 +96,85 @@
 
     <main>
 
-        <!-- HERO -->
+       
+    <!-- HERO -->
 
-        <section class="hero" id="inicio">
+    <section class="hero" id="inicio">
 
-            <div class="hero-description">
+        <div class="hero-description">
 
-                <span class="hero-kicker">
-                    cine · Cult &amp; alternativo
+            <span class="hero-kicker">
+                cine · Cult &amp; alternativo
+            </span>
+
+            <!-- Separador astral superior -->
+            <div class="hero-divider hero-divider-main" aria-hidden="true">
+                <span class="hero-divider-line"></span>
+
+                <span class="hero-star">
+                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M24 1 L28.5 19.5 L47 24 L28.5 28.5 L24 47 L19.5 28.5 L1 24 L19.5 19.5 Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            d="M24 10 L26 22 L38 24 L26 26 L24 38 L22 26 L10 24 L22 22 Z"
+                            fill="var(--fondo)"
+                            opacity="0.65"
+                        />
+                    </svg>
                 </span>
 
-                <span class="hero-dots" aria-hidden="true">···</span>
+                <span class="hero-divider-line"></span>
+            </div>
 
-                <h1>
-                    Una selección de lo <em>extraño,</em> lo singular
-                    y lo inolvidable.
-                </h1>
+            <h1>
+                Una selección de lo <em>extraño,</em> lo singular
+                y lo inolvidable.
+            </h1>
 
-                <span class="hero-text">
-                    Treinta y dos películas en los márgenes del cine.
-                    Otros mundos, lógica de sueños y miradas que no
-                    encajan en ninguna estantería.
+            <span class="hero-text">
+                Treinta y dos películas en los márgenes del cine.
+                Otros mundos, lógica de sueños y miradas que no
+                encajan en ninguna estantería.
+            </span>
+
+            <!-- Separador astral inferior -->
+            <div class="hero-divider hero-divider-small" aria-hidden="true">
+                <span class="hero-divider-line"></span>
+
+                <span class="hero-star">
+                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M24 1 L28.5 19.5 L47 24 L28.5 28.5 L24 47 L19.5 28.5 L1 24 L19.5 19.5 Z"
+                            fill="currentColor"
+                        />
+                    </svg>
                 </span>
 
-                <span class="hero-dots" aria-hidden="true">···</span>
-
+                <span class="hero-divider-line"></span>
             </div>
 
-            <div class="hero-background" aria-hidden="true">
-                <div class="hero-shape hero-shape-one"></div>
-                <div class="hero-shape hero-shape-two"></div>
-                <div class="hero-shape hero-shape-three"></div>
-            </div>
+        </div>
 
-            <div class="framewave" id="framewave">
-                <div class="framewave-full">
-                    <span class="framewave-word"></span>
+        <div class="hero-background" aria-hidden="true">
+            <div class="hero-shape hero-shape-one"></div>
+            <div class="hero-shape hero-shape-two"></div>
+            <div class="hero-shape hero-shape-three"></div>
+        </div>
 
-                    <div class="framewave-compact" aria-hidden="true">
-                        framewave<span>~</span>
-                    </div>
+        <div class="framewave" id="framewave">
+            <div class="framewave-full">
+                <span class="framewave-word"></span>
+
+                <div class="framewave-compact" aria-hidden="true">
+                    framewave<span>~</span>
                 </div>
             </div>
+        </div>
 
-        </section>
+    </section>
+
 
         <!-- PELÍCULAS -->
 
@@ -363,16 +398,6 @@
 
                         <h2 id="movieDetailTitle"></h2>
 
-                        <button
-                            id="movieDetailFavorite"
-                            class="favorite-button movie-detail-favorite"
-                            type="button"
-                            aria-label="Añadir a favoritas"
-                            aria-pressed="false"
-                        >
-                            ♡
-                        </button>
-
                     </div>
 
                     <div class="movie-detail-gallery">
@@ -407,9 +432,18 @@
                 <div class="movie-detail-info">
 
                     <div class="movie-detail-metadata">
-                        <span id="movieDetailYear"></span>
-                        <div id="movieDetailMeta"></div>
-                    </div>
+                    <span id="movieDetailYear"></span>
+                    <div id="movieDetailMeta"></div>
+
+                    <button
+                        id="movieDetailFavorite"
+                        class="favorite-button movie-detail-favorite"
+                        type="button"
+                        aria-label="Añadir a favoritas"
+                        aria-pressed="false"
+                    >
+                        ♡
+                    </button>
 
                     <div
                         id="movieDetailExtra"
@@ -420,6 +454,25 @@
                         id="movieDetailOverview"
                         class="movie-detail-overview"
                     ></p>
+
+                    
+                    <div class="movie-detail-synopsis">
+                        <p
+                            id="movieDetailOverview"
+                            class="movie-detail-overview"
+                        ></p>
+
+                        <button
+                            id="movieDetailReadMore"
+                            class="movie-detail-read-more"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="movieDetailOverview"
+                            hidden
+                        >
+                            Leer más ↓
+                        </button>
+                    </div>
 
                     <div
                         id="movieDetailTrailer"

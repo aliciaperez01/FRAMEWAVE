@@ -244,8 +244,8 @@ function actualizarTextoBoton(boton, rejilla) {
 
     boton.textContent = vistaCompleta
         ? idiomaActual === "en"
-            ? "Back to carousel"
-            : "Volver al carrusel"
+            ? "Back"
+            : "Volver"
         : idiomaActual === "en"
             ? "View all"
             : "Ver todo";
