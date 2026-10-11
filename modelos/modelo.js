@@ -12,9 +12,15 @@ export default class Pelicula {
 
     }
 
+    
     get posterUrl() {
         if (!this.poster) return null;
         return `https://image.tmdb.org/t/p/w342${this.poster}`;
+    }
+
+    get posterUrlGrande() {
+        if (!this.poster) return null;
+        return `https://image.tmdb.org/t/p/w780${this.poster}`;
     }
 
     static desdeTMDB({
@@ -33,7 +39,7 @@ export default class Pelicula {
         nota: vote_average,
         poster: poster_path,
         generos: genres.map(genero => genero.name)
-        
+
     });
 }
 
@@ -49,46 +55,60 @@ export default class Pelicula {
         );
     }
 
-    toCard() {
-        const card = document.createElement("article");
-        card.className = "card";
-        card.dataset.id = this.id;
+    
+toCard() {
+    const card = document.createElement("article");
+    card.className = "card";
+    card.dataset.id = this.id;
 
-        if (this.posterUrl) {
-            const img = document.createElement("img");
-            img.src = this.posterUrl;
-            img.alt = `Póster de ${this.titulo}`;
-            card.append(img);
-        }
+    // Accesibilidad y navegación por teclado
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute(
+        "aria-label",
+        `Ver detalles de ${this.titulo}, ${this.anio}`
+    );
 
-        const titulo = document.createElement("h3");
-        titulo.textContent = this.titulo;
+    if (this.posterUrl) {
+        const img = document.createElement("img");
+        img.src = this.posterUrl;
+        img.alt = `Póster de ${this.titulo}`;
+        img.loading = "lazy";
+        card.append(img);
+    }
 
-        const favorito = document.createElement("button");
-        favorito.className = "favorite-button";
-        favorito.type = "button";
+    const titulo = document.createElement("h3");
+    titulo.textContent = this.titulo;
 
+    const favorito = document.createElement("button");
+    favorito.className = "favorite-button";
+    favorito.type = "button";
+
+    Pelicula.pintarFavorito(
+        favorito,
+        this.titulo,
+        obtenerFavoritos().includes(String(this.id))
+    );
+
+    favorito.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        const esFavorita = alternarFavorito(this.id);
         Pelicula.pintarFavorito(
             favorito,
             this.titulo,
-            obtenerFavoritos().includes(String(this.id))
+            esFavorita
         );
+    });
 
-        favorito.addEventListener("click", (event) => {
-            event.stopPropagation();
-            const esFavorita = alternarFavorito(this.id);
-            Pelicula.pintarFavorito(favorito, this.titulo, esFavorita);
-        });
+    const fila = document.createElement("div");
+    fila.className = "card-title-row";
+    fila.append(titulo, favorito);
 
-        const fila = document.createElement("div");
-        fila.className = "card-title-row";
-        fila.append(titulo, favorito);
+    const info = document.createElement("p");
+    info.textContent = `${this.anio} · ${this.nota.toFixed(1)}`;
 
-        const info = document.createElement("p");
-        info.textContent = `${this.anio} · ${this.nota.toFixed(1)}`;
+    card.append(fila, info);
 
-        card.append(fila, info);
-
-        return card;
-    }
-}
+    return card;
+}}

@@ -4,11 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta
         name="description"
@@ -16,7 +12,7 @@
     >
 
     <title>FrameWave</title>
-    
+
     <link rel="stylesheet" href="./style/01style.css">
 </head>
 
@@ -41,27 +37,11 @@
             </button>
 
             <ul class="menu-list" id="menuList">
-
-                <li>
-                    <a href="#inicio">Inicio</a>
-                </li>
-
-                <li>
-                    <a href="#movies">Películas</a>
-                </li>
-
-                <li>
-                    <a href="#genres">Géneros</a>
-                </li>
-
-                <li>
-                    <a href="#favorites">Favoritas</a>
-                </li>
-
-                <li>
-                    <a href="#about">Sobre FrameWave</a>
-                </li>
-
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#movies">Películas</a></li>
+                <li><a href="#genres">Géneros</a></li>
+                <li><a href="#favorites">Favoritas</a></li>
+                <li><a href="#about">Sobre FrameWave</a></li>
             </ul>
 
         </nav>
@@ -69,14 +49,12 @@
         <div class="header-controls">
 
             <form class="search-form" id="searchForm">
-
                 <input
                     type="search"
                     id="searchInput"
                     placeholder="Buscar..."
                     aria-label="Buscar películas"
                 >
-
             </form>
 
             <p
@@ -128,9 +106,7 @@
                     cine · Cult &amp; alternativo
                 </span>
 
-                <span class="hero-dots" aria-hidden="true">
-                    ···
-                </span>
+                <span class="hero-dots" aria-hidden="true">···</span>
 
                 <h1>
                     Una selección de lo <em>extraño,</em> lo singular
@@ -143,35 +119,24 @@
                     encajan en ninguna estantería.
                 </span>
 
-                <span class="hero-dots" aria-hidden="true">
-                    ···
-                </span>
+                <span class="hero-dots" aria-hidden="true">···</span>
 
             </div>
 
             <div class="hero-background" aria-hidden="true">
-
                 <div class="hero-shape hero-shape-one"></div>
                 <div class="hero-shape hero-shape-two"></div>
                 <div class="hero-shape hero-shape-three"></div>
-
             </div>
 
             <div class="framewave" id="framewave">
-
                 <div class="framewave-full">
-
                     <span class="framewave-word"></span>
 
-                    <div
-                        class="framewave-compact"
-                        aria-hidden="true"
-                    >
+                    <div class="framewave-compact" aria-hidden="true">
                         framewave<span>~</span>
                     </div>
-
                 </div>
-
             </div>
 
         </section>
@@ -195,88 +160,52 @@
 
             </header>
 
-            
-        
+            <!-- CONTROLES DE CARTELERA -->
 
-<!-- CONTROLES DE CARTELERA -->
+            <div class="movies-toolbar">
 
-<div class="movies-toolbar">
+                <div
+                    class="genre-filter-dropdown"
+                    id="genreFilterDropdown"
+                >
 
-    <!-- FILTRO DESPLEGABLE DE GÉNEROS -->
-    <div class="genre-filter-dropdown" id="genreFilterDropdown">
+                    <button
+                        class="genre-filter-toggle"
+                        id="genreFilterToggle"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="genreFilters"
+                    >
+                        <span id="genreFilterLabel">Filtrar por género</span>
+                        <span class="genre-filter-chevron" aria-hidden="true">⌄</span>
+                    </button>
 
-        <button
-            class="genre-filter-toggle"
-            id="genreFilterToggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="genreFilters"
-        >
-            <span id="genreFilterLabel">Filtrar por género</span>
-            <span class="genre-filter-chevron" aria-hidden="true">⌄</span>
-        </button>
+                    <div
+                        class="genre-filters"
+                        id="genreFilters"
+                        aria-label="Filtrar películas por género"
+                        hidden
+                    >
+                        <button
+                            class="genre-filter is-active"
+                            type="button"
+                            data-genre="all"
+                            aria-pressed="true"
+                        >Todas</button>
 
-        <div
-            class="genre-filters"
-            id="genreFilters"
-            aria-label="Filtrar películas por género"
-            hidden
-        >
-                <button class="genre-filter is-active"
-                    type="button" data-genre="all" aria-pressed="true">
-                    Todas
-                </button>
+                        <button class="genre-filter" type="button" data-genre="Drama">Drama</button>
+                        <button class="genre-filter" type="button" data-genre="Terror">Terror</button>
+                        <button class="genre-filter" type="button" data-genre="Comedia">Comedia</button>
+                        <button class="genre-filter" type="button" data-genre="Romance">Romance</button>
+                        <button class="genre-filter" type="button" data-genre="Thriller">Thriller</button>
+                        <button class="genre-filter" type="button" data-genre="Misterio">Misterio</button>
+                        <button class="genre-filter" type="button" data-genre="Animación">Animación</button>
+                        <button class="genre-filter" type="button" data-genre="Crimen">Crimen</button>
+                    </div>
 
-                <button class="genre-filter"
-                    type="button" data-genre="Drama">
-                    Drama
-                </button>
+                </div>
 
-                <button class="genre-filter"
-                    type="button" data-genre="Terror">
-                    Terror
-                </button>
-
-                <button class="genre-filter"
-                    type="button" data-genre="Comedia">
-                    Comedia
-                </button>
-
-                <button class="genre-filter"
-                    type="button" data-genre="Romance">
-                    Romance
-                </button>
-
-                <button class="genre-filter"
-                    type="button" data-genre="Thriller">
-                    Thriller
-                </button>
-
-                <button class="genre-filter"
-                    type="button" data-genre="Misterio">
-                    Misterio
-                </button>
-
-                <button class="genre-filter"
-                    type="button" data-genre="Aventura">
-                    Aventura
-                </button>
-
-                <button class="genre-filter"
-                    type="button" data-genre="Animación">
-                    Animación
-                </button>
-
-                <button class="genre-filter"
-                    type="button" data-genre="Crimen">
-                    Crimen
-                </button>
             </div>
-
-        </div>
-
-    </div>
-
 
             <div class="movies-carousel">
 
@@ -313,8 +242,6 @@
                 <span id="moviesProgress"></span>
             </div>
 
-
-
         </section>
 
         <!-- GÉNEROS -->
@@ -329,14 +256,11 @@
 
                 <h2>Géneros</h2>
 
-                <p>
-                    Cada género, otros mundos.
-                </p>
+                <p>Cada género, otros mundos.</p>
 
             </header>
 
             <div class="genres-list">
-
                 <a href="#">Ciencia ficción</a>
                 <a href="#">Fantástico</a>
                 <a href="#">Horror</a>
@@ -345,7 +269,6 @@
                 <a href="#">Surrealismo</a>
                 <a href="#">Romance</a>
                 <a href="#">Experimental</a>
-
             </div>
 
         </section>
@@ -362,9 +285,7 @@
 
                 <h2>Favoritas</h2>
 
-                <p>
-                    Tu selección durante esta sesión.
-                </p>
+                <p>Tu selección durante esta sesión.</p>
 
             </header>
 
@@ -384,9 +305,7 @@
 
                 <h2>Sobre FrameWave</h2>
 
-                <p>
-                    Películas que miran el mundo desde otro lugar.
-                </p>
+                <p>Películas que miran el mundo desde otro lugar.</p>
 
             </header>
 
@@ -427,103 +346,98 @@
                 ×
             </button>
 
+            <div class="movie-detail-content">
 
-        <div class="movie-detail-content">
+                <div class="movie-detail-visual">
 
-            <div class="movie-detail-visual">
+                    <div class="movie-detail-poster-container">
+                        <img
+                            id="movieDetailPoster"
+                            class="movie-detail-poster"
+                            src=""
+                            alt=""
+                        >
+                    </div>
 
-                <div class="movie-detail-poster-container">
+                    <div class="movie-detail-heading movie-detail-heading-overlay">
 
-                    <img
-                        id="movieDetailPoster"
-                        class="movie-detail-poster"
-                        src=""
-                        alt=""
-                    >
+                        <h2 id="movieDetailTitle"></h2>
+
+                        <button
+                            id="movieDetailFavorite"
+                            class="favorite-button movie-detail-favorite"
+                            type="button"
+                            aria-label="Añadir a favoritas"
+                            aria-pressed="false"
+                        >
+                            ♡
+                        </button>
+
+                    </div>
+
+                    <div class="movie-detail-gallery">
+
+                        <button
+                            id="galleryPrev"
+                            class="gallery-button"
+                            type="button"
+                            aria-label="Imagen anterior"
+                            hidden
+                        >‹</button>
+
+                        <span
+                            id="galleryCounter"
+                            class="gallery-counter"
+                            aria-live="polite"
+                            hidden
+                        ></span>
+
+                        <button
+                            id="galleryNext"
+                            class="gallery-button"
+                            type="button"
+                            aria-label="Imagen siguiente"
+                            hidden
+                        >›</button>
+
+                    </div>
 
                 </div>
 
-                <div class="movie-detail-gallery">
+                <div class="movie-detail-info">
 
-                    <button
-                        id="galleryPrev"
-                        class="gallery-button"
-                        type="button"
-                        aria-label="Imagen anterior"
-                        hidden
-                    >
-                        ‹
-                    </button>
+                    <div class="movie-detail-metadata">
+                        <span id="movieDetailYear"></span>
+                        <div id="movieDetailMeta"></div>
+                    </div>
 
-                    <span
-                        id="galleryCounter"
-                        class="gallery-counter"
-                        aria-live="polite"
-                        hidden
-                    ></span>
+                    <div
+                        id="movieDetailExtra"
+                        class="movie-detail-extra"
+                    ></div>
 
-                    <button
-                        id="galleryNext"
-                        class="gallery-button"
-                        type="button"
-                        aria-label="Imagen siguiente"
-                        hidden
-                    >
-                        ›
-                    </button>
+                    <p
+                        id="movieDetailOverview"
+                        class="movie-detail-overview"
+                    ></p>
+
+                    <div
+                        id="movieDetailTrailer"
+                        class="movie-detail-trailer"
+                    ></div>
 
                 </div>
 
             </div>
 
-            
-        <div class="movie-detail-info">
-
-            <div class="movie-detail-heading">
-                <h2 id="movieDetailTitle"></h2>
-
-                <button
-                    id="movieDetailFavorite"
-                    class= "favorite-button movie-detail-favorite"
-                    type="button"
-                    aria-label="Añadir a favoritas"
-                    aria-pressed="false"
-                >
-                    ♡
-                </button>
-            </div>
-
-            <div class="movie-detail-metadata">
-                <span id="movieDetailYear"></span>
-                <div id="movieDetailMeta"></div>
-            </div>
-
-            <div
-                id="movieDetailExtra"
-                class="movie-detail-extra"
-            ></div>
-
-            <p
-                id="movieDetailOverview"
-                class="movie-detail-overview"
-            ></p>
-
-            <div
-                id="movieDetailTrailer"
-                class="movie-detail-trailer"
-            ></div>
-
-        </div>
-
+        </section>
 
     </main>
 
-    <!-- PIE DE PÁGINA -->
+    <!--FOOTER -->
 
     <footer class="footer">
-
         <p>© 2026 FrameWave</p>
-
     </footer>
 
     <!-- JAVASCRIPT -->
@@ -531,5 +445,4 @@
     <script type="module" src="js/cartelera.js"></script>
 
 </body>
-
 </html>

@@ -46,10 +46,11 @@ export function mostrarGaleriaFotogramas(fotogramas, detalle) {
         }
 
 
+        
         const fotograma = galeria[indiceFotograma];
 
         movieDetailPoster.src =
-            `https://image.tmdb.org/t/p/w780${fotograma.file_path}`;
+            `https://image.tmdb.org/t/p/original${fotograma.file_path}`;
 
         movieDetailPoster.alt =
             `Fotograma ${indiceFotograma + 1} de ${detalle.title}`;

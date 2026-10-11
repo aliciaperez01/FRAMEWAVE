@@ -1,5 +1,4 @@
 
-
 import {
     obtenerFavoritos,
     alternarFavorito
@@ -13,20 +12,85 @@ import {
     mostrarGaleriaFotogramas
 } from "./fotogramas.js";
 
+
+/* =========================
+   ESTADO DE LA FICHA
+========================= */
+
+let scrollAnterior = 0;
+
+const movieModal =
+    document.getElementById("movieDetail");
+
+const movieDetailClose =
+    document.getElementById("movieDetailClose");
+
+
+/* =========================
+   CAPA EXTERIOR DE LA FICHA
+========================= */
+
+let movieDetailOverlay = null;
+let movieDetailBackdrop = null;
+
+function prepararCapaFicha() {
+    if (!movieModal) return;
+
+    // Evitar crear la capa más de una vez
+    if (movieDetailOverlay) return;
+
+    movieDetailOverlay = document.createElement("div");
+    movieDetailOverlay.className = "movie-detail-overlay";
+
+    movieDetailBackdrop = document.createElement("div");
+    movieDetailBackdrop.className = "movie-detail-backdrop";
+
+    movieDetailBackdrop.setAttribute("aria-hidden", "true");
+
+    movieDetailOverlay.appendChild(movieDetailBackdrop);
+
+    /*
+       Mover la ficha directamente al body evita que
+       un contenedor padre limite su z-index.
+    */
+    document.body.appendChild(movieDetailOverlay);
+    movieDetailOverlay.appendChild(movieModal);
+
+    // Cerrar al pulsar el fondo
+    movieDetailBackdrop.addEventListener(
+        "click",
+        cerrarFicha
+    );
+
+    // También cerrar si se pulsa el espacio exterior
+    movieDetailOverlay.addEventListener(
+        "click",
+        (event) => {
+            if (event.target === movieDetailOverlay) {
+                cerrarFicha();
+            }
+        }
+    );
+}
+
+// Preparar la capa cuando se carga este módulo
+prepararCapaFicha();
+
+
 /* =========================
    FICHA TÉCNICA
 ========================= */
 
 export async function abrirFicha(id) {
-    const movieModal =
-        document.getElementById("movieDetail");
-
     if (!movieModal) {
         console.error(
             'No se encuentra el elemento HTML "#movieDetail".'
         );
         return;
     }
+
+    // Asegurar que la capa está preparada
+    prepararCapaFicha();
 
     const movieDetailTitle =
         document.getElementById("movieDetailTitle");
@@ -49,12 +113,27 @@ export async function abrirFicha(id) {
     const movieDetailTrailer =
         document.getElementById("movieDetailTrailer");
 
+
     /* =========================
        ABRIR LA FICHA
     ========================= */
 
+    if (!movieModal.classList.contains("is-open")) {
+        // Guardar la posición real antes de bloquear el scroll
+        scrollAnterior = window.scrollY;
+
+        document.body.style.position = "fixed";
+        document.body.style.top = `-${scrollAnterior}px`;
+        document.body.style.left = "0";
+        document.body.style.right = "0";
+        document.body.style.width = "100%";
+    }
+
+    movieDetailOverlay.classList.add("is-open");
     movieModal.classList.add("is-open");
+
     movieModal.setAttribute("aria-hidden", "false");
+
 
     try {
         const {
@@ -69,6 +148,7 @@ export async function abrirFicha(id) {
                 "No se han recibido los detalles de la película."
             );
         }
+
 
         /* =========================
            GALERÍA DE FOTOGRAMAS
@@ -85,6 +165,7 @@ export async function abrirFicha(id) {
                 error
             );
         }
+
 
         /* =========================
            INFORMACIÓN
@@ -126,7 +207,9 @@ export async function abrirFicha(id) {
                 .filter(Boolean)
                 .forEach(texto => {
                     const elemento = document.createElement("span");
+
                     elemento.textContent = texto;
+
                     movieDetailExtra.append(elemento);
                 });
         }
@@ -136,6 +219,7 @@ export async function abrirFicha(id) {
                 detalle.overview ||
                 "No hay descripción disponible.";
         }
+
 
         /* =========================
            FAVORITOS
@@ -177,6 +261,7 @@ export async function abrirFicha(id) {
                 actualizarCorazon();
             };
         }
+
 
         /* =========================
            TRÁILER
@@ -220,6 +305,7 @@ export async function abrirFicha(id) {
                 enlace.target = "_blank";
                 enlace.rel = "noopener noreferrer";
                 enlace.className = "movie-trailer-link";
+
                 enlace.textContent = "Ver tráiler en YouTube ↗";
 
                 movieDetailTrailer.replaceChildren(enlace);
@@ -244,39 +330,57 @@ export async function abrirFicha(id) {
     }
 }
 
+
 /* =========================
    CERRAR FICHA
 ========================= */
 
-const movieModal = document.getElementById("movieDetail");
-
-const movieDetailClose =
-    document.getElementById("movieDetailClose");
-
 function cerrarFicha() {
-    if (!movieModal) return;
+    if (!movieModal?.classList.contains("is-open")) {
+        return;
+    }
+
+    const posicionGuardada = scrollAnterior;
+
+    // Quitar el foco antes de ocultar la ficha
+    movieDetailClose?.blur();
 
     movieModal.classList.remove("is-open");
     movieModal.setAttribute("aria-hidden", "true");
 
-    movieDetailClose?.blur();
+    movieDetailOverlay?.classList.remove("is-open");
+
+    // Restaurar los estilos originales del body
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+
+    // Restaurar el scroll después de desbloquear la página
+    document.documentElement.style.scrollBehavior = "auto";
+
+    requestAnimationFrame(() => {
+        window.scrollTo(0, posicionGuardada);
+
+        requestAnimationFrame(() => {
+            document.documentElement.style.scrollBehavior = "";
+        });
+    });
 }
 
+
+/* =========================
+   EVENTOS DE CIERRE
+========================= */
+
+// Cerrar con la X
 movieDetailClose?.addEventListener(
     "click",
     cerrarFicha
 );
 
-/* Cerrar al pulsar el fondo */
-
-movieModal?.addEventListener("click", (event) => {
-    if (event.target === movieModal) {
-        cerrarFicha();
-    }
-});
-
-/* Cerrar con Escape */
-
+// Cerrar con Escape
 document.addEventListener("keydown", (event) => {
     if (
         event.key === "Escape" &&

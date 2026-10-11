@@ -1,14 +1,19 @@
 
+/* ═══════════════════════════════════════
+   FRAMEWAVE · CARTELERA
+   MOBILE FIRST
+═══════════════════════════════════════ */
 
 
-/* =========================
-   CONTROLES DE CARTELERA
-========================= */
+/* ========================================
+   1. CONTROLES DE CARTELERA
+======================================== */
 
 .movies-toolbar {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 12px;
     margin-bottom: 28px;
 }
@@ -26,21 +31,34 @@
     margin: 0 12px 0 auto;
 }
 
+/* Filtro desplegable de géneros */
 
 .genre-filter-toggle {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
+
     padding: 11px 16px;
+
     border: 1px solid var(--borde);
     border-radius: 999px;
-    background: var(--superficie);
+
+    background-color: var(--superficie);
     color: var(--texto);
+
     font-family: var(--fuente-texto);
     font-size: 0.9rem;
+    line-height: 1.3;
+
     cursor: pointer;
-    transition: border-color 0.3s ease, color 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+
+    transition:
+        border-color 0.3s ease,
+        color 0.3s ease,
+        background-color 0.3s ease;
 }
 
 .genre-filter-toggle:hover,
@@ -48,8 +66,14 @@
     border-color: var(--oro);
 }
 
+.genre-filter-toggle:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 3px;
+}
+
 .genre-filter-chevron {
     display: inline-block;
+    flex-shrink: 0;
     transition: transform 0.3s ease;
 }
 
@@ -57,29 +81,44 @@
     transform: rotate(180deg);
 }
 
+/* Panel desplegable */
+
 .genre-filters[hidden] {
     display: none;
 }
 
 .genre-filters:not([hidden]) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
     position: absolute;
     z-index: 20;
     top: calc(100% + 10px);
     left: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    box-sizing: border-box;
     width: min(340px, calc(100vw - 40px));
+    max-height: 60vh;
     padding: 14px;
+
+    overflow-y: auto;
+
     border: 1px solid var(--borde);
     border-radius: 16px;
-    background: var(--superficie);
+
+    background-color: var(--superficie);
+
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 }
 
-/* =========================
-   FILTROS DE GÉNERO
-========================= */
+
+/* ========================================
+   2. FILTROS DE GÉNERO
+======================================== */
 
 .genre-filters {
     display: flex;
@@ -91,12 +130,16 @@
 
 .genre-filter {
     padding: 9px 16px;
+
     border: 1px solid var(--borde);
     border-radius: 999px;
-    background: transparent;
+
+    background-color: transparent;
     color: var(--texto-secundario);
+
     font-family: var(--fuente-texto);
     font-size: 0.85rem;
+
     cursor: pointer;
 
     transition:
@@ -114,7 +157,7 @@
 
 .genre-filter.is-active {
     border-color: var(--principal);
-    background: var(--principal);
+    background-color: var(--principal);
     color: var(--texto);
 }
 
@@ -124,28 +167,67 @@
 }
 
 
+/* ========================================
+   3. CARRUSEL · BASE MÓVIL
+======================================== */
 
-/* =========================
-   PELÍCULAS — CARRUSEL
-========================= */
+.movies-carousel {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    min-width: 0;
+}
+
+/* Resplandor ambiental */
+
+.movies-carousel::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    top: 8%;
+    left: 8%;
+    width: 84%;
+    height: 70%;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 30% 45%,
+            rgba(113, 59, 89, 0.13),
+            transparent 65%
+        ),
+        radial-gradient(
+            ellipse at 75% 55%,
+            rgba(168, 117, 150, 0.08),
+            transparent 60%
+        );
+
+    filter: blur(32px);
+}
 
 #rejilla {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: clamp(155px, 52vw, 210px);
+    grid-auto-columns: 34vw;
     grid-template-rows: auto;
 
-    gap: 22px;
+    gap: 9px;
+
     width: 100%;
     min-width: 0;
 
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 24px 8px 35px;
 
-    scroll-padding-inline: 8px;
-    scroll-snap-type: x mandatory;
+    padding: 12px 6px 16px;
+
+    scroll-padding-inline: 6px;
+    scroll-snap-type: x proximity;
     scroll-behavior: smooth;
+    scroll-snap-stop: normal;
+
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -156,43 +238,102 @@
 }
 
 
-/* =========================
-   TARJETAS DE PELÍCULAS
-========================= */
+/* ========================================
+   4. TARJETAS DE PELÍCULAS
+======================================== */
 
-#rejilla .card {
+#rejilla > .card {
     position: relative;
-    width: 195px;
+
+    width: 100%;
     min-width: 0;
-    max-width: 180px;
-    justify-self: center;
+    max-width: none;
+
+    justify-self: stretch;
     align-self: start;
+
     overflow: visible;
+    isolation: isolate;
+
     background: transparent;
     border: none;
+    border-radius: 5px;
+
     cursor: pointer;
     scroll-snap-align: center;
+
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+
     transition:
         transform 0.5s ease,
         opacity 0.5s ease,
         filter 0.5s ease;
+
     animation: cardAppear 0.8s ease backwards;
     animation-delay: calc(var(--i, 0) * 0.08s);
 }
 
+/* Halo ambiental detrás del póster */
 
-#rejilla .card img {
+#rejilla > .card::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    inset: 8% -5% 12%;
+
+    border-radius: 12px;
+
+    background: radial-gradient(
+        ellipse at center,
+        var(--secundario),
+        transparent 70%
+    );
+
+    opacity: 0.12;
+    filter: blur(24px);
+
+    transition:
+        opacity 0.55s ease,
+        transform 0.55s ease;
+
+    pointer-events: none;
+}
+
+/* Póster */
+
+#rejilla > .card img {
+    position: relative;
     display: block;
+
     width: 100%;
     height: auto;
     aspect-ratio: 2 / 3;
+
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 5px;
 
     box-shadow:
-        0 10px 24px rgba(0, 0, 0, 0.20),
-        0 20px 42px rgba(0, 0, 0, 0.12),
-        0 0 24px rgba(113, 59, 89, 0.10);
+        0 12px 25px rgba(0, 0, 0, 0.20),
+        0 24px 45px rgba(0, 0, 0, 0.12),
+        0 0 0 1px var(--borde);
+
+    backface-visibility: hidden;
+
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 90%,
+        rgba(0, 0, 0, 0.96) 100%
+    );
+
+    mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 90%,
+        rgba(0, 0, 0, 0.96) 100%
+    );
 
     transition:
         transform 0.55s ease,
@@ -201,148 +342,166 @@
 }
 
 
-/* =========================
-   TEXTO DE LAS TARJETAS
-========================= */
+/* ========================================
+   5. TEXTO DE LAS TARJETAS
+======================================== */
 
 #rejilla .card h3 {
     min-height: 0;
-    padding: 12px 2px 0;
     margin: 0;
+    padding: 10px 2px 0;
 
     color: var(--texto);
+
     font-family: var(--fuente-titulo);
-    font-size: clamp(1.05rem, 1.2vw, 1.2rem);
+    font-size: 0.9rem;
     font-weight: 400;
+    font-style: normal;
     line-height: 1.25;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.025em;
 
     text-wrap: pretty;
+    overflow-wrap: break-word;
+
     transition:
         color 0.4s ease,
         transform 0.4s ease,
         opacity 0.4s ease;
 }
 
-/* Pequeño acento dorado */
+/* Línea editorial */
+
 #rejilla .card h3::before {
     content: "";
     display: block;
-    width: 24px;
-    height: 1px;
-    margin-bottom: 9px;
 
-    background: var(--oro);
-    opacity: 0.55;
+    width: 22px;
+    height: 1px;
+    margin-bottom: 8px;
+
+    background: linear-gradient(
+        90deg,
+        var(--oro),
+        var(--secundario)
+    );
+
+    opacity: 0.7;
+    transform-origin: left center;
 
     transition:
-        width 0.4s ease,
+        width 0.45s ease,
         opacity 0.4s ease;
 }
 
 /* Año de estreno */
+
 #rejilla .card p {
-    padding: 8px 2px 10px;
     margin: 0;
+    padding: 6px 2px 8px;
 
     color: var(--texto-secundario);
+
     font-family: var(--fuente-texto);
-    font-size: 0.72rem;
+    font-size: 0.62rem;
     font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: 0.16em;
+    line-height: 1.5;
+    letter-spacing: 0.12em;
+
+    opacity: 0.8;
 
     transition:
+        color 0.4s ease,
         opacity 0.4s ease,
         transform 0.4s ease;
 }
 
 
-#rejilla:has(.card:hover) .card:not(:hover) h3,
-#rejilla:has(.card:hover) .card:not(:hover) p {
-    opacity: 0.82;
+/* ========================================
+   6. INTERACCIÓN DE LAS TARJETAS
+======================================== */
+
+@media (hover: hover) and (pointer: fine) {
+
+    #rejilla > .card:hover {
+        position: relative;
+        z-index: 2;
+        transform: translateY(-7px) scale(1.025);
+    }
+
+    #rejilla > .card:hover img {
+        transform: translateY(-2px);
+
+        filter: brightness(1.06) contrast(1.035) saturate(1.06);
+
+        box-shadow:
+            0 18px 35px rgba(0, 0, 0, 0.28),
+            0 30px 55px rgba(0, 0, 0, 0.17),
+            0 0 25px rgba(113, 59, 89, 0.20),
+            0 0 0 1px var(--borde);
+    }
+
+    #rejilla > .card:hover::before {
+        opacity: 0.32;
+        transform: scale(1.08);
+    }
+
+    #rejilla > .card:hover h3 {
+        color: var(--oro);
+        transform: translateX(4px);
+    }
+
+    #rejilla > .card:hover h3::before {
+        width: 45px;
+        opacity: 1;
+    }
+
+    #rejilla > .card:hover p {
+        color: var(--texto);
+        opacity: 0.95;
+        transform: translateX(4px);
+    }
+
+    #rejilla:has(> .card:hover) > .card:not(:hover) {
+        opacity: 0.82;
+        filter: saturate(0.88);
+        transform: scale(0.985);
+    }
+
+    #rejilla:has(> .card:hover) > .card:not(:hover) h3,
+    #rejilla:has(> .card:hover) > .card:not(:hover) p {
+        opacity: 0.88;
+    }
 }
 
 
+/* ========================================
+   7. ACCESIBILIDAD DE TARJETAS
+======================================== */
 
-/* =========================
-   INTERACCIÓN DE TARJETAS
-========================= */
-
-/* Profundidad del póster */
-#rejilla .card:hover img {
-    transform: scale(1.035) translateY(-3px);
-    filter: brightness(1.08) contrast(1.04);
-
-    box-shadow:
-        0 18px 34px rgba(0, 0, 0, 0.28),
-        0 28px 55px rgba(0, 0, 0, 0.18),
-        0 0 32px rgba(113, 59, 89, 0.22);
+#rejilla > .card:focus {
+    outline: none;
 }
 
-/* Realce del título */
-#rejilla .card:hover h3 {
-    color: var(--oro);
-    transform: translateX(4px);
-}
-
-/* Expansión del acento dorado */
-#rejilla .card:hover h3::before {
-    width: 45px;
-    opacity: 1;
-}
-
-/* Desplazamiento sutil del año */
-#rejilla .card:hover p {
-    transform: translateX(4px);
-}
-
-/* Atenuar las tarjetas vecinas */
-
-#rejilla:has(.card:hover) .card:not(:hover) {
-    opacity: 0.72;
-    filter: saturate(0.82);
-    transform: scale(0.97);
-}
-
-#rejilla .card:hover {
+#rejilla > .card:focus-visible {
     position: relative;
-    z-index: 2;
-    transform: translateY(-7px) scale(1.015);
-}
+    z-index: 3;
 
-
-/* =========================
-   ACCESIBILIDAD DE TARJETAS
-========================= */
-
-#rejilla .card-open {
-    all: unset;
-    cursor: pointer;
-}
-
-#rejilla .card-open::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-}
-
-#rejilla .card:has(.card-open:focus-visible) {
-    outline: 2px solid var(--oro);
-    outline-offset: 6px;
-}
-
-#rejilla:focus-visible {
     outline: 2px solid var(--oro);
     outline-offset: 5px;
+    border-radius: 5px;
+}
+
+#rejilla > .card:focus-visible img {
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.25),
+        0 0 0 1px var(--oro),
+        0 0 22px rgba(184, 154, 90, 0.2);
 }
 
 
-
-
-/* =========================
-   ANIMACIÓN DE ENTRADA
-========================= */
+/* ========================================
+   8. ANIMACIÓN DE ENTRADA
+======================================== */
 
 @keyframes cardAppear {
     from {
@@ -357,132 +516,95 @@
 }
 
 
-/* Respetar las preferencias de movimiento */
-
-@media (prefers-reduced-motion: reduce) {
-    #rejilla {
-        scroll-behavior: auto;
-    }
-
-    .card {
-        animation: none;
-        transition: none;
-    }
-
-    .card img,
-    .card h3,
-    .card p {
-        transition: none;
-    }
-}
-
-
-/* =========================
-   CONTROLES DEL CARRUSEL
-========================= */
-
-
-.movies-carousel {
-    position: relative;
-    isolation: isolate;
-    width: 100%;
-}
-
-/* Resplandor ambiental cinematográfico */
-.movies-carousel::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 8%;
-    left: 8%;
-    width: 84%;
-    height: 70%;
-    pointer-events: none;
-    background:
-        radial-gradient(
-            ellipse at 30% 45%,
-            rgba(113, 59, 89, 0.16),
-            transparent 65%
-        ),
-        radial-gradient(
-            ellipse at 75% 55%,
-            rgba(168, 117, 150, 0.10),
-            transparent 60%
-        );
-    filter: blur(28px);
-}
-
-/* Flechas */
+/* ========================================
+   9. FLECHAS DEL CARRUSEL
+======================================== */
 
 .carousel-arrow {
     position: absolute;
     top: 38%;
     z-index: 5;
+
     display: grid;
     place-items: center;
-    width: 42px;
-    height: 42px;
+
+    width: 32px;
+    height: 32px;
     padding: 0;
 
     color: var(--texto);
-    font-size: 1.35rem;
-    background: var(--superficie);
-    border: 1px solid var(--borde);
+    font-family: var(--fuente-texto);
+    font-size: 1rem;
+    line-height: 1;
+
+    background-color: var(--superficie);
+    border: 1px solid var(--secundario);
     border-radius: 50%;
 
     cursor: pointer;
-    opacity: 0.85;
+    opacity: 1;
 
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    box-shadow:
+        0 5px 16px rgba(0, 0, 0, 0.22),
+        0 0 0 3px rgba(113, 59, 89, 0.12);
 
     transition:
         color 0.3s ease,
-        background 0.3s ease,
+        background-color 0.3s ease,
         border-color 0.3s ease,
         transform 0.3s ease,
         opacity 0.3s ease,
         box-shadow 0.3s ease;
 }
 
-.carousel-arrow:hover:not(:disabled) {
-    color: var(--oro);
-    background: var(--superficie);
-    border-color: var(--oro);
-    transform: scale(1.08);
-    opacity: 1;
-    box-shadow: 0 0 22px rgba(184, 154, 90, 0.12);
-}
-
 .carousel-arrow--prev {
-    left: 4px;
+    left: 1px;
 }
 
 .carousel-arrow--next {
-    right: 4px;
+    right: 1px;
 }
 
+.carousel-arrow:hover:not(:disabled) {
+    color: var(--fondo);
+    background-color: var(--oro);
+    border-color: var(--oro);
+    transform: scale(1.08);
+
+    box-shadow:
+        0 8px 26px rgba(0, 0, 0, 0.25),
+        0 0 0 5px rgba(184, 154, 90, 0.12),
+        0 0 28px rgba(184, 154, 90, 0.28);
+}
 
 .carousel-arrow:disabled {
-    opacity: 0.25;
+    color: var(--texto-secundario);
+    background-color: var(--superficie);
+    border-color: var(--borde);
+    opacity: 0.38;
     cursor: default;
+    box-shadow: none;
 }
 
 .carousel-arrow:focus-visible {
     outline: 2px solid var(--oro);
-    outline-offset: 4px;
+    outline-offset: 5px;
 }
 
 
-/* Indicador de progreso */
+/* ========================================
+   10. INDICADOR DE PROGRESO
+======================================== */
 
 .carousel-progress {
     width: 100%;
-    max-width: 240px;
-    height: 2px;
+    max-width: 260px;
+    height: 3px;
     margin: 2px auto 0;
+
     overflow: hidden;
     border-radius: 999px;
     background: var(--borde);
@@ -490,33 +612,233 @@
 
 .carousel-progress span {
     display: block;
+
     width: 0;
     height: 100%;
+
     border-radius: inherit;
+
     background: linear-gradient(
         90deg,
         var(--principal),
+        var(--secundario),
         var(--oro)
     );
-    box-shadow: 0 0 10px rgba(184, 154, 90, 0.25);
+
+    box-shadow:
+        0 0 8px rgba(168, 117, 150, 0.25),
+        0 0 14px rgba(184, 154, 90, 0.18);
+
     transition: width 0.25s ease;
 }
 
-/* En escritorio, las flechas quedan fuera de los pósteres */
 
-@media (min-width: 1024px) {
-    .carousel-arrow--prev {
-        left: -12px;
-    }
+/* ========================================
+   11. BOTÓN VER TODAS LAS PELÍCULAS
+======================================== */
 
-    .carousel-arrow--next {
-        right: -12px;
+.view-all-button,
+#verTodasPeliculas {
+    display: block;
+    position: relative;
+    flex-shrink: 0;
+
+    margin: 0 8px 0 auto;
+    padding: 10px 20px;
+
+    border: 1px solid var(--secundario);
+    border-radius: 30px;
+
+    background-color: transparent;
+    color: var(--texto);
+
+    font-family: var(--fuente-texto);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+
+    cursor: pointer;
+
+    transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.view-all-button:hover,
+#verTodasPeliculas:hover {
+    color: var(--fondo);
+    background-color: var(--secundario);
+    border-color: var(--secundario);
+    transform: translateY(-2px);
+}
+
+.view-all-button:focus-visible,
+#verTodasPeliculas:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 4px;
+}
+
+
+
+
+/* ========================================
+   12. VISTA COMPLETA DE CARTELERA
+======================================== */
+
+/* Base móvil: tres columnas */
+
+#rejilla.ver-todas {
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 20px 8px;
+
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+    overflow-y: visible;
+
+    padding: 12px 0 24px;
+
+    scroll-snap-type: none;
+}
+
+#rejilla.ver-todas > .card {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+
+    justify-self: stretch;
+    align-self: start;
+
+    scroll-snap-align: none;
+}
+
+#rejilla.ver-todas > .card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+}
+
+/* Texto compacto en móvil */
+
+#rejilla.ver-todas .card h3 {
+    padding: 7px 0 0;
+    font-size: 0.72rem;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+#rejilla.ver-todas .card h3::before {
+    width: 16px;
+    margin-bottom: 6px;
+}
+
+#rejilla.ver-todas .card p {
+    padding: 5px 0 6px;
+    font-size: 0.55rem;
+    letter-spacing: 0.04em;
+}
+
+/* Evitar que el hover atenúe las demás tarjetas */
+
+@media (hover: hover) and (pointer: fine) {
+    #rejilla.ver-todas:has(> .card:hover) > .card:not(:hover) {
+        opacity: 1;
+        filter: none;
+        transform: none;
     }
 }
 
-/* En móvil, botones algo más compactos */
+/* Tablet */
 
-@media (max-width: 599px) {
+@media (min-width: 600px) {
+    #rejilla.ver-todas {
+        grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+        gap: 30px 20px;
+        padding: 20px 8px 35px;
+    }
+
+    #rejilla.ver-todas > .card {
+        max-width: 165px;
+        justify-self: center;
+    }
+
+    #rejilla.ver-todas .card h3 {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+
+    #rejilla.ver-todas .card p {
+        font-size: 0.62rem;
+        letter-spacing: 0.12em;
+    }
+}
+
+/* Escritorio */
+
+@media (min-width: 1024px) {
+    #rejilla.ver-todas {
+        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+        gap: 38px 26px;
+    }
+
+    #rejilla.ver-todas > .card {
+        max-width: 175px;
+    }
+
+    #rejilla.ver-todas .card h3 {
+        font-size: 1rem;
+    }
+}
+
+
+/* ========================================
+   13. TABLET
+======================================== */
+
+@media (min-width: 600px) {
+
+    .genre-filters:not([hidden]) {
+        width: min(380px, calc(100vw - 48px));
+    }
+
+    #rejilla:not(.ver-todas) {
+        grid-auto-columns: 230px;
+        gap: 32px;
+        padding: 22px 16px 30px;
+        scroll-padding-inline: 16px;
+    }
+
+    #rejilla:not(.ver-todas) > .card {
+        width: 205px;
+        max-width: 205px;
+    }
+
+    #rejilla:not(.ver-todas) .card h3 {
+        padding-top: 13px;
+        font-size: clamp(1rem, 1.25vw, 1.15rem);
+        line-height: 1.3;
+    }
+
+    #rejilla:not(.ver-todas) .card h3::before {
+        width: 28px;
+        margin-bottom: 10px;
+    }
+
+    #rejilla:not(.ver-todas) .card p {
+        padding: 8px 2px 10px;
+        font-size: 0.7rem;
+        letter-spacing: 0.19em;
+    }
+
     .carousel-arrow {
         width: 36px;
         height: 36px;
@@ -524,111 +846,107 @@
     }
 
     .carousel-arrow--prev {
-        left: 2px;
+        left: 4px;
     }
 
     .carousel-arrow--next {
-        right: 2px;
+        right: 4px;
+    }
+
+    
+}
+
+
+/* ========================================
+   14. ESCRITORIO
+======================================== */
+
+@media (min-width: 1024px) {
+
+    #rejilla:not(.ver-todas) {
+        grid-auto-columns: 230px;
+        gap: 38px;
+        padding: 24px 24px 35px;
+        scroll-padding-inline: 24px;
+    }
+
+    #rejilla:not(.ver-todas) > .card {
+        width: 215px;
+        max-width: 215px;
+    }
+
+    #rejilla:not(.ver-todas) .card h3 {
+        font-size: clamp(1.05rem, 1.25vw, 1.22rem);
+    }
+
+    .carousel-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 1.3rem;
+    }
+
+    .carousel-arrow--prev {
+        left: -12px;
+    }
+
+    .carousel-arrow--next {
+        right: -12px;
+    }
+
+    
+}
+
+
+/* ========================================
+   15. RESPUESTA TÁCTIL
+======================================== */
+
+@media (hover: none) {
+
+    #rejilla > .card:active {
+        transform: scale(0.97);
+        transition-duration: 0.12s;
+    }
+
+    #rejilla > .card:active img {
+        filter: brightness(0.88);
+    }
+}
+
+
+/* ========================================
+   16. MOVIMIENTO REDUCIDO
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #rejilla {
+        scroll-behavior: auto;
+    }
+
+    #rejilla > .card,
+    #rejilla > .card img,
+    #rejilla > .card::before,
+    #rejilla .card h3,
+    #rejilla .card h3::before,
+    #rejilla .card p,
+    .genre-filter-toggle,
+    .genre-filter-chevron,
+    .genre-filter,
+    .carousel-arrow,
+    .carousel-progress span,
+    .view-all-button,
+    #verTodasPeliculas {
+        animation: none;
+        transition: none;
+    }
+
+    #rejilla > .card:active {
+        transform: none;
     }
 }
 
 
 
-/* =========================
-   TAMAÑO DE LAS PELÍCULAS
-========================= */
 
-/* Carrusel: tarjetas más compactas */
-
-#rejilla > .card {
-    width: 195px;
-    min-width: 0;
-    max-width: 195px;
-    justify-self: center;
-}
-
-/* Mantener la proporción de los carteles */
-
-#rejilla > .card img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
-}
-
-
-
-/* =========================
-   BOTÓN VER TODO
-========================= */
-
-.view-all-button,
-#verTodasPeliculas {
-    display: block;
-    position: relative;
-    flex-shrink: 0;
-    margin: 0 8px 0 auto;
-    padding: 10px 20px;
-    border: 1px solid var(--secundario);
-    border-radius: 30px;
-    background: transparent;
-    color: var(--texto);
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition:
-        color 0.3s ease,
-        background 0.3s ease,
-        border-color 0.3s ease,
-        transform 0.3s ease;
-}
-
-.view-all-button:hover {
-    color: var(--fondo);
-    background: var(--secundario);
-    border-color: var(--secundario);
-    transform: translateY(-2px);
-}
-
-
-/* =========================
-   VISTA COMPLETA
-========================= */
-
-#rejilla.ver-todas {
-    display: grid;
-
-    grid-auto-flow: row;
-    grid-auto-columns: auto;
-    grid-template-columns:
-        repeat(auto-fill, minmax(125px, 1fr));
-
-    gap: 32px 20px;
-
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: visible;
-
-    padding: 20px 8px 35px;
-}
-
-#rejilla.ver-todas > .card {
-    width: 100%;
-    min-width: 0;
-    max-width: 155px;
-
-    justify-self: center;
-    align-self: start;
-}
-
-/* Carteles de la cuadrícula */
-
-#rejilla.ver-todas > .card img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
-}
 

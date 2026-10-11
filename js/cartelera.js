@@ -368,38 +368,60 @@ window.addEventListener(
     actualizarFavoritas
 );
 
+
 /* =========================
    ABRIR FICHA AL PULSAR TARJETA
 ========================= */
 
-document.addEventListener("click", (event) => {
-    if (!(event.target instanceof Element)) return;
+function gestionarAperturaFicha(event) {
+        if (!(event.target instanceof Element)) return;
 
-    const card = event.target.closest(".card");
+        const card = event.target.closest(".card");
 
-    if (!card) return;
+        if (!card) return;
 
-    if (event.target.closest(".favorite-button")) {
-        return;
+        // El botón de favoritos mantiene su propio comportamiento
+        if (event.target.closest(".favorite-button")) {
+            return;
+        }
+
+        const id = card.dataset.id;
+
+        if (!id) {
+            console.error("La tarjeta no tiene data-id.");
+            return;
+        }
+
+        abrirFicha(id).catch((error) => {
+            console.error("Fallo al ejecutar abrirFicha:", error);
+        });
     }
 
-    const id = card.dataset.id;
+            // Abrir con ratón o pantalla táctil
+            document.addEventListener("click", gestionarAperturaFicha);
 
-    console.log("Clic en película:", {
-        card,
-        id,
-        movieDetail: document.getElementById("movieDetail")
+            // Abrir con Enter o barra espaciadora
+            document.addEventListener("keydown", (event) => {
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+        if (!(event.target instanceof Element)) return;
+
+        const card = event.target.closest(".card");
+
+        if (!card) return;
+
+        // No interferir con botones ni otros controles
+        if (
+            event.target.closest(
+                "button, a, input, textarea, select, [contenteditable='true']"
+            )
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+        gestionarAperturaFicha(event);
     });
-
-    if (!id) {
-        console.error("La tarjeta no tiene data-id.");
-        return;
-    }
-
-    abrirFicha(id).catch((error) => {
-        console.error("Fallo al ejecutar abrirFicha:", error);
-    });
-});
 
 /* =========================
    INICIAR FRAMEWAVE

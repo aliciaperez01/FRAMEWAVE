@@ -200,50 +200,69 @@ export function iniciarInterfaz({
 
 
     
+    
+/* =========================
+   CARRUSEL DE PELÍCULAS
+========================= */
+
+const moviesGrid = document.getElementById("rejilla");
+const moviesPrev = document.getElementById("moviesPrev");
+const moviesNext = document.getElementById("moviesNext");
+const moviesProgress = document.getElementById("moviesProgress");
+
+if (moviesGrid && moviesPrev && moviesNext) {
+
+    let animacionCarrusel = null;
+
     /* =========================
-       CARRUSEL DE PELÍCULAS
+       ACTUALIZAR EL CARRUSEL
     ========================= */
 
-    const moviesGrid = document.getElementById("rejilla");
-    const moviesPrev = document.getElementById("moviesPrev");
-    const moviesNext = document.getElementById("moviesNext");
-    const moviesProgress = document.getElementById("moviesProgress");
+    function actualizarCarrusel() {
+        const maxScroll =
+            moviesGrid.scrollWidth - moviesGrid.clientWidth;
 
-    if (moviesGrid && moviesPrev && moviesNext) {
+        const posicion = moviesGrid.scrollLeft;
 
-        function actualizarCarrusel() {
-            const maxScroll =
-                moviesGrid.scrollWidth - moviesGrid.clientWidth;
+        moviesPrev.disabled = posicion <= 2;
+        moviesNext.disabled = posicion >= maxScroll - 2;
 
-            const posicion = moviesGrid.scrollLeft;
+        if (moviesProgress) {
+            const progreso = maxScroll > 0
+                ? (posicion / maxScroll) * 100
+                : 100;
 
-            moviesPrev.disabled = posicion <= 2;
-            moviesNext.disabled = posicion >= maxScroll - 2;
-
-            if (moviesProgress) {
-                const progreso =
-                    maxScroll > 0
-                        ? (posicion / maxScroll) * 100
-                        : 100;
-
-                moviesProgress.style.width = `${progreso}%`;
-            }
+            moviesProgress.style.width = `${progreso}%`;
         }
+    }
 
-        function moverCarrusel(direccion) {
-            const tarjeta = moviesGrid.querySelector(".card");
+    /* =========================
+       MOVER EL CARRUSEL
+    ========================= */
+    
+    function moverCarrusel(direccion) {
+        const tarjeta = moviesGrid.querySelector(".card");
 
-            if (!tarjeta) return;
+        if (!tarjeta) return;
 
-            const estilos = getComputedStyle(moviesGrid);
-            const espacio = parseFloat(estilos.columnGap) || 0;
-            const distancia = tarjeta.getBoundingClientRect().width + espacio;
+        const estilos = getComputedStyle(moviesGrid);
+        const espacio = parseFloat(estilos.columnGap) || 0;
 
-            moviesGrid.scrollBy({
-                left: distancia * direccion,
-                behavior: "smooth"
-            });
-        }
+        const distancia =
+            tarjeta.getBoundingClientRect().width + espacio;
+
+        const destino =
+            moviesGrid.scrollLeft + distancia * direccion;
+
+        moviesGrid.scrollTo({
+            left: destino,
+            behavior: "smooth"
+        });
+    }
+
+    /* =========================
+        EVENTOS DE LAS FLECHAS
+    ========================= */
 
         moviesPrev.addEventListener("click", () => {
             moverCarrusel(-1);
@@ -253,18 +272,26 @@ export function iniciarInterfaz({
             moverCarrusel(1);
         });
 
-        moviesGrid.addEventListener("scroll", actualizarCarrusel, {
-            passive: true
-        });
+    /* =========================
+        EVENTOS DE ACTUALIZACIÓN
+    ========================= */
 
-        window.addEventListener("resize", actualizarCarrusel);
+        moviesGrid.addEventListener(
+            "scroll",
+            actualizarCarrusel,
+            { passive: true }
+        );
 
-        /*
-         * Las películas se cargan después desde TMDB.
-         * Observamos los cambios para actualizar las flechas.
-         */
+        window.addEventListener(
+            "resize",
+            actualizarCarrusel
+        );
 
-        const observer = new MutationObserver(() => {
+    /* =========================
+        OBSERVAR CAMBIOS EN LAS TARJETAS
+    ========================= */
+
+    const observer = new MutationObserver(() => {
             requestAnimationFrame(actualizarCarrusel);
         });
 
@@ -273,7 +300,7 @@ export function iniciarInterfaz({
         });
 
         actualizarCarrusel();
-    }
+    }    
 
 
     /* =========================

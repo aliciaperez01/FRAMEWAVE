@@ -8,7 +8,35 @@
 export function iniciarAnimaciones() {
 
 
-        /* =========================
+    
+    /* =========================
+       CREAR BURBUJAS DEL FONDO
+    ========================= */
+
+    const pageBackground = document.querySelector(".page-background");
+
+    if (pageBackground && !pageBackground.querySelector(".page-bubble")) {
+        const bubbles = [
+            "bubble-one",
+            "bubble-two",
+            "bubble-three",
+            "bubble-four",
+            "bubble-five",
+            "bubble-six"
+        ];
+
+        bubbles.forEach((bubbleClass) => {
+            const bubble = document.createElement("div");
+
+            bubble.classList.add("page-bubble", bubbleClass);
+            bubble.setAttribute("aria-hidden", "true");
+
+            pageBackground.appendChild(bubble);
+        });
+    }
+
+
+    /* =========================
        SCROLL + HERO
     ========================= */
 
@@ -34,18 +62,15 @@ export function iniciarAnimaciones() {
                 1 - Math.min(progress * 1.8, 1);
         }
 
+        
         /* Movimiento del logo */
-        if (!framewave) return;
-
-                /* Movimiento del logo */
-
         if (!framewave) return;
 
         let scale;
         let vertical;
 
-        if (window.innerWidth <= 600) {
-            // Móvil: el logo sube hasta quedarse en la barra de navegación
+        if (window.innerWidth <= 1023) {
+            // Móvil y tablet: el logo termina centrado en la navegación
             scale = 1 - progress * 0.35;
 
             const nav = document.querySelector(".navigation");
@@ -61,22 +86,16 @@ export function iniciarAnimaciones() {
 
             framewave.style.transform =
                 `translate(-50%, ${vertical}px) scale(${scale})`;
+
             return;
         }
 
-        if (window.innerWidth <= 900) {
-            // Tablet
-            scale = 1 - progress * 0.45;
-            vertical = progress * window.innerHeight * 0.17;
-        } else {
-            // Escritorio
-            scale = 1 - progress * 0.40;
-            vertical = progress * window.innerHeight * 0.19;
-        }
+        // Escritorio: conservar el movimiento actual
+        scale = 1 - progress * 0.40;
+        vertical = progress * window.innerHeight * 0.19;
 
         framewave.style.transform =
             `translate(-50%, ${-vertical}px) scale(${scale})`;
-    
     }
 
     let pendiente = false;

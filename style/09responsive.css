@@ -1,12 +1,13 @@
 
 /* ═══════════════════════════════════════
    FRAMEWAVE · DISEÑO RESPONSIVE
-   ═══════════════════════════════════════ */
+   Mobile first
+═══════════════════════════════════════ */
 
 
-/* =========================
-   NAVEGACIÓN · MÓVIL Y TABLET
-========================= */
+/* ========================================
+   1. NAVEGACIÓN · MÓVIL Y TABLET
+======================================== */
 
 @media (max-width: 1023px) {
 
@@ -24,23 +25,24 @@
     }
 
     .navigation .menu-list.is-open {
+        position: absolute;
+        z-index: 110;
+        top: calc(100% + 20px);
+        left: -18px;
+
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 26px;
 
-        position: absolute;
-        top: calc(100% + 20px);
-        left: -18px;
-        z-index: 110;
-
         width: max-content;
         min-width: 190px;
+        max-width: calc(100vw - 32px);
+        box-sizing: border-box;
         margin: 0;
         padding: 30px 38px;
 
-        border: none;
-        outline: none;
+        border: 1px solid var(--borde);
         border-radius: 35% 25% 32% 22% / 18% 24% 20% 28%;
 
         background:
@@ -49,81 +51,79 @@
                 rgba(168, 117, 150, 0.16),
                 transparent 65%
             ),
-            rgba(13, 16, 24, 0.82);
-
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+            var(--superficie);
 
         box-shadow:
             0 15px 45px rgba(0, 0, 0, 0.16),
             0 0 35px rgba(113, 59, 89, 0.08);
 
         text-align: center;
+
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+
         animation: menuAppear 0.55s ease both;
         transform-origin: top left;
     }
 
+    .navigation .menu-list.is-open a {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
 }
 
 
-/* =========================
-   RESPONSIVE · MÓVIL
-========================= */
+/* ========================================
+   2. MÓVIL · HASTA 599 PX
+======================================== */
 
 @media (max-width: 599px) {
 
     /* Cartelera */
 
+    #movies.section {
+        padding: 55px 14px 45px;
+    }
+
+    #movies .section-heading {
+        margin-bottom: 18px;
+    }
+
     #verTodasPeliculas {
-        margin-top: 20px;
+        margin-top: 12px;
     }
 
-    
-    /* Cartelera · Carrusel compacto en móvil */
-
-    #rejilla {
-        grid-auto-columns: min(42vw, 165px);
-        gap: 12px;
-        padding-inline: 8px;
-    }
-
-    #rejilla .card {
-        width: 100%;
-        max-width: 165px;
-    }
-
-    .carousel-arrow {
-        width: 36px;
-        height: 36px;
-        font-size: 1.15rem;
-    }
-
-    .carousel-arrow--prev {
-        left: 2px;
-    }
-
-    .carousel-arrow--next {
-        right: 2px;
-    }
 
     /* Favoritas */
 
     #favoritesGrid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 40px 20px;
+        gap: 32px 14px;
     }
+
 
     /* Secciones */
 
     .section {
-        padding: 80px 20px;
+        padding: 60px 18px;
     }
+
+
+    /* Esfera de géneros */
+
+    .genres-list {
+        --spread: 0.7;
+    }
+
 
     /* Ficha de película */
 
     .movie-detail {
+        box-sizing: border-box;
         width: 94vw;
+        max-width: 94vw;
         max-height: 88vh;
+        max-height: 88dvh;
         padding: 16px;
         border-radius: 16px;
     }
@@ -135,32 +135,25 @@
     .movie-detail-poster-container > .movie-detail-poster {
         object-position: center 25%;
     }
-
 }
 
 
-/* =========================
-   RESPONSIVE · TABLET
-========================= */
+/* ========================================
+   3. TABLET · 600 A 1023 PX
+======================================== */
 
 @media (min-width: 600px) and (max-width: 1023px) {
 
     /* Cartelera */
 
-    #rejilla {
-        grid-auto-columns: 230px;
-        gap: 32px;
-        padding-inline: 16px;
-    }
-
-    #rejilla > .card {
-        width: 205px;
-        max-width: 205px;
+    #movies .section-heading {
+        margin-bottom: 32px;
     }
 
     #verTodasPeliculas {
         margin-right: 12px;
     }
+
 
     /* Favoritas */
 
@@ -169,11 +162,13 @@
         gap: 45px 28px;
     }
 
-    /* Controles */
+
+    /* Controles generales */
 
     .controls {
         gap: clamp(8px, 1.4vw, 16px);
     }
+
 
     /* Secciones */
 
@@ -181,11 +176,13 @@
         padding: 100px 40px;
     }
 
+
     /* Esfera de géneros */
 
     .genres-list {
         --spread: 0.8;
     }
+
 
     /* Ficha de película */
 
@@ -196,13 +193,12 @@
     .movie-detail-poster-container > .movie-detail-poster {
         object-position: center 35%;
     }
-
 }
 
 
-/* =========================
-   RESPONSIVE · ESCRITORIO
-========================= */
+/* ========================================
+   4. ESCRITORIO · DESDE 1024 PX
+======================================== */
 
 @media (min-width: 1024px) {
 
@@ -218,20 +214,22 @@
 
     .navigation .menu-list,
     .navigation .menu-list.is-open {
+        position: static;
+
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
         gap: 42px;
 
-        position: static;
         width: auto;
         min-width: 0;
+        max-width: none;
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
 
         border: none;
-        outline: none;
         border-radius: 0;
 
         background: transparent;
@@ -260,22 +258,13 @@
         letter-spacing: 0.04em;
     }
 
+
     /* Cartelera */
-
-    #rejilla {
-        grid-auto-columns: 230px;
-        gap: 38px;
-        padding-inline: 24px;
-    }
-
-    #rejilla > .card {
-        width: 215px;
-        max-width: 215px;
-    }
 
     #verTodasPeliculas {
         margin-right: 12px;
     }
+
 
     /* Favoritas */
 
@@ -284,13 +273,15 @@
         gap: 50px 30px;
     }
 
+
     /* Secciones */
 
     .section {
         padding: 120px 80px;
     }
 
-    /* Controles del carrusel */
+
+    /* Flechas del carrusel */
 
     .carousel-arrow--prev {
         left: -12px;
@@ -299,58 +290,76 @@
     .carousel-arrow--next {
         right: -12px;
     }
-
 }
 
 
-/* =========================
-   VISTA COMPLETA DE CARTELERA
-========================= */
+/* ========================================
+   5. VISTA COMPLETA DE CARTELERA
+   Independiente del carrusel
+======================================== */
 
-/* Tablet */
+/* Móvil: tres columnas */
 
-@media (min-width: 600px) {
+@media (max-width: 599px) {
 
     #rejilla.ver-todas {
-        grid-template-columns:
-            repeat(auto-fill, minmax(135px, 1fr));
-
-        gap: 36px 24px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px 8px;
+        padding: 12px 0 24px;
     }
 
     #rejilla.ver-todas > .card {
-        max-width: 165px;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        justify-self: stretch;
+    }
+}
+
+
+/* Tablet */
+
+@media (min-width: 600px) and (max-width: 1023px) {
+
+    #rejilla.ver-todas {
+        grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+        gap: 30px 20px;
     }
 
+    #rejilla.ver-todas > .card {
+        width: 100%;
+        max-width: 165px;
+    }
 }
+
 
 /* Escritorio */
 
 @media (min-width: 1024px) {
 
     #rejilla.ver-todas {
-        grid-template-columns:
-            repeat(auto-fill, minmax(145px, 1fr));
-
-        gap: 42px 28px;
+        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+        gap: 38px 26px;
     }
 
     #rejilla.ver-todas > .card {
         max-width: 175px;
     }
-
 }
 
 
-/* =========================
-   MOVIMIENTO REDUCIDO
-========================= */
+/* ========================================
+   6. ACCESIBILIDAD · MOVIMIENTO REDUCIDO
+======================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
-    html {
+    html,
+    #rejilla {
         scroll-behavior: auto;
     }
+
+    /* Fondo y elementos animados */
 
     .page-bubble,
     .background-shape,
@@ -366,12 +375,40 @@
         transform: none;
     }
 
+    /* Controles y navegación */
+
     .menu-button,
     .control-button,
     .menu-button::after,
     .control-button::after,
-    .theme-icon {
+    .theme-icon,
+    .menu-list a,
+    .gallery-button {
         transition: none;
     }
 
+    /* Aparición de secciones */
+
+    .section-heading.reveal {
+        transition: none;
+    }
+
+    /* Cartas y elementos interactivos */
+
+    #rejilla > .card,
+    #rejilla > .card img,
+    #rejilla > .card::before,
+    #rejilla > .card h3,
+    #rejilla > .card h3::after,
+    .carousel-arrow,
+    .carousel-progress-bar,
+    .filter-button,
+    .filter-toggle,
+    .sort-button,
+    .view-all-button,
+    #verTodas,
+    .movie-detail {
+        animation: none;
+        transition: none;
+    }
 }
