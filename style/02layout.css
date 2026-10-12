@@ -808,6 +808,7 @@
 }
 
 
+
 /* =========================
    LOGOTIPO COMPACTO
 ========================= */
@@ -815,7 +816,7 @@
 .framewave-compact {
     display: block;
     max-width: 100vw;
-    color: var(--texto);
+    color: #70445F;
     font-family: var(--fuente-titulo);
     font-size: clamp(2.1rem, 7.5vw, 6rem);
     font-weight: 600;
@@ -823,16 +824,44 @@
     letter-spacing: 0.025em;
     white-space: nowrap;
     font-variation-settings: var(--variacion-titulo);
+
     text-shadow:
         0 1px 1px rgba(20, 10, 25, 0.12),
         0 4px 14px rgba(20, 10, 25, 0.08);
 }
 
+/* Virgulilla · verde salvia */
 .framewave-compact span {
     display: inline-block;
-    color: inherit;
+    color: #718675;
     transform: translateY(0.08em);
 }
+
+/* =========================
+   MODO OSCURO
+========================= */
+
+:root:not(.light-mode) .framewave-compact {
+    color: #F0E8D8;
+}
+
+:root:not(.light-mode) .framewave-compact span {
+    color: #A87596;
+}
+
+/* =========================
+   MODO CLARO
+========================= */
+
+:root.light-mode .framewave-compact {
+    color: #70445F;
+}
+
+:root.light-mode .framewave-compact span {
+    color: #718675;
+}
+
+
 
 
 

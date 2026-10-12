@@ -107,6 +107,9 @@ font-display: swap;
 --fuente-titulo: "Fraunces", serif;
 --fuente-texto: "Space Grotesk", sans-serif;
 --variacion-titulo: "opsz" 72, "SOFT" 70, "WONK" 1;
+
+/* 11 · favoritos · ficha de pelicula */
+--ficha-corazon-oscuro: #E8DCE7;
  
 
 }
@@ -162,6 +165,9 @@ font-display: swap;
 --salvia-filtro-sombra: rgba(82, 109, 88, 0.22);
 --salvia-panel: rgba(243, 240, 232, 0.97);
 --salvia-panel-borde: rgba(91, 117, 96, 0.28);
+
+/* favoritos · ficha de pelicula */
+--ficha-corazon-claro: var(--c-salvia-profunda);
  
 /* Superficies y textos */
     --fondo: #F3F0E8;
@@ -448,6 +454,7 @@ border-color: var(--principal);
 -webkit-text-fill-color: #FFFFFF;
 }
 
+
 /* Indicador de progreso */
 
 :root.light-mode .carousel-progress {
@@ -550,6 +557,8 @@ transform: scale(1.08);
 :root.light-mode #favoritesGrid .favorite-button:focus-visible {
 outline-color: var(--principal);
 }
+
+
 
 /* =======================================================
 15 · TEMA CLARO · GÉNEROS
@@ -716,34 +725,7 @@ outline: 2px solid var(--principal);
 outline-offset: 3px;
 }
 
-/* Botón de favoritos de la ficha */
 
-:root.light-mode .movie-detail-favorite {
-background: transparent;
-border: none;
-box-shadow: none;
-}
-
-:root.light-mode .movie-detail-favorite.is-favorite,
-:root.light-mode .movie-detail-favorite[aria-pressed="true"] {
-color: var(--principal);
-filter: none;
-}
-
-/* Controles de galería de la ficha */
-
-:root.light-mode #galleryPrev,
-:root.light-mode #galleryNext {
-background: rgba(243, 240, 232, 0.92);
-border-color: var(--salvia-borde);
-color: var(--texto);
-}
-
-:root.light-mode #galleryPrev:hover,
-:root.light-mode #galleryNext:hover {
-background: var(--c-salvia-clara);
-border-color: var(--c-salvia);
-}
 
 /* =======================================================
 18 · TEMA CLARO · GALERÍA DE FOTOGRAMAS
@@ -793,28 +775,41 @@ opacity: 1;
 
 }
 
-/* Flechas del carrusel de fotogramas */
+/* =========================
+   GALERÍA · MODO CLARO
+========================= */
 
-:root.light-mode .frames-arrow {
-color: var(--galeria-texto);
-background: rgba(228, 232, 222, 0.96);
-border-color: var(--galeria-borde);
+:root.light-mode #galleryPrev,
+:root.light-mode #galleryNext {
+    color: var(--galeria-texto);
+    background: var(--galeria-superficie);
+    border-color: var(--galeria-borde);
 
- 
-box-shadow:
-    0 4px 18px rgba(48, 43, 48, 0.10),
-    0 0 20px var(--salvia-reflejo);
- 
-
+    box-shadow:
+        0 4px 18px rgba(48, 43, 48, 0.08),
+        0 0 16px var(--salvia-reflejo);
 }
 
 /* Hover */
+:root.light-mode #galleryPrev:hover,
+:root.light-mode #galleryNext:hover {
+    color: #FFFFFF;
+    background: var(--c-salvia-profunda);
+    border-color: var(--c-salvia-profunda);
 
-:root.light-mode .frames-arrow:hover {
-background: var(--c-salvia);
-color: #FFFFFF;
-border-color: var(--c-salvia);
+    box-shadow:
+        0 0 18px var(--salvia-sombra),
+        0 0 28px var(--salvia-reflejo);
 }
+
+/* Foco accesible */
+:root.light-mode #galleryPrev:focus-visible,
+:root.light-mode #galleryNext:focus-visible {
+    outline-color: var(--c-salvia-profunda);
+}
+
+
+
 
 /* Estados ocultos */
 

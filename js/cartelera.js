@@ -15,59 +15,50 @@ import { iniciarAnimaciones } from "./animaciones.js";
    Orden cromático de carteles
 ========================= */
 
-export const peliculasFrameWave = [
+export const peliculasFrameWave = 
 
-    // 01 · AZULES, NEGROS Y NOCTURNOS
-    "Under The Skin",
-    "Enter the Void",
-    "Mulholland Drive",
-    "Fallen Angels",
-    "Lost in Translation",
-    "A Scanner Darkly",
-    "Waking Life",
-    "Air Doll",
-
-    // 02 · VERDES, TURQUESAS Y TONOS FRÍOS
-    "La Belle Verte",
-    "El Atlas de las Nubes",
-    "La forma del agua",
-    "The Lobster",
+[
+    "La acompañante",
+    "The Neon Demon",
+    "The Love Witch",
+    "La hermanastra fea",
+    "Poor Things",
+    "Black Swan",
+    "The Substance",
+    "Byzantium",
+    "Crimson Peak",
+    "Solo los amantes sobreviven",
+    "Abierto Hasta El Amanecer",
     "The Lure",
-    "The VVitch",
-    "Breathing In",
-    "Mārama",
-
-    // 03 · TIERRA, GRISES Y TONOS URBANOS
+    "El Quinto Elemento",
+    "Big Fish",
+    "El Imaginario del Doctor Parnassus",
+    "Don't Worry Darling",
+    "La favorita",
+    "La cura del bienestar",
+    "El laberinto del fauno",
     "Gummo",
     "Trainspotting",
     "Athena",
-    "La acompañante",
-    "Don't Worry Darling",
     "Being John Malkovich",
     "Holy Motors",
-    "La favorita",
-
-    // 04 · AMARILLOS, OCRES Y TONOS DORADOS
-    "El Quinto Elemento",
-    "Big Fish",
-    "Poor Things",
-    "El Imaginario del Doctor Parnassus",
-    "La hermanastra fea",
-    "La cura del bienestar",
-    "Abierto Hasta El Amanecer",
-    "The Love Witch",
-
-    // 05 · NARANJAS, ROJOS Y TONOS CÁLIDOS
-    "The Substance",
-    "Crimson Peak",
-    "Byzantium",
-    "Solo los amantes sobreviven",
-
-    // 06 · ROSAS, VIOLETAS Y CONTRASTES
-    "The Neon Demon",
-    "Black Swan",
     "Gaua",
-];
+    "La forma del agua",
+    "El Atlas de las Nubes",
+    "La Belle Verte",
+    "The Lobster",
+    "Breathing In",
+    "Mārama",
+    "The VVitch",
+    "Waking Life",
+    "A Scanner Darkly",
+    "Lost in Translation",
+    "Fallen Angels",
+    "Mulholland Drive",
+    "Enter the Void",
+    "Air Doll",
+    "Under The Skin",
+]
 
 /* =========================
    ESTADO DE LA CARTELERA

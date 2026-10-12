@@ -1,9 +1,11 @@
 
 
+/* =========================
+   FOTOGRAMAS · HOVER
+========================= */
 
 .frames-arrow:hover {
     opacity: 1;
-
     color: var(--texto);
     background: rgba(113, 59, 89, 0.72);
     border-color: rgba(184, 154, 90, 0.65);
@@ -15,11 +17,28 @@
     transform: translateY(-50%) scale(1.08);
 }
 
+/* Hover · modo claro */
+:root.light-mode .frames-arrow:hover {
+    color: var(--c-salvia-profunda);
+    background: var(--salvia-superficie);
+    border-color: var(--borde-salvia);
+
+    box-shadow:
+        0 0 18px var(--salvia-sombra),
+        0 0 28px var(--salvia-reflejo);
+}
+
+/* Foco accesible */
 .frames-arrow:focus-visible {
     outline: 2px solid var(--enfasis);
     outline-offset: 4px;
 }
 
+:root.light-mode .frames-arrow:focus-visible {
+    outline-color: var(--c-salvia-profunda);
+}
+
+/* Desactivada */
 .frames-arrow:disabled {
     opacity: 0.25;
     cursor: default;
@@ -27,7 +46,6 @@
 }
 
 /* Posición lateral */
-
 .frames-arrow--prev {
     left: 12px;
 }
@@ -35,4 +53,30 @@
 .frames-arrow--next {
     right: 12px;
 }
+
+
+/* =========================
+   FOTOGRAMAS · FLECHAS
+   MODO CLARO
+========================= */
+
+:root.light-mode .frames-arrow:hover {
+    color: var(--texto);
+    background: var(--salvia-superficie);
+    border-color: var(--borde-salvia);
+
+    box-shadow:
+        0 0 18px var(--salvia-sombra),
+        0 0 28px var(--salvia-reflejo);
+
+    transform: translateY(-50%) scale(1.08);
+}
+
+:root.light-mode .frames-arrow:focus-visible {
+    outline-color: var(--c-salvia-profunda);
+}
+
+
+
+
 

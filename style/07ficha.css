@@ -66,6 +66,15 @@
     display: none;
 }
 
+/* ========================= 
+    FICHA · MODO CLARO 
+=========================  */
+
+:root.light-mode .movie-detail { 
+    border: none; 
+    outline: none; 
+}
+
 /* =========================
    FICHA · ADAPTACIÓN RESPONSIVE
 ========================= */
@@ -538,55 +547,85 @@
 }
 
 /* =========================
-   FAVORITOS · ESTILO DELICADO
+   FAVORITOS · FICHA
 ========================= */
 
-.movie-detail-favorite,
-.movie-detail-heading .movie-detail-favorite {
-    color: #E8DCE7;
+/* Estilo base */
+.movie-detail .movie-detail-favorite {
+    color: var(--ficha-corazon-oscuro);
+    -webkit-text-fill-color: currentColor;
     background: transparent;
     border: none;
+    outline: none;
     box-shadow: none;
+    text-shadow: none;
+    filter: none;
+
     font-size: 1.5rem;
+
     transition:
         color 0.3s ease,
         transform 0.3s ease,
         filter 0.3s ease;
 }
 
-/* Contorno en reposo */
-
-.movie-detail-favorite:not(.is-favorite) {
-    color: #E8DCE7;
+/* Modo oscuro */
+:root:not(.light-mode) .movie-detail .movie-detail-favorite {
+    color: var(--ficha-corazon-oscuro);
 }
 
-/* Hover discreto */
-
-.movie-detail-favorite:hover {
-    color: #D7B7D0;
+/* Modo claro */
+:root.light-mode .movie-detail .movie-detail-favorite {
+    color: var(--ficha-corazon-claro);
+    -webkit-text-fill-color: currentColor;
     background: transparent;
     border: none;
+    outline: none;
     box-shadow: none;
+    text-shadow: none;
+    filter: none;
+}
+
+/* Hover · modo oscuro */
+:root:not(.light-mode) .movie-detail .movie-detail-favorite:hover {
+    color: #D7B7D0;
     transform: scale(1.07);
 }
 
-/* Favorito activo */
+/* Hover · modo claro */
+:root.light-mode .movie-detail .movie-detail-favorite:hover {
+    color: var(--ficha-corazon-claro);
+    transform: scale(1.07);
+}
 
-.movie-detail-favorite.is-favorite,
-.movie-detail-favorite[aria-pressed="true"] {
+/* Favorito activo · modo oscuro */
+:root:not(.light-mode)
+.movie-detail .movie-detail-favorite.is-favorite,
+:root:not(.light-mode)
+.movie-detail .movie-detail-favorite[aria-pressed="true"] {
     color: var(--secundario);
-    background: transparent;
-    border: none;
-    box-shadow: 0 0 12px rgba(168, 117, 150, 0.12);
     filter: drop-shadow(0 0 3px rgba(168, 117, 150, 0.2));
 }
 
-/* Pulsación */
-
-.movie-detail-favorite:active {
-    transform: scale(0.96);
+/* Favorito activo · modo claro */
+:root.light-mode
+.movie-detail .movie-detail-favorite.is-favorite,
+:root.light-mode
+.movie-detail .movie-detail-favorite[aria-pressed="true"] {
+    color: var(--ficha-corazon-claro);
+    -webkit-text-fill-color: currentColor;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    text-shadow: none;
+    filter: none;
 }
 
+/* Pulsación */
+.movie-detail .movie-detail-favorite:active {
+    transform: scale(0.96);
+}
 
 
 /* =========================
