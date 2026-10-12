@@ -685,3 +685,163 @@
     letter-spacing: 0.04em;
 }
 
+
+/* ========================================
+CARTELERA · FAVORITO SOBRE EL PÓSTER
+======================================== */
+
+/* La tarjeta sirve como referencia */
+#rejilla > .card {
+position: relative;
+}
+
+/* El botón funciona tanto dentro como fuera
+de card-title-row */
+#rejilla > .card .favorite-button {
+position: absolute;
+top: 9px;
+right: 9px;
+z-index: 10;
+
+
+display: grid;
+place-items: center;
+
+width: 36px;
+height: 36px;
+min-width: 36px;
+min-height: 36px;
+
+margin: 0;
+padding: 0;
+
+border: 1px solid rgba(240, 232, 216, 0.25);
+border-radius: 50%;
+background: rgba(13, 16, 24, 0.78);
+color: var(--texto);
+
+font-size: 1.2rem;
+line-height: 1;
+cursor: pointer;
+
+transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+
+
+}
+
+/* Favorito activo */
+#rejilla > .card .favorite-button.is-favorite {
+color: var(--oro);
+border-color: rgba(184, 154, 90, 0.65);
+}
+
+/* Interacción */
+@media (hover: hover) and (pointer: fine) {
+#rejilla > .card .favorite-button:hover {
+color: var(--oro);
+background-color: rgba(13, 16, 24, 0.95);
+border-color: var(--oro);
+transform: scale(1.08);
+}
+}
+
+/* Accesibilidad */
+#rejilla > .card .favorite-button:focus-visible {
+outline: 2px solid var(--oro);
+outline-offset: 3px;
+}
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+#rejilla > .card .favorite-button {
+transition: none;
+}
+}
+
+
+
+
+
+/* ========================================
+   13. TAMAÑO CONTROLADO · TABLET Y ESCRITORIO
+======================================== */
+
+/* TABLET */
+@media (min-width: 768px) and (max-width: 1199px) {
+
+    /* Carrusel */
+    #rejilla:not(.ver-todas) {
+        grid-auto-columns: 165px;
+    }
+
+    /* Ver todas: 5 fichas por fila */
+    #rejilla.ver-todas {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-auto-flow: row;
+        justify-content: stretch;
+        gap: 24px 14px;
+        width: 100%;
+    }
+
+    #rejilla.ver-todas > .card {
+        width: 100%;
+        min-width: 0;
+        max-width: 165px;
+        justify-self: center;
+    }
+}
+
+/* ESCRITORIO */
+@media (min-width: 1200px) {
+
+    /* Carrusel */
+    #rejilla:not(.ver-todas) {
+        grid-auto-columns: 180px;
+    }
+
+    /* Ver todas: 8 fichas por fila */
+    #rejilla.ver-todas {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        grid-auto-flow: row;
+        justify-content: stretch;
+        gap: 28px 16px;
+        width: 100%;
+    }
+
+    #rejilla.ver-todas > .card {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+    }
+}
+
+
+/* ========================================
+   14. TEXTO DE LAS TARJETAS · TABLET Y ESCRITORIO
+======================================== */
+
+@media (min-width: 768px) {
+
+    /* Título de la película */
+    #rejilla .card h3 {
+        font-size: 0.95rem;
+        line-height: 1.35;
+        padding-top: 10px;
+    }
+
+    #rejilla .card h3::before {
+        width: 24px;
+        margin-bottom: 8px;
+    }
+
+    /* Año de estreno */
+    #rejilla .card p {
+        font-size: 0.7rem;
+        line-height: 1.5;
+        padding-top: 5px;
+    }
+}

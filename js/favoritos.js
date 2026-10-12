@@ -1,7 +1,7 @@
 
-
-
 const CLAVE_FAVORITOS = "framewaveFavoritas";
+
+let temporizadorNotificacion;
 
 export function obtenerFavoritos() {
     return JSON.parse(
@@ -27,4 +27,33 @@ export function alternarFavorito(id) {
     );
 
     return nuevosFavoritos.includes(idPelicula);
+}
+
+export function mostrarNotificacionFavoritos() {
+    let notificacion = document.getElementById(
+        "favoritosNotificacion"
+    );
+
+    if (!notificacion) {
+        notificacion = document.createElement("div");
+        notificacion.id = "favoritosNotificacion";
+        notificacion.setAttribute("role", "status");
+        notificacion.setAttribute("aria-live", "polite");
+
+        document.body.append(notificacion);
+    }
+
+    notificacion.textContent = "Se ha añadido a favoritos";
+
+    notificacion.classList.remove("is-visible");
+
+    clearTimeout(temporizadorNotificacion);
+
+    requestAnimationFrame(() => {
+        notificacion.classList.add("is-visible");
+    });
+
+    temporizadorNotificacion = setTimeout(() => {
+        notificacion.classList.remove("is-visible");
+    }, 2400);
 }

@@ -1,537 +1,265 @@
 
-/* ═══════════════════════════════════════
-   FRAMEWAVE · DISEÑO RESPONSIVE
-   Mobile first
-═══════════════════════════════════════ */
-
-
 /* ========================================
-   1. NAVEGACIÓN · MÓVIL Y TABLET
+   1. NAVEGACIÓN · MENÚ EDITORIAL
+   MÓVIL · TABLET · ESCRITORIO
 ======================================== */
 
-@media (max-width: 1023px) {
+/* Estructura compartida */
 
-    .mobile-navigation {
-        display: flex;
-        align-items: center;
+.mobile-navigation {
+    display: flex;
+    align-items: center;
+}
+
+.navigation {
+    grid-area: nav;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+/* Botón de apertura */
+
+.navigation > .menu-button,
+.navigation .menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    visibility: visible;
+    opacity: 1;
+    position: relative;
+    z-index: 120;
+    flex-shrink: 0;
+}
+
+/* Menú cerrado */
+
+.navigation .menu-list {
+    display: none;
+}
+
+/* ========================================
+   MENÚ ABIERTO · CRISTAL CINEMATOGRÁFICO
+======================================== */
+
+
+.navigation .menu-list.is-open {
+    position: absolute;
+    top: calc(100% + 16px);
+    left: 0;
+    right: auto;
+
+    z-index: 110;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    width: 260px;
+    min-width: 0;
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 24px 24px 18px;
+
+    list-style: none;
+
+    border: 1px solid rgba(184, 154, 90, 0.25);
+    border-radius: 18px 10px 18px 10px;
+
+    background:
+        radial-gradient(
+            ellipse at 0% 0%,
+            rgba(168, 117, 150, 0.19),
+            transparent 65%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(29, 27, 40, 0.97),
+            rgba(13, 16, 24, 0.95)
+        );
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.34),
+        0 0 35px rgba(113, 59, 89, 0.13),
+        inset 0 1px rgba(240, 232, 216, 0.05);
+
+    text-align: center;
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    transform: none;
+    transform-origin: top left;
+    animation: menuAppear 0.4s ease both;
+}
+
+/* Modo claro */
+
+:root.light-mode .navigation .menu-list.is-open {
+    border-color: rgba(128, 101, 143, 0.28);
+
+    background:
+        radial-gradient(
+            ellipse at 0% 0%,
+            rgba(168, 117, 150, 0.17),
+            transparent 65%
+        ),
+        rgba(242, 237, 227, 0.97);
+
+    box-shadow:
+        0 20px 45px rgba(73, 49, 68, 0.13),
+        inset 0 1px rgba(255, 255, 255, 0.7);
+}
+
+/* Cabecera editorial */
+
+.navigation .menu-list.is-open::before {
+    content: "INDICE";
+
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-bottom: 13px;
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid rgba(184, 154, 90, 0.35);
+
+    color: var(--oro);
+    font-family: var(--fuente-texto);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.17em;
+    text-align: left;
+}
+
+/* Elementos del menú */
+
+.navigation .menu-list.is-open li {
+    width: 100%;
+    box-sizing: border-box;
+
+    opacity: 0;
+    animation: menuLinkAppear 0.35s ease forwards;
+}
+
+.navigation .menu-list.is-open li + li {
+    border-top: 1px solid rgba(168, 117, 150, 0.13);
+}
+
+/* Entrada escalonada */
+
+.navigation .menu-list.is-open li:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.navigation .menu-list.is-open li:nth-child(2) {
+    animation-delay: 0.10s;
+}
+
+.navigation .menu-list.is-open li:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.navigation .menu-list.is-open li:nth-child(4) {
+    animation-delay: 0.20s;
+}
+
+.navigation .menu-list.is-open li:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+/* Enlaces */
+
+.navigation .menu-list.is-open a {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    padding: 13px 2px;
+
+    color: var(--texto);
+    font-family: var(--fuente-titulo);
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.005em;
+    line-height: 1.4;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: left;
+    text-decoration: none;
+
+    transition:
+        color 0.25s ease,
+        padding-left 0.25s ease;
+}
+
+/* Interacción con ratón y teclado */
+
+.navigation .menu-list.is-open a:hover,
+.navigation .menu-list.is-open a:focus-visible {
+    padding-left: 9px;
+    color: var(--oro);
+}
+
+.navigation .menu-list.is-open a:focus-visible {
+    outline: 1px solid var(--oro);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   ANIMACIONES
+======================================== */
+
+
+@keyframes menuAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.97);
+        filter: blur(4px);
     }
 
-    .navigation > .menu-button {
-        display: inline-flex;
-    }
-
-    .navigation .menu-list {
-        display: none;
-    }
-
-    .navigation .menu-list.is-open {
-        position: absolute;
-        z-index: 110;
-        top: calc(100% + 20px);
-        left: -18px;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 26px;
-
-        width: max-content;
-        min-width: 190px;
-        max-width: calc(100vw - 32px);
-        box-sizing: border-box;
-        margin: 0;
-        padding: 30px 38px;
-
-        border: 1px solid var(--borde);
-        border-radius: 35% 25% 32% 22% / 18% 24% 20% 28%;
-
-        background:
-            radial-gradient(
-                ellipse at 20% 15%,
-                rgba(168, 117, 150, 0.16),
-                transparent 65%
-            ),
-            var(--superficie);
-
-        box-shadow:
-            0 15px 45px rgba(0, 0, 0, 0.16),
-            0 0 35px rgba(113, 59, 89, 0.08);
-
-        text-align: center;
-
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-
-        animation: menuAppear 0.55s ease both;
-        transform-origin: top left;
-    }
-
-    .navigation .menu-list.is-open a {
-        max-width: 100%;
-        overflow-wrap: anywhere;
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
     }
 }
 
-
-/* ========================================
-   2. MÓVIL · HASTA 599 PX
-======================================== */
-
-@media (max-width: 599px) {
-
-    /* Cartelera */
-
-    
-    #movies.section {
-        padding: 42px 14px 35px;
+@keyframes menuLinkAppear {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
     }
 
-    #movies .section-heading {
-        margin-bottom: 18px;
-    }
-
-
-    /* Favoritas */
-
-    #favoritesGrid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 32px 14px;
-    }
-
-
-    /* Secciones */
-
-    .section {
-        padding: 60px 18px;
-    }
-
-
-    /* Esfera de géneros */
-
-    .genres-list {
-        --spread: 0.7;
-    }
-
-
-    /* Ficha de película */
-
-    .movie-detail {
-        box-sizing: border-box;
-        width: 94vw;
-        max-width: 94vw;
-        max-height: 88vh;
-        max-height: 88dvh;
-        padding: 16px;
-        border-radius: 16px;
-    }
-
-    .movie-detail-poster-container {
-        aspect-ratio: 2.6 / 1;
-    }
-
-    .movie-detail-poster-container > .movie-detail-poster {
-        object-position: center 25%;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-
 /* ========================================
-   3. TABLET · 600 A 1023 PX
-======================================== */
-
-@media (min-width: 600px) and (max-width: 1023px) {
-
-    /* Cartelera */
-
-    
-    #movies .section-heading {
-        margin-bottom: 26px;
-    }
-
-    .section {
-        padding: 75px 40px;
-    }
-
-
-
-    /* Favoritas */
-
-    #favoritesGrid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 45px 28px;
-    }
-
-
-    /* Controles generales */
-
-    .controls {
-        gap: clamp(8px, 1.4vw, 16px);
-    }
-
-
-
-    /* Esfera de géneros */
-
-    .genres-list {
-        --spread: 0.8;
-    }
-
-
-    /* Ficha de película */
-
-    .movie-detail-poster-container {
-        aspect-ratio: 2.3 / 1;
-    }
-
-    .movie-detail-poster-container > .movie-detail-poster {
-        object-position: center 35%;
-    }
-}
-
-
-/* ========================================
-   4. ESCRITORIO · DESDE 1024 PX
+   ESCRITORIO
 ======================================== */
 
 @media (min-width: 1024px) {
-
-    /* Navegación */
-
-    .mobile-navigation {
-        display: none;
+    .navigation {
+        min-width: max-content;
     }
-
-    .navigation > .menu-button {
-        display: none;
-    }
-
-    .navigation .menu-list,
-    .navigation .menu-list.is-open {
-        position: static;
-
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 42px;
-
-        width: auto;
-        min-width: 0;
-        max-width: none;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-
-        border: none;
-        border-radius: 0;
-
-        background: transparent;
-        box-shadow: none;
-
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-
-        animation: none;
-        transform: none;
-        filter: none;
-    }
-
-    .navigation .menu-list li {
-        opacity: 1;
-        animation: none;
-    }
-
-    .navigation .menu-list a {
-        font-size: 1rem;
-        letter-spacing: 0;
-    }
-
-    .navigation .menu-list a:hover {
-        transform: none;
-        letter-spacing: 0.04em;
-    }
-
-
-
-    /* Favoritas */
-
-    #favoritesGrid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 50px 30px;
-    }
-
-
-    /* Secciones */
-
-    
-    .section {
-        padding: 90px 80px;
-    }
-
-    #movies .section-heading {
-        margin-bottom: 30px;
-    }
-
-
-    /* Flechas del carrusel */
-
-    .carousel-arrow--prev {
-        left: -12px;
-    }
-
-    .carousel-arrow--next {
-        right: -12px;
-    }
-}
-
-
-/* ========================================
-   5. VISTA COMPLETA DE CARTELERA
-   Independiente del carrusel
-======================================== */
-
-/* Móvil: tres columnas */
-
-@media (max-width: 599px) {
-
-    #rejilla.ver-todas {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 20px 8px;
-        padding: 12px 0 24px;
-    }
-
-    #rejilla.ver-todas > .card {
-        width: 100%;
-        min-width: 0;
-        max-width: none;
-        justify-self: stretch;
-    }
-}
-
-
-/* Tablet */
-
-@media (min-width: 600px) and (max-width: 1023px) {
-
-    #rejilla.ver-todas {
-        grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-        gap: 30px 20px;
-    }
-
-    #rejilla.ver-todas > .card {
-        width: 100%;
-        max-width: 165px;
-    }
-}
-
-
-/* Escritorio */
-
-@media (min-width: 1024px) {
-
-    #rejilla.ver-todas {
-        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-        gap: 38px 26px;
-    }
-
-    #rejilla.ver-todas > .card {
-        max-width: 175px;
-    }
-}
-
-
-/* ========================================
-   6. ACCESIBILIDAD · MOVIMIENTO REDUCIDO
-======================================== */
-
-@media (prefers-reduced-motion: reduce) {
-
-    html,
-    #rejilla {
-        scroll-behavior: auto;
-    }
-
-    /* Fondo y elementos animados */
-
-    .page-bubble,
-    .background-shape,
-    .background-glow,
-    .card,
-    .menu-list.is-open,
-    .menu-list.is-open li {
-        animation: none;
-    }
-
-    .menu-list.is-open li {
-        opacity: 1;
-        transform: none;
-    }
-
-    /* Controles y navegación */
-
-    .menu-button,
-    .control-button,
-    .menu-button::after,
-    .control-button::after,
-    .theme-icon,
-    .menu-list a,
-    .gallery-button {
-        transition: none;
-    }
-
-    /* Aparición de secciones */
-
-    .section-heading.reveal {
-        transition: none;
-    }
-
-    /* Cartas y elementos interactivos */
-
-    #rejilla > .card,
-    #rejilla > .card img,
-    #rejilla > .card::before,
-    #rejilla > .card h3,
-    #rejilla > .card h3::after,
-    .carousel-arrow,
-    .carousel-progress-bar,
-    .filter-button,
-    .filter-toggle,
-    .sort-button,
-    .view-all-button,
-    #verTodas,
-    .movie-detail {
-        animation: none;
-        transition: none;
-    }
-}
-
-/* =========================
-   ADAPTACIÓN MÓVIL · POMPAS
-========================= */
-
-@media (max-width: 600px) {
-
-    .page-bubble {
-        filter: blur(5px);
-    }
-
-    .bubble-one {
-        width: 260px;
-        height: 260px;
-    }
-
-    .bubble-two {
-        width: 220px;
-        height: 220px;
-    }
-
-    .bubble-three {
-        width: 170px;
-        height: 170px;
-    }
-
-    .bubble-four {
-        width: 250px;
-        height: 250px;
-    }
-
-    .bubble-five {
-        width: 160px;
-        height: 160px;
-    }
-
-    .bubble-six {
-        width: 210px;
-        height: 210px;
-    }
-}
-
-/* Respetar la preferencia de movimiento reducido */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .page-bubble {
-        animation: none;
-    }
-}
-
-/* =========================
-   HERO · MÓVIL
-========================= */
-
-@media (max-width: 600px) {
-    .hero-divider-main {
-        margin-top: 20px;
-        margin-bottom: 24px;
-    }
-
-    .hero-divider {
-        width: min(270px, 72vw);
-    }
-
-    .hero-divider-small {
-        width: min(190px, 52vw);
-        margin-top: 20px;
-    }
-
-    .hero-star {
-        width: 27px;
-        height: 27px;
-    }
-}
-
-/* Respetar la preferencia de movimiento reducido */
-@media (prefers-reduced-motion: reduce) {
-    .hero-star {
-        animation: none;
-    }
-}
-
-/* HERO · Ajuste de posición en escritorio */
-@media (min-width: 1025px) {
-.hero-description {
-top: 42vh;
-
-}}
-
-/* =========================
-   ESCRITORIO · NAV Y LOGO
-========================= */
-
-@media (min-width: 1025px) {
 
     .header {
         gap: 16px;
         padding: 18px 30px;
-    }
-
-    .navigation {
-        position: relative;
-        display: flex;
-        align-items: center;
-        flex: 0 0 auto;
-        min-width: max-content;
-    }
-
-    
-    .navigation .menu-button {
-        display: inline-flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: relative;
-        z-index: 120;
-        flex-shrink: 0;
-    }
-
-    .navigation .menu-list {
-        display: none !important;
-        flex-direction: column;
-        align-items: center;
-        gap: 26px;
-    }
-
-    .navigation .menu-list.is-open {
-        display: flex !important;
     }
 
     .header-controls {
@@ -541,614 +269,24 @@ top: 42vh;
         gap: clamp(8px, 1.2vw, 18px);
         flex-shrink: 0;
     }
-
 }
 
-/* =========================
-   INTERACCION DE TARJETAS
-========================= */
-
-@media (hover: hover) and (pointer: fine) {
-
-    #rejilla > .card:hover {
-        position: relative;
-        z-index: 2;
-        transform: translateY(-7px) scale(1.025);
-    }
-
-    #rejilla > .card:hover img {
-        transform: translateY(-2px);
-
-        filter: brightness(1.06) contrast(1.035) saturate(1.06);
-
-        box-shadow:
-            0 18px 35px rgba(0, 0, 0, 0.28),
-            0 30px 55px rgba(0, 0, 0, 0.17),
-            0 0 25px rgba(113, 59, 89, 0.20),
-            0 0 0 1px var(--borde);
-    }
-
-    #rejilla > .card:hover::before {
-        opacity: 0.32;
-        transform: scale(1.08);
-    }
-
-    #rejilla > .card:hover h3 {
-        color: var(--oro);
-        transform: translateX(4px);
-    }
-
-    #rejilla > .card:hover h3::before {
-        width: 45px;
-        opacity: 1;
-    }
-
-    #rejilla > .card:hover p {
-        color: var(--texto);
-        opacity: 0.95;
-        transform: translateX(4px);
-    }
-
-    #rejilla:has(> .card:hover) > .card:not(:hover) {
-        opacity: 0.82;
-        filter: saturate(0.88);
-        transform: scale(0.985);
-    }
-
-    #rejilla:has(> .card:hover) > .card:not(:hover) h3,
-    #rejilla:has(> .card:hover) > .card:not(:hover) p {
-        opacity: 0.88;
-    }
-}
-
-/* =========================
-   ATENUACION DE TARJETAS
-========================= */
-
-@media (hover: hover) and (pointer: fine) {
-    #rejilla.ver-todas:has(> .card:hover) > .card:not(:hover) {
-        opacity: 1;
-        filter: none;
-        transform: none;
-    }
-}
-
-/* =========================
-   TABLET
-========================= */
-
-@media (min-width: 600px) {
-    #rejilla.ver-todas {
-        grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-        gap: 30px 20px;
-        padding: 20px 8px 35px;
-    }
-
-    #rejilla.ver-todas > .card {
-        max-width: 165px;
-        justify-self: center;
-    }
-
-    #rejilla.ver-todas .card h3 {
-        font-size: 0.9rem;
-        line-height: 1.3;
-    }
-
-    #rejilla.ver-todas .card p {
-        font-size: 0.62rem;
-        letter-spacing: 0.12em;
-    }
-}
-
-/* =========================
-   VISTA COMPLETA ESCRITORIO
-========================= */
-
-@media (min-width: 1024px) {
-    #rejilla.ver-todas {
-        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-        gap: 38px 26px;
-    }
-
-    #rejilla.ver-todas > .card {
-        max-width: 175px;
-    }
-
-    #rejilla.ver-todas .card h3 {
-        font-size: 1rem;
-    }
-}
-
-/* =========================
-   TABLET
-========================= */
-
-@media (min-width: 600px) and (max-width: 1023px) {
-
-    .genre-filters:not([hidden]) {
-        width: min(380px, calc(100vw - 48px));
-    }
-
-    #rejilla:not(.ver-todas) {
-        grid-auto-columns: 230px;
-        gap: 32px;
-        padding: 22px 16px 30px;
-        scroll-padding-inline: 16px;
-    }
-
-    #rejilla:not(.ver-todas) > .card {
-        width: 205px;
-        max-width: 205px;
-    }
-
-    #rejilla:not(.ver-todas) .card h3 {
-        padding-top: 10px;
-        font-size: 0.9rem;
-        line-height: 1.3;
-    }
-
-    #rejilla:not(.ver-todas) .card h3::before {
-        width: 24px;
-        margin-bottom: 8px;
-    }
-
-    #rejilla:not(.ver-todas) .card p {
-        padding: 6px 2px 8px;
-        font-size: 0.65rem;
-        letter-spacing: 0.12em;
-    }
-
-    .carousel-arrow {
-        width: 36px;
-        height: 36px;
-        font-size: 1.15rem;
-    }
-
-    .carousel-arrow--prev {
-        left: 4px;
-    }
-
-    .carousel-arrow--next {
-        right: 4px;
-    }
-}
-
-/* =========================
-   ESCRITORIO
-========================= */
-
-@media (min-width: 1024px) {
-
-    #rejilla:not(.ver-todas) {
-        grid-auto-columns: 170px;
-        gap: 28px;
-        padding: 18px 20px 25px;
-        scroll-padding-inline: 20px;
-    }
-
-    #rejilla:not(.ver-todas) > .card {
-        width: 155px;
-        max-width: 155px;
-    }
-
-    #rejilla:not(.ver-todas) .card h3 {
-        padding-top: 8px;
-        font-size: 0.9rem;
-        line-height: 1.3;
-    }
-
-    #rejilla:not(.ver-todas) .card h3::before {
-        width: 24px;
-        margin-bottom: 8px;
-    }
-
-    #rejilla:not(.ver-todas) .card p {
-        padding: 6px 2px 8px;
-        font-size: 0.65rem;
-        letter-spacing: 0.12em;
-    }
-
-    .carousel-arrow {
-        width: 42px;
-        height: 42px;
-        font-size: 1.3rem;
-    }
-
-    .carousel-arrow--prev {
-        left: -12px;
-    }
-
-    .carousel-arrow--next {
-        right: -12px;
-    }
-}
-
-/* =========================
-   RESPUESTA TACTIL
-========================= */
-
-@media (hover: none) {
-
-    #rejilla > .card:active {
-        transform: scale(0.97);
-        transition-duration: 0.12s;
-    }
-
-    #rejilla > .card:active img {
-        filter: brightness(0.88);
-    }
-}
-
-/* =========================
-   MOVIMIENTO REDUCIDO
-========================= */
+/* ========================================
+   ACCESIBILIDAD · MOVIMIENTO REDUCIDO
+======================================== */
 
 @media (prefers-reduced-motion: reduce) {
-
-    #rejilla {
-        scroll-behavior: auto;
-    }
-
-    #rejilla > .card,
-    #rejilla > .card img,
-    #rejilla > .card::before,
-    #rejilla .card h3,
-    #rejilla .card h3::before,
-    #rejilla .card p,
-    .genre-filter-toggle,
-    .genre-filter-chevron,
-    .genre-filter,
-    .carousel-arrow,
-    .carousel-progress span,
-    .view-all-button,
-    #verTodasPeliculas {
+    .navigation .menu-list.is-open {
         animation: none;
+    }
+
+    .navigation .menu-list.is-open li {
+        opacity: 1;
+        animation: none;
+        transform: none;
+    }
+
+    .navigation .menu-list.is-open a {
         transition: none;
-    }
-
-    #rejilla > .card:active {
-        transform: none;
-    }
-}
-
-/* =========================
-   ESFERA DE GÉNEROS · ESCRITORIO
-========================= */
-
-@media (min-width: 900px) {
-    .genres-list {
-        --spread: 1.15;
-        max-width: 1200px;
-        height: 580px;
-    }
-}
-
-
-
-/* =========================
-   FICHA · ADAPTACIÓN RESPONSIVE
-   ESCRITORIO
-========================= */
-
-@media (min-width: 1024px) {
-    .movie-detail {
-        width: calc(100% - 64px);
-        max-width: 1100px;
-        max-height: 86dvh;
-    }
-}
-
-/* =========================
-   ESCRITORIO · FICHA HORIZONTAL
-========================= */
-
-@media (min-width: 1024px) {
-    .movie-detail {
-        width: calc(100% - 64px);
-        max-width: 1100px;
-        max-height: 86dvh;
-        padding: 24px;
-    }
-
-    /* Una sola columna: fotograma arriba e información debajo */
-    .movie-detail-content {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-        align-items: start;
-        gap: 0;
-    }
-
-    .movie-detail-visual {
-        position: relative;
-        grid-column: 1;
-        grid-row: 1;
-        width: 100%;
-        min-width: 0;
-    }
-
-    /* Fotograma panorámico */
-    .movie-detail-poster-container {
-        width: calc(100% + 48px);
-        height: clamp(220px, 24vw, 300px);
-        margin: -24px -24px 0;
-        aspect-ratio: auto;
-        overflow: hidden;
-    }
-
-    .movie-detail-poster-container > .movie-detail-poster {
-        object-position: center 30%;
-        -webkit-mask-image: linear-gradient(
-            to bottom,
-            #000 0%,
-            #000 55%,
-            rgba(0, 0, 0, 0.85) 70%,
-            rgba(0, 0, 0, 0.4) 85%,
-            transparent 100%
-        );
-        mask-image: linear-gradient(
-            to bottom,
-            #000 0%,
-            #000 55%,
-            rgba(0, 0, 0, 0.85) 70%,
-            rgba(0, 0, 0, 0.4) 85%,
-            transparent 100%
-        );
-    }
-
-    /* Título superpuesto en la parte inferior del fotograma */
-    .movie-detail-heading {
-        position: absolute;
-        z-index: 10;
-        right: 24px;
-        bottom: 18px;
-        left: 24px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-start;
-        gap: 16px;
-        width: auto;
-        margin: 0;
-        transform: translateY(8px);
-    }
-
-    .movie-detail-heading h2 {
-        flex: 1;
-        min-width: 0;
-        margin: 0;
-        padding-left: 0;
-        transform: translateX(-24px);
-        color: #fff;
-        font-size: clamp(1.6rem, 2.5vw, 2.7rem);
-        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
-    }
-
-    /* Toda la información ocupa el ancho de la ficha */
-    .movie-detail-info {
-        grid-column: 1;
-        grid-row: 2;
-        min-width: 0;
-        padding: 0 0 8px;
-    }
-
-    .movie-detail-metadata {
-        margin-bottom: 12px;
-    }
-
-    .movie-detail-extra {
-        margin-bottom: 12px;
-    }
-
-    .movie-detail-overview {
-        margin-bottom: 0;
-        line-height: 1.7;
-    }
-
-    .movie-detail-read-more {
-        margin: 4px 0 10px;
-    }
-
-    .movie-detail-trailer {
-        margin-top: 0;
-        padding-top: 10px;
-    }
-
-    .movie-detail-trailer iframe {
-        display: block;
-        width: 100%;
-        max-width: 420px;
-        aspect-ratio: 16 / 9;
-        height: auto;
-        border: 0;
-        border-radius: 10px;
-    }
-}
-
-/* =========================
-   TABLET · TÍTULO Y FAVORITOS
-========================= */
-
-@media (min-width: 601px) and (max-width: 1023px) {
-    .movie-detail-heading {
-        bottom: 0;
-        margin: 0;
-        transform: translateY(0);
-    }
-}
-
-/* =========================
-   GALERÍA · MÓVIL
-========================= */
-
-@media (max-width: 600px) {
-    #galleryPrev,
-    #galleryNext {
-        width: 34px;
-        height: 34px;
-        font-size: 1.2rem;
-    }
-
-    #galleryPrev {
-        left: 5px;
-    }
-
-    #galleryNext {
-        right: 5px;
-    }
-}
-
-/* =========================
-   FICHA · SUPERPOSICIÓN MÓVIL
-========================= */
-
-@media (max-width: 1023px) {
-    .movie-detail {
-        z-index: 1000;
-        max-height: 82dvh;
-        overflow-x: hidden;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        -webkit-overflow-scrolling: touch;
-    }
-}
-
-/* =========================
-   FICHA · TÍTULO EN MÓVIL
-========================= */
-
-@media (max-width: 600px) {
-    .movie-detail-heading {
-        position: relative;
-        inset: auto;
-        display: block;
-        width: 100%;
-        margin: -8px 0 10px;
-        transform: none;
-    }
-
-    .movie-detail-heading h2 {
-        width: 100%;
-        transform: none;
-    }
-}
-
-/* =========================
-   FICHA · TABLET Y ESCRITORIO
-   CONTENIDO COMPACTO SIN SCROLL
-========================= */
-
-@media (min-width: 601px) {
-    /* La ficha aprovecha mejor la altura disponible */
-    .movie-detail {
-        max-height: 94dvh;
-        padding: 18px;
-        overflow-y: auto;
-    }
-
-    /* Fotograma más compacto en tablet */
-    .movie-detail-poster-container {
-        aspect-ratio: 2 / 1;
-    }
-
-    /* Título */
-    .movie-detail-heading {
-        gap: 10px;
-        margin-bottom: 8px;
-    }
-
-    .movie-detail-heading h2 {
-        font-size: clamp(1.45rem, 2.5vw, 2.3rem);
-        line-height: 1.05;
-    }
-
-    /* Año, nota, géneros y duración */
-    .movie-detail-metadata {
-        gap: 4px 10px;
-        margin-bottom: 6px;
-        font-size: 0.76rem;
-        line-height: 1.35;
-    }
-
-    .movie-detail-extra {
-        gap: 4px 10px;
-        margin-bottom: 8px;
-        font-size: 0.74rem;
-        line-height: 1.4;
-    }
-
-    /* Sinopsis contraída */
-    .movie-detail-overview {
-        margin-bottom: 0;
-        font-size: 0.92rem;
-        line-height: 1.55;
-    }
-
-    /* Leer más / leer menos */
-    .movie-detail-read-more {
-        margin: 2px 0 6px;
-        font-size: 0.76rem;
-    }
-
-    /* Tráiler */
-    .movie-detail-trailer {
-        gap: 8px;
-        margin-top: 0;
-        padding-top: 8px;
-    }
-
-    .movie-detail-trailer a {
-        padding: 8px 14px;
-        font-size: 0.76rem;
-    }
-
-    .movie-detail-metadata {
-        font-size: 0.84rem;
-    }
-
-    .movie-detail-extra {
-        font-size: 0.82rem;
-    }
-}
-
-/* Escritorio: conservar la composición panorámica */
-
-@media (min-width: 1024px) {
-    .movie-detail {
-        max-height: 97dvh;
-        padding: 18px;
-    }
-
-    .movie-detail-poster-container {
-        width: calc(100% + 36px);
-        height: clamp(280px, 34vh, 390px);
-        margin: -18px -18px 0;
-        aspect-ratio: auto;
-        overflow: hidden;
-    }
-
-    .movie-detail-heading {
-        right: 20px;
-        bottom: 14px;
-        left: 20px;
-        margin: 0;
-    }
-
-    .movie-detail-heading h2 {
-        font-size: clamp(1.5rem, 2.2vw, 2.3rem);
-    }
-
-    .movie-detail-info {
-        padding-bottom: 4px;
-    }
-
-    .movie-detail-metadata {
-        margin-bottom: 6px;
-    }
-
-    .movie-detail-extra {
-        margin-bottom: 8px;
-    }
-
-    .movie-detail-trailer iframe {
-        max-width: 360px;
     }
 }

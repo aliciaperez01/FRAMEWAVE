@@ -1,4 +1,5 @@
 
+
 import {
     obtenerFavoritos,
     alternarFavorito
@@ -49,10 +50,6 @@ function prepararCapaFicha() {
 
     movieDetailOverlay.appendChild(movieDetailBackdrop);
 
-    /*
-       Mover la ficha directamente al body evita que
-       un contenedor padre limite su z-index.
-    */
     document.body.appendChild(movieDetailOverlay);
     movieDetailOverlay.appendChild(movieModal);
 
@@ -62,19 +59,136 @@ function prepararCapaFicha() {
         cerrarFicha
     );
 
-    // También cerrar si se pulsa el espacio exterior
-    movieDetailOverlay.addEventListener(
-        "click",
-        (event) => {
-            if (event.target === movieDetailOverlay) {
-                cerrarFicha();
-            }
+    movieDetailOverlay.addEventListener("click", (event) => {
+        if (event.target === movieDetailOverlay) {
+            cerrarFicha();
         }
-    );
+    });
 }
 
-// Preparar la capa cuando se carga este módulo
+// Preparar la capa al cargar el módulo
 prepararCapaFicha();
+
+
+/* =========================
+   NOTIFICACIÓN · FAVORITOS
+========================= */
+
+function mostrarNotificacionFavoritos() {
+    let notificacion = document.getElementById(
+        "favoritosNotificacion"
+    );
+
+    if (!notificacion) {
+        notificacion = document.createElement("div");
+        notificacion.id = "favoritosNotificacion";
+
+        notificacion.setAttribute("role", "status");
+        notificacion.setAttribute("aria-live", "polite");
+
+        document.body.appendChild(notificacion);
+    }
+
+    notificacion.textContent = "Se ha añadido a favoritos";
+
+    // Reiniciar la animación y el temporizador
+    notificacion.classList.remove("is-visible");
+
+    clearTimeout(
+        mostrarNotificacionFavoritos.temporizador
+    );
+
+    requestAnimationFrame(() => {
+        notificacion.classList.add("is-visible");
+    });
+
+    mostrarNotificacionFavoritos.temporizador = setTimeout(() => {
+        notificacion.classList.remove("is-visible");
+    }, 2400);
+}
+
+
+/* =========================
+   FOTOGRAMA HORIZONTAL · CABECERA
+========================= */
+
+function mostrarFotogramaHorizontal(fotogramas, detalle) {
+    const contenedor = movieModal?.querySelector(
+        ".movie-detail-poster-container"
+    );
+
+    if (!contenedor) {
+        console.warn(
+            "No se encuentra el contenedor de la imagen de la ficha."
+        );
+        return;
+    }
+
+    // Buscar imágenes horizontales de TMDB
+    const imagenes = Array.isArray(fotogramas)
+        ? fotogramas
+        : [];
+
+    const fotograma = imagenes
+        .filter(imagen => {
+            const ruta = imagen.file_path;
+            const ancho = Number(imagen.width ?? 0);
+            const alto = Number(imagen.height ?? 0);
+
+            return (
+                ruta &&
+                ancho > 0 &&
+                alto > 0 &&
+                ancho / alto >= 1.5
+            );
+        })
+        .sort((a, b) => {
+            const resolucionA =
+                Number(a.width) * Number(a.height);
+
+            const resolucionB =
+                Number(b.width) * Number(b.height);
+
+            return resolucionB - resolucionA;
+        })[0];
+
+    // Priorizar el fotograma panorámico.
+    // Si no hay ninguno, utilizar el fondo de la película.
+    const ruta =
+        fotograma?.file_path ??
+        detalle.backdrop_path;
+
+    if (!ruta) {
+        console.warn(
+            "No hay un fotograma horizontal disponible para esta película."
+        );
+        return;
+    }
+
+    // Reutilizar la imagen existente o crearla si falta
+    let imagen = contenedor.querySelector(
+        ".movie-detail-poster"
+    );
+
+    if (!imagen) {
+        imagen = document.createElement("img");
+        imagen.className = "movie-detail-poster";
+        contenedor.appendChild(imagen);
+    }
+
+    // Evitar que una fuente alternativa sustituya la imagen
+    imagen.removeAttribute("srcset");
+    imagen.removeAttribute("sizes");
+
+    imagen.alt =
+        `Fotograma de ${detalle.title ?? "la película"}`;
+
+    imagen.loading = "eager";
+    imagen.decoding = "async";
+
+    imagen.src =
+        `https://image.tmdb.org/t/p/w1280${ruta}`;
+}
 
 
 /* =========================
@@ -89,14 +203,13 @@ export async function abrirFicha(id) {
         return;
     }
 
-    // Asegurar que la capa está preparada
     prepararCapaFicha();
 
     const movieDetailTitle =
         document.getElementById("movieDetailTitle");
 
     const movieDetailFavorite =
-    document.getElementById("movieDetailFavorite");
+        document.getElementById("movieDetailFavorite");
 
     const movieDetailYear =
         document.getElementById("movieDetailYear");
@@ -104,7 +217,6 @@ export async function abrirFicha(id) {
     const movieDetailMeta =
         document.getElementById("movieDetailMeta");
 
-    
     const movieDetailOverview =
         document.getElementById("movieDetailOverview");
 
@@ -119,11 +231,58 @@ export async function abrirFicha(id) {
 
 
     /* =========================
+       FAVORITOS · CORAZÓN
+    ========================= */
+
+    function actualizarCorazon() {
+        if (!movieDetailFavorite) return;
+
+        const favoritos = obtenerFavoritos();
+
+        const esFavorita = favoritos.includes(String(id));
+
+        movieDetailFavorite.textContent =
+            esFavorita ? "♥" : "♡";
+
+        movieDetailFavorite.classList.toggle(
+            "is-favorite",
+            esFavorita
+        );
+
+        movieDetailFavorite.setAttribute(
+            "aria-pressed",
+            String(esFavorita)
+        );
+
+        movieDetailFavorite.setAttribute(
+            "aria-label",
+            esFavorita
+                ? "Quitar de favoritas"
+                : "Añadir a favoritas"
+        );
+    }
+
+    actualizarCorazon();
+
+    if (movieDetailFavorite) {
+        movieDetailFavorite.onclick = () => {
+            const seHaAñadido = alternarFavorito(id);
+
+            actualizarCorazon();
+
+            // Notificar únicamente cuando se añade
+            if (seHaAñadido) {
+                mostrarNotificacionFavoritos();
+            }
+        };
+    }
+
+
+    /* =========================
        ABRIR LA FICHA
     ========================= */
 
     if (!movieModal.classList.contains("is-open")) {
-        // Guardar la posición real antes de bloquear el scroll
         scrollAnterior = window.scrollY;
 
         document.body.style.position = "fixed";
@@ -133,11 +292,15 @@ export async function abrirFicha(id) {
         document.body.style.width = "100%";
     }
 
-    movieDetailOverlay.classList.add("is-open");
+    movieDetailOverlay?.classList.add("is-open");
     movieModal.classList.add("is-open");
 
     movieModal.setAttribute("aria-hidden", "false");
 
+
+    /* =========================
+       CARGAR INFORMACIÓN
+    ========================= */
 
     try {
         const {
@@ -152,6 +315,16 @@ export async function abrirFicha(id) {
                 "No se han recibido los detalles de la película."
             );
         }
+
+
+        /* =========================
+           IMAGEN HORIZONTAL
+        ========================= */
+
+        mostrarFotogramaHorizontal(
+            fotogramas,
+            detalle
+        );
 
 
         /* =========================
@@ -172,7 +345,7 @@ export async function abrirFicha(id) {
 
 
         /* =========================
-            INFORMACIÓN
+           INFORMACIÓN DE LA PELÍCULA
         ========================= */
 
         if (movieDetailTitle) {
@@ -218,100 +391,53 @@ export async function abrirFicha(id) {
                 });
         }
 
-        
-    /* =========================
-        SINOPSIS · LEER MÁS
-    ========================= */
 
-    if (movieDetailOverview) {
-        movieDetailOverview.textContent =
-            detalle.overview ||
-            "No hay descripción disponible.";
+        /* =========================
+           SINOPSIS · LEER MÁS
+        ========================= */
 
-        // Contraer la sinopsis al abrir cada película
-        movieDetailOverview.classList.remove("is-expanded");
+        if (movieDetailOverview) {
+            movieDetailOverview.textContent =
+                detalle.overview ||
+                "No hay descripción disponible.";
 
-        if (movieDetailReadMore) {
-            movieDetailReadMore.hidden = true;
-            movieDetailReadMore.textContent = "Leer más ↓";
+            movieDetailOverview.classList.remove("is-expanded");
 
-            movieDetailReadMore.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            // Comprobar si el texto ocupa más de tres líneas
-            requestAnimationFrame(() => {
-                const necesitaDesplegar =
-                    movieDetailOverview.scrollHeight >
-                    movieDetailOverview.clientHeight + 1;
-
-                movieDetailReadMore.hidden =
-                    !necesitaDesplegar;
-            });
-
-            // Alternar entre sinopsis completa y contraída
-            movieDetailReadMore.onclick = () => {
-                const expandida =
-                    movieDetailOverview.classList.toggle(
-                        "is-expanded"
-                    );
-
-                movieDetailReadMore.textContent =
-                    expandida
-                        ? "Leer menos ↑"
-                        : "Leer más ↓";
+            if (movieDetailReadMore) {
+                movieDetailReadMore.hidden = true;
+                movieDetailReadMore.textContent = "Leer más ↓";
 
                 movieDetailReadMore.setAttribute(
                     "aria-expanded",
-                    String(expandida)
-                );
-            };
-        }
-    }
-
-
-        
-
-
-        /* =========================
-            FAVORITOS · FICHA DE PELÍCULA
-        ========================= */
-
-        if (movieDetailFavorite) {
-
-            function actualizarCorazon() {
-                const favoritos = obtenerFavoritos();
-
-                const esFavorita = favoritos.includes(String(id));
-
-                movieDetailFavorite.textContent =
-                    esFavorita ? "♥" : "♡";
-
-                movieDetailFavorite.classList.toggle(
-                    "is-favorite",
-                    esFavorita
+                    "false"
                 );
 
-                movieDetailFavorite.setAttribute(
-                    "aria-pressed",
-                    String(esFavorita)
-                );
+                requestAnimationFrame(() => {
+                    const necesitaDesplegar =
+                        movieDetailOverview.scrollHeight >
+                        movieDetailOverview.clientHeight + 1;
 
-                movieDetailFavorite.setAttribute(
-                    "aria-label",
-                    esFavorita
-                        ? "Quitar de favoritas"
-                        : "Añadir a favoritas"
-                );
+                    movieDetailReadMore.hidden =
+                        !necesitaDesplegar;
+                });
+
+                movieDetailReadMore.onclick = () => {
+                    const expandida =
+                        movieDetailOverview.classList.toggle(
+                            "is-expanded"
+                        );
+
+                    movieDetailReadMore.textContent =
+                        expandida
+                            ? "Leer menos ↑"
+                            : "Leer más ↓";
+
+                    movieDetailReadMore.setAttribute(
+                        "aria-expanded",
+                        String(expandida)
+                    );
+                };
             }
-
-            actualizarCorazon();
-
-            movieDetailFavorite.onclick = () => {
-                alternarFavorito(id);
-                actualizarCorazon();
-            };
         }
 
 
@@ -394,7 +520,6 @@ function cerrarFicha() {
 
     const posicionGuardada = scrollAnterior;
 
-    // Quitar el foco antes de ocultar la ficha
     movieDetailClose?.blur();
 
     movieModal.classList.remove("is-open");
@@ -409,7 +534,7 @@ function cerrarFicha() {
     document.body.style.right = "";
     document.body.style.width = "";
 
-    // Restaurar el scroll después de desbloquear la página
+    // Restaurar la posición de scroll
     document.documentElement.style.scrollBehavior = "auto";
 
     requestAnimationFrame(() => {
@@ -441,3 +566,4 @@ document.addEventListener("keydown", (event) => {
         cerrarFicha();
     }
 });
+

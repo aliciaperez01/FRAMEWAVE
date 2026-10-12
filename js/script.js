@@ -1,7 +1,4 @@
 
-
-
-
 /* =========================
    INICIALIZAR INTERFAZ
 ========================= */
@@ -23,14 +20,14 @@ export function iniciarInterfaz({
     const themeIcon =
         document.querySelector(".theme-icon");
 
-
     themeButton?.addEventListener("click", () => {
-    const claro = document.documentElement.classList.toggle("light-mode");
+        const claro =
+            document.documentElement.classList.toggle("light-mode");
 
-    if (themeIcon) {
-        themeIcon.textContent = claro ? "☀" : "◐";
-    }
-});
+        if (themeIcon) {
+            themeIcon.textContent = claro ? "☀" : "◐";
+        }
+    });
 
 
     /* =========================
@@ -67,15 +64,19 @@ export function iniciarInterfaz({
                         ? "Change language to English"
                         : "Cambiar idioma a español"
                 );
+
             } catch (error) {
-                console.error("Error al cambiar el idioma:", error);
+                console.error(
+                    "Error al cambiar el idioma:",
+                    error
+                );
             }
         });
     }
 
 
     /* =========================
-       MENÚ MÓVIL
+       MENÚ
     ========================= */
 
     const menuButton =
@@ -158,6 +159,7 @@ export function iniciarInterfaz({
             if (!peliculaEncontrada) {
                 searchInput.value = "";
                 searchInput.placeholder = "No está :(";
+
                 searchMessage?.classList.remove("is-visible");
                 return;
             }
@@ -178,91 +180,136 @@ export function iniciarInterfaz({
                 abrirFicha(pelicula.id);
 
             } catch (error) {
-                console.error("Error al buscar la película:", error);
+                console.error(
+                    "Error al buscar la película:",
+                    error
+                );
             }
         });
-
-
-        /* Cerrar búsqueda al pulsar una tarjeta */
-
-        document.addEventListener("click", (event) => {
-            if (!(event.target instanceof Element)) return;
-
-            const card = event.target.closest(".card");
-
-            if (!card) return;
-
-            searchForm.classList.remove("is-open");
-            searchMessage?.classList.remove("is-visible");
-            searchInput.blur();
-        });
     }
 
 
-    
-    
-/* =========================
-   CARRUSEL DE PELÍCULAS
-========================= */
-
-const moviesGrid = document.getElementById("rejilla");
-const moviesPrev = document.getElementById("moviesPrev");
-const moviesNext = document.getElementById("moviesNext");
-const moviesProgress = document.getElementById("moviesProgress");
-
-if (moviesGrid && moviesPrev && moviesNext) {
-
-    let animacionCarrusel = null;
-
     /* =========================
-       ACTUALIZAR EL CARRUSEL
+       ABRIR FICHA DESDE TARJETAS
     ========================= */
 
-    function actualizarCarrusel() {
-        const maxScroll =
-            moviesGrid.scrollWidth - moviesGrid.clientWidth;
+    document.addEventListener("click", (event) => {
+        if (!(event.target instanceof Element)) return;
 
-        const posicion = moviesGrid.scrollLeft;
+        const card = event.target.closest(
+        "#rejilla .card, #favoritesGrid .card, #genreMovies .card"
+    );
 
-        moviesPrev.disabled = posicion <= 2;
-        moviesNext.disabled = posicion >= maxScroll - 2;
+        if (!card) return;
 
-        if (moviesProgress) {
-            const progreso = maxScroll > 0
-                ? (posicion / maxScroll) * 100
-                : 100;
+        // Evita abrir la ficha al pulsar el corazón de favoritos.
+        if (event.target.closest("button")) return;
 
-            moviesProgress.style.width = `${progreso}%`;
+        searchForm?.classList.remove("is-open");
+        searchMessage?.classList.remove("is-visible");
+        searchInput?.blur();
+
+        const id = card.dataset.id;
+
+        if (id) {
+            abrirFicha(id);
         }
-    }
+    });
+
 
     /* =========================
-       MOVER EL CARRUSEL
+       ABRIR FICHA CON EL TECLADO
     ========================= */
-    
-    function moverCarrusel(direccion) {
-        const tarjeta = moviesGrid.querySelector(".card");
 
-        if (!tarjeta) return;
+    document.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        if (!(event.target instanceof Element)) return;
 
-        const estilos = getComputedStyle(moviesGrid);
-        const espacio = parseFloat(estilos.columnGap) || 0;
+        const card = event.target.closest(
+        "#rejilla .card, #favoritesGrid .card, #genreMovies .card"
+    );
 
-        const distancia =
-            tarjeta.getBoundingClientRect().width + espacio;
+        if (!card || event.target.closest("button")) return;
 
-        const destino =
-            moviesGrid.scrollLeft + distancia * direccion;
+        event.preventDefault();
 
-        moviesGrid.scrollTo({
-            left: destino,
-            behavior: "smooth"
-        });
-    }
+        if (card.dataset.id) {
+            abrirFicha(card.dataset.id);
+        }
+    });
+
 
     /* =========================
-        EVENTOS DE LAS FLECHAS
+       CARRUSEL DE PELÍCULAS
     ========================= */
+
+    const moviesGrid =
+        document.getElementById("rejilla");
+
+    const moviesPrev =
+        document.getElementById("moviesPrev");
+
+    const moviesNext =
+        document.getElementById("moviesNext");
+
+    const moviesProgress =
+        document.getElementById("moviesProgress");
+
+    if (moviesGrid && moviesPrev && moviesNext) {
+
+        /* Actualizar estado y progreso */
+
+        function actualizarCarrusel() {
+            const maxScroll =
+                moviesGrid.scrollWidth - moviesGrid.clientWidth;
+
+            const posicion =
+                moviesGrid.scrollLeft;
+
+            moviesPrev.disabled = posicion <= 2;
+
+            moviesNext.disabled =
+                posicion >= maxScroll - 2;
+
+            if (moviesProgress) {
+                const progreso = maxScroll > 0
+                    ? (posicion / maxScroll) * 100
+                    : 100;
+
+                moviesProgress.style.width =
+                    `${progreso}%`;
+            }
+        }
+
+
+        /* Mover carrusel */
+
+        function moverCarrusel(direccion) {
+            const tarjeta =
+                moviesGrid.querySelector(".card");
+
+            if (!tarjeta) return;
+
+            const estilos =
+                getComputedStyle(moviesGrid);
+
+            const espacio =
+                parseFloat(estilos.columnGap) || 0;
+
+            const distancia =
+                tarjeta.getBoundingClientRect().width + espacio;
+
+            const destino =
+                moviesGrid.scrollLeft + distancia * direccion;
+
+            moviesGrid.scrollTo({
+                left: destino,
+                behavior: "smooth"
+            });
+        }
+
+
+        /* Eventos de las flechas */
 
         moviesPrev.addEventListener("click", () => {
             moverCarrusel(-1);
@@ -272,9 +319,8 @@ if (moviesGrid && moviesPrev && moviesNext) {
             moverCarrusel(1);
         });
 
-    /* =========================
-        EVENTOS DE ACTUALIZACIÓN
-    ========================= */
+
+        /* Actualizaciones del carrusel */
 
         moviesGrid.addEventListener(
             "scroll",
@@ -287,11 +333,10 @@ if (moviesGrid && moviesPrev && moviesNext) {
             actualizarCarrusel
         );
 
-    /* =========================
-        OBSERVAR CAMBIOS EN LAS TARJETAS
-    ========================= */
 
-    const observer = new MutationObserver(() => {
+        /* Observar cambios en las tarjetas */
+
+        const observer = new MutationObserver(() => {
             requestAnimationFrame(actualizarCarrusel);
         });
 
@@ -300,7 +345,7 @@ if (moviesGrid && moviesPrev && moviesNext) {
         });
 
         actualizarCarrusel();
-    }    
+    }
 
 
     /* =========================
@@ -310,6 +355,7 @@ if (moviesGrid && moviesPrev && moviesNext) {
     menuList?.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
             menuList.classList.remove("is-open");
+
             menuButton?.classList.remove("is-open");
 
             menuButton?.setAttribute(
@@ -318,4 +364,5 @@ if (moviesGrid && moviesPrev && moviesNext) {
             );
         });
     });
+
 }

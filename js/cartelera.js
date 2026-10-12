@@ -1,36 +1,35 @@
 
-
 import Pelicula from "../modelos/modelo.js";
 import {
     pedirTMDB,
     establecerIdiomaTMDB
 } from "../api_services/tmdb.js";
+import { obtenerFavoritos } from "./favoritos.js";
 import { abrirFicha } from "./ficha.js";
 import { iniciarInterfaz } from "./script.js";
 import { iniciarAnimaciones } from "./animaciones.js";
-import { obtenerFavoritos } from "./favoritos.js";
 
 /* =========================
-   PELÍCULAS FRAMEWAVE
+   SELECCIÓN FRAMEWAVE
 ========================= */
 
-const peliculasFrameWave = [
-    "La favorita",
-    "Fallen Angels",
-    "Frankenstein",
-    "Enter the Void",
+export const peliculasFrameWave = [
+    "Solo los amantes sobreviven",
     "Holy Motors",
     "Mulholland Drive",
     "Gummo",
     "The Substance",
     "Déjame entrar",
+    "Fallen Angels",
     "The Love Witch",
     "Poor Things",
     "A Scanner Darkly",
     "Waking Life",
     "La Belle Verte",
     "The Neon Demon",
+    "Enter the Void",
     "The Lobster",
+    "The Lure",
     "Being John Malkovich",
     "Byzantium",
     "La hermanastra fea",
@@ -39,7 +38,7 @@ const peliculasFrameWave = [
     "The VVitch",
     "Breathing In",
     "La acompañante",
-    "Solo los amantes sobreviven",
+    "La favorita",
     "El laberinto del fauno",
     "La forma del agua",
     "Crimson Peak",
@@ -49,405 +48,668 @@ const peliculasFrameWave = [
     "Lost in Translation"
 ];
 
-const peliculasCargadas = [];
-const idsPeliculas = new Map();
-
-let idiomaActual =
-    localStorage.getItem("framewaveIdioma") === "en"
-        ? "en"
-        : "es";
-
-establecerIdiomaTMDB(idiomaActual);
-document.documentElement.lang = idiomaActual;
-
 /* =========================
-   BUSCAR UNA PELÍCULA
+   ESTADO DE LA CARTELERA
 ========================= */
 
-async function buscarPelicula(titulo) {
-    const { results } = await pedirTMDB(
+export const peliculasCargadas = [];
+
+/* IDs oficiales de los géneros de TMDB */
+
+const GENEROS_TMDB = {
+    "Drama": 18,
+    "Terror": 27,
+    "Comedia": 35,
+    "Romance": 10749,
+    "Thriller": 53,
+    "Misterio": 9648,
+    "Animación": 16,
+    "Crimen": 80
+};
+
+/* =========================
+   BUSCAR EN TMDB
+========================= */
+
+export async function buscarPelicula(titulo) {
+    const respuesta = await pedirTMDB(
         "/search/movie",
         { query: titulo }
     );
 
-    return results[0] ?? null;
+    return respuesta.results?.[0] ?? null;
 }
 
 
 /* =========================
-   FILTRAR POR GÉNERO
+   GÉNEROS · VENTANA EDITORIAL
 ========================= */
 
-let generoActivo = "all";
+function iniciarPeliculasGeneros() {
+    const esfera = document.querySelector(".genres-list");
 
-function normalizarGenero(genero) {
-    return genero
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim();
-}
+    if (!esfera) return;
 
-const equivalenciasGeneros = {
-    "Terror": ["terror", "horror"],
-    "Thriller": ["thriller", "suspense"]
-};
+    const clasificacionEditorial = {
+        "Ciencia ficción": {
+            descripcion:
+                "Realidades alteradas, futuros inciertos y preguntas sobre lo que significa ser humano.",
+            peliculas: [
+                "The Substance",
+                "A Scanner Darkly",
+                "The Lobster",
+                "Don't Worry Darling"
+            ]
+        },
 
-function mostrarPeliculas(rejilla) {
-    const peliculasFiltradas =
-        generoActivo === "all"
-            ? peliculasCargadas
-            : peliculasCargadas.filter((pelicula) => {
-                const generosBuscados =
-                    equivalenciasGeneros[generoActivo] ??
-                    [normalizarGenero(generoActivo)];
+        "Fantástico": {
+            descripcion:
+                "Mundos imposibles, criaturas extraordinarias y una realidad que se transforma ante nuestros ojos.",
+            peliculas: [
+                "Poor Things",
+                "The Lure",
+                "El laberinto del fauno",
+                "La forma del agua"
+            ]
+        },
 
-                return pelicula.generos.some((genero) =>
-                    generosBuscados.includes(
-                        normalizarGenero(genero)
-                    )
-                );
+        "Horror": {
+            descripcion:
+                "Lo inquietante, lo monstruoso y los miedos que permanecen mucho después de que termina la película.",
+            peliculas: [
+                "The VVitch",
+                "Déjame entrar",
+                "The Neon Demon",
+                "La cura del bienestar"
+            ]
+        },
+
+        "Drama psicológico": {
+            descripcion:
+                "Identidades fragmentadas, obsesiones y personajes que habitan territorios inciertos de la mente.",
+            peliculas: [
+                "Mulholland Drive",
+                "The Neon Demon",
+                "La favorita",
+                "Lost in Translation"
+            ]
+        },
+
+        "Fantasía oscura": {
+            descripcion:
+                "Cuentos retorcidos, belleza inquietante y universos donde lo maravilloso también puede ser terrible.",
+            peliculas: [
+                "Crimson Peak",
+                "Gaua",
+                "La hermanastra fea",
+                "The Love Witch"
+            ]
+        },
+
+        "Surrealismo": {
+            descripcion:
+                "Sueños, símbolos y narrativas que rompen las reglas de la lógica para explorar otras formas de percibir el mundo.",
+            peliculas: [
+                "Holy Motors",
+                "Mulholland Drive",
+                "Being John Malkovich",
+                "Waking Life"
+            ]
+        },
+
+        "Romance": {
+            descripcion:
+                "Amores insólitos, encuentros fugaces y relaciones que escapan de las convenciones románticas.",
+            peliculas: [
+                "Solo los amantes sobreviven",
+                "Fallen Angels",
+                "The Love Witch",
+                "Lost in Translation"
+            ]
+        },
+
+        "Experimental": {
+            descripcion:
+                "Cine que juega con la forma, el ritmo y las imágenes para descubrir maneras diferentes de contar historias.",
+            peliculas: [
+                "Holy Motors",
+                "Enter the Void",
+                "Gummo",
+                "Air Doll"
+            ]
+        }
+    };
+
+    /* Crear la ventana una sola vez */
+
+    let ventana = document.querySelector("#genreWindow");
+
+    if (!ventana) {
+        ventana = document.createElement("div");
+        ventana.id = "genreWindow";
+        ventana.className = "genre-window";
+        ventana.hidden = true;
+
+        ventana.innerHTML = `
+            <section
+                class="genre-window-panel"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="genreWindowTitle"
+                aria-describedby="genreWindowDescription"
+                tabindex="-1"
+            >
+                <button
+                    class="genre-window-close"
+                    type="button"
+                    aria-label="Cerrar ventana de género"
+                >×</button>
+
+                <div class="genre-window-heading">
+                    <span class="genre-window-kicker">
+                        EXPLORAR EL UNIVERSO
+                    </span>
+
+                    <h2 id="genreWindowTitle"></h2>
+
+                    <p id="genreWindowDescription"></p>
+                </div>
+
+                <div
+                    id="genreWindowPosters"
+                    class="genre-window-posters"
+                    aria-label="Películas de este género"
+                ></div>
+            </section>
+        `;
+
+        document.body.append(ventana);
+    }
+
+    const panel = ventana.querySelector(".genre-window-panel");
+    const titulo = ventana.querySelector("#genreWindowTitle");
+    const descripcion = ventana.querySelector(
+        "#genreWindowDescription"
+    );
+    const carteles = ventana.querySelector("#genreWindowPosters");
+    const botonCerrar = ventana.querySelector(".genre-window-close");
+
+    let enlaceActivo = null;
+
+    function cerrarVentana(devolverFoco = true) {
+        ventana.hidden = true;
+        document.body.classList.remove("genre-window-open");
+
+        if (enlaceActivo) {
+            enlaceActivo.classList.remove("is-selected");
+            enlaceActivo.setAttribute("aria-pressed", "false");
+        }
+
+        const ultimoEnlace = enlaceActivo;
+        enlaceActivo = null;
+
+        if (devolverFoco && ultimoEnlace) {
+            ultimoEnlace.focus();
+        }
+    }
+
+    function mostrarGenero(genero, enlace) {
+        const contenido = clasificacionEditorial[genero];
+
+        if (!contenido) return;
+
+        const peliculas = contenido.peliculas
+            .map(nombre =>
+                peliculasCargadas.find(
+                    pelicula =>
+                        pelicula.tituloFrameWave === nombre
+                )
+            )
+            .filter(Boolean);
+
+        if (peliculas.length === 0) return;
+
+        if (enlaceActivo) {
+            enlaceActivo.classList.remove("is-selected");
+            enlaceActivo.setAttribute("aria-pressed", "false");
+        }
+
+        enlaceActivo = enlace;
+        enlaceActivo.classList.add("is-selected");
+        enlaceActivo.setAttribute("aria-pressed", "true");
+
+        titulo.textContent = genero;
+        descripcion.textContent = contenido.descripcion;
+        carteles.replaceChildren();
+
+        peliculas.forEach((pelicula, indice) => {
+            const boton = document.createElement("button");
+            boton.type = "button";
+            boton.className = "genre-window-poster";
+            boton.dataset.id = String(pelicula.id);
+            boton.style.setProperty("--poster-index", indice);
+            boton.setAttribute(
+                "aria-label",
+                `Abrir ficha de ${pelicula.titulo}`
+            );
+
+            const imagen = document.createElement("img");
+            imagen.src = pelicula.posterUrl;
+            imagen.alt = pelicula.titulo;
+            imagen.loading = "lazy";
+
+            const nombre = document.createElement("span");
+            nombre.className = "genre-window-poster-title";
+            nombre.textContent = pelicula.titulo;
+
+            boton.append(imagen, nombre);
+
+            boton.addEventListener("click", () => {
+                const id = pelicula.id;
+
+                cerrarVentana(false);
+                abrirFicha(id);
             });
 
-    rejilla.replaceChildren();
+            carteles.append(boton);
+        });
 
-    peliculasFiltradas.forEach((pelicula, indice) => {
-        const card = pelicula.toCard();
+        ventana.hidden = false;
+        document.body.classList.add("genre-window-open");
 
-        card.style.setProperty("--i", indice);
+        requestAnimationFrame(() => {
+            panel.focus({ preventScroll: true });
+        });
+    }
 
-        rejilla.append(card);
+    /* Seleccionar un género */
+
+    esfera.querySelectorAll("a[data-genre]").forEach(enlace => {
+        enlace.setAttribute("aria-pressed", "false");
+
+        enlace.addEventListener("click", event => {
+            event.preventDefault();
+
+            const genero = enlace.dataset.genre;
+
+            if (enlaceActivo === enlace && !ventana.hidden) {
+                cerrarVentana();
+                return;
+            }
+
+            mostrarGenero(genero, enlace);
+        });
     });
-}
 
+    /* Cerrar con el botón */
 
+    botonCerrar.addEventListener("click", () => {
+        cerrarVentana();
+    });
 
-function prepararFiltrosGenero(rejilla) {
-    const filtros = document.querySelector("#genreFilters");
-    const desplegable = document.querySelector("#genreFilterDropdown");
-    const botonToggle = document.querySelector("#genreFilterToggle");
-    const etiqueta = document.querySelector("#genreFilterLabel");
+    /* Cerrar al pulsar fuera del panel */
 
-    if (!filtros || !desplegable || !botonToggle || !etiqueta) return;
+    ventana.addEventListener("click", event => {
+        if (event.target === ventana) {
+            cerrarVentana();
+        }
+    });
 
-    const cerrarDesplegable = () => {
-        filtros.hidden = true;
-        botonToggle.setAttribute("aria-expanded", "false");
-        desplegable.classList.remove("is-open");
-    };
+    /* Cerrar con Escape */
 
-    botonToggle.onclick = () => {
-        const abierto = !filtros.hidden;
-
-        filtros.hidden = abierto;
-        botonToggle.setAttribute("aria-expanded", String(!abierto));
-        desplegable.classList.toggle("is-open", !abierto);
-    };
-
-    filtros.onclick = (event) => {
-        if (!(event.target instanceof Element)) return;
-
-        const boton = event.target.closest(".genre-filter");
-
-        if (!boton) return;
-
-        generoActivo = boton.dataset.genre;
-
-        filtros.querySelectorAll(".genre-filter").forEach((filtro) => {
-            const seleccionado = filtro === boton;
-
-            filtro.classList.toggle("is-active", seleccionado);
-            filtro.setAttribute("aria-pressed", String(seleccionado));
-        });
-
-        etiqueta.textContent = generoActivo === "all"
-            ? "Filtrar por género"
-            : `Género: ${boton.textContent.trim()}`;
-
-        cerrarDesplegable();
-        mostrarPeliculas(rejilla);
-
-        rejilla.scrollTo({
-            left: 0,
-            top: 0,
-            behavior: "smooth"
-        });
-    };
-
-    document.addEventListener("click", (event) => {
-        if (
-            event.target instanceof Node &&
-            !desplegable.contains(event.target)
-        ) {
-            cerrarDesplegable();
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !ventana.hidden) {
+            cerrarVentana();
         }
     });
 }
 
-
-
 /* =========================
-   BOTÓN VER TODO
+   FILTRAR POR GÉNERO TMDB
 ========================= */
 
-function prepararBotonVerTodo(rejilla) {
-    const barra = document.querySelector(".movies-toolbar");
+function iniciarFiltroGeneros() {
+    const dropdown = document.querySelector("#genreFilterDropdown");
+    const toggle = document.querySelector("#genreFilterToggle");
+    const contenedor = document.querySelector("#genreFilters");
+    const etiqueta = document.querySelector("#genreFilterLabel");
+    const rejilla = document.querySelector("#rejilla");
 
-    if (!barra) {
-        console.error("No se encuentra .movies-toolbar en el HTML.");
+    if (!dropdown || !toggle || !contenedor || !rejilla) {
+        console.warn(
+            "No se ha encontrado el HTML del filtro de géneros."
+        );
         return;
     }
 
-    let boton = document.querySelector("#verTodasPeliculas");
+    const botones = [...contenedor.querySelectorAll(".genre-filter")];
 
-    if (!boton) {
-        boton = document.createElement("button");
+    let generoSeleccionado = "all";
 
-        boton.id = "verTodasPeliculas";
-        boton.className = "view-all-button";
-        boton.type = "button";
+    function cerrarDesplegable() {
+        contenedor.hidden = true;
+        toggle.setAttribute("aria-expanded", "false");
     }
 
-    barra.append(boton);
+    function actualizarFiltro() {
+        const idGenero = GENEROS_TMDB[generoSeleccionado];
 
-    actualizarTextoBoton(boton, rejilla);
+        rejilla.querySelectorAll(".card").forEach(card => {
+            const ids = (card.dataset.genreIds || "")
+                .split(",")
+                .filter(Boolean)
+                .map(Number);
 
-    boton.onclick = () => {
-        const vistaCompleta =
-            rejilla.classList.toggle("ver-todas");
+            const coincide =
+                generoSeleccionado === "all" ||
+                (
+                    idGenero !== undefined &&
+                    ids.includes(idGenero)
+                );
 
-        boton.setAttribute(
-            "aria-expanded",
-            String(vistaCompleta)
-        );
-
-        actualizarTextoBoton(boton, rejilla);
-
-        rejilla.scrollTo({
-            left: 0,
-            top: 0,
-            behavior: "smooth"
+            card.hidden = !coincide;
         });
-    };
 
-    return boton;
-}
+        rejilla.scrollLeft = 0;
 
+        requestAnimationFrame(() => {
+            rejilla.dispatchEvent(new Event("scroll"));
+        });
+    }
 
-/* =========================
-   ACTUALIZAR TEXTO DEL BOTÓN
-========================= */
+    toggle.addEventListener("click", () => {
+        const abrir = contenedor.hidden;
 
-function actualizarTextoBoton(boton, rejilla) {
-    const vistaCompleta =
-        rejilla.classList.contains("ver-todas");
+        contenedor.hidden = !abrir;
+        toggle.setAttribute("aria-expanded", String(abrir));
+    });
 
-    boton.textContent = vistaCompleta
-        ? idiomaActual === "en"
-            ? "Back"
-            : "Volver"
-        : idiomaActual === "en"
-            ? "View all"
-            : "Ver todo";
+    botones.forEach(boton => {
+        boton.addEventListener("click", () => {
+            generoSeleccionado = boton.dataset.genre || "all";
 
-    boton.setAttribute(
-        "aria-expanded",
-        String(vistaCompleta)
-    );
-}
+            botones.forEach(otroBoton => {
+                const activo = otroBoton === boton;
 
-/* =========================
-   CARGAR CARTELERA
-========================= */
-
-async function iniciarCartelera() {
-    const rejilla = document.querySelector("#rejilla");
-
-    if (!rejilla) return;
-
-    prepararBotonVerTodo(rejilla);
-    prepararFiltrosGenero(rejilla);
-
-    rejilla.replaceChildren();
-    peliculasCargadas.length = 0;
-
-    try {
-        for (const titulo of peliculasFrameWave) {
-            let resultado;
-
-            const idGuardado = idsPeliculas.get(titulo);
-
-            if (idGuardado) {
-                resultado = await pedirTMDB(
-                    `/movie/${idGuardado}`
+                otroBoton.classList.toggle("is-active", activo);
+                otroBoton.setAttribute(
+                    "aria-pressed",
+                    String(activo)
                 );
-            } else {
-                resultado = await buscarPelicula(titulo);
+            });
 
-                if (!resultado) continue;
-
-                idsPeliculas.set(titulo, resultado.id);
-
-                resultado = await pedirTMDB(
-                    `/movie/${resultado.id}`
-                );
+            if (etiqueta) {
+                etiqueta.textContent =
+                    generoSeleccionado === "all"
+                        ? "Filtrar por género"
+                        : boton.textContent.trim();
             }
 
-            const pelicula = Pelicula.desdeTMDB(resultado);
+            actualizarFiltro();
+            cerrarDesplegable();
+        });
+    });
 
-            peliculasCargadas.push(pelicula);
+    document.addEventListener("click", event => {
+        if (!dropdown.contains(event.target)) {
+            cerrarDesplegable();
         }
+    });
 
-        mostrarPeliculas(rejilla);
-        actualizarFavoritas();
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            cerrarDesplegable();
+            toggle.focus();
+        }
+    });
 
-    } catch (error) {
-        console.error(
-            "Error cargando la cartelera:",
-            error
-        );
-
-        rejilla.textContent =
-            idiomaActual === "en"
-                ? "The movie collection could not be loaded."
-                : "No se ha podido cargar la cartelera.";
-    }
+    return actualizarFiltro;
 }
 
 /* =========================
    ACTUALIZAR FAVORITAS
 ========================= */
 
-function actualizarFavoritas() {
-    const favoritesGrid =
-        document.querySelector("#favoritesGrid");
+let mostrarTodasLasFavoritas = false;
 
-    const rejilla =
-        document.querySelector("#rejilla");
+function ajustarFilasFavoritas() {
+    const grid = document.querySelector("#favoritesGrid");
+    const boton = document.querySelector("#favoritesToggle");
 
-    if (!favoritesGrid || !rejilla) return;
+    if (!grid) return;
 
-    const favoritosGuardados = obtenerFavoritos();
+    const tarjetas = [...grid.querySelectorAll(".card")];
 
-    favoritesGrid.replaceChildren();
-
-    peliculasCargadas.forEach((pelicula) => {
-        if (
-            favoritosGuardados.includes(
-                String(pelicula.id)
-            )
-        ) {
-            favoritesGrid.append(pelicula.toCard());
-        }
+    tarjetas.forEach(tarjeta => {
+        tarjeta.classList.remove("favorites-extra-row");
     });
 
+    if (tarjetas.length > 0) {
+        const primeraFila = tarjetas[0].offsetTop;
+
+        tarjetas.forEach(tarjeta => {
+            if (tarjeta.offsetTop > primeraFila) {
+                tarjeta.classList.add("favorites-extra-row");
+            }
+        });
+    }
+
+    const hayMasFilas = tarjetas.some(tarjeta =>
+        tarjeta.classList.contains("favorites-extra-row")
+    );
+
+    if (!hayMasFilas) {
+        mostrarTodasLasFavoritas = false;
+    }
+
+    grid.classList.toggle("show-all", mostrarTodasLasFavoritas);
+
+    if (boton) {
+        boton.hidden = !hayMasFilas;
+
+        boton.textContent = mostrarTodasLasFavoritas
+            ? "Mostrar menos"
+            : "Ver todas las favoritas";
+
+        boton.setAttribute(
+            "aria-expanded",
+            String(mostrarTodasLasFavoritas)
+        );
+    }
+}
+
+export function actualizarFavoritas() {
+    const grid = document.querySelector("#favoritesGrid");
+
+    if (!grid) return;
+
+    const idsFavoritos = obtenerFavoritos().map(String);
+
+    const favoritas = peliculasCargadas.filter(pelicula =>
+        idsFavoritos.includes(String(pelicula.id))
+    );
+
+    grid.replaceChildren();
+
+    favoritas.forEach(pelicula => {
+        grid.append(pelicula.toCard());
+    });
+
+    requestAnimationFrame(ajustarFilasFavoritas);
+
     document.querySelectorAll(
-        "#rejilla .card, #favoritesGrid .card"
-    ).forEach((card) => {
+        "#rejilla .card, #favoritesGrid .card, #genreMovies .card"
+    ).forEach(card => {
         const pelicula = peliculasCargadas.find(
-            (p) => String(p.id) === card.dataset.id
+            p => String(p.id) === card.dataset.id
         );
 
-        const boton =
-            card.querySelector(".favorite-button");
+        const boton = card.querySelector(".favorite-button");
 
         if (pelicula && boton) {
             Pelicula.pintarFavorito(
                 boton,
                 pelicula.titulo,
-                favoritosGuardados.includes(
-                    String(pelicula.id)
-                )
+                idsFavoritos.includes(String(pelicula.id))
             );
         }
     });
 }
+
+/* =========================
+   DESPLEGAR FAVORITAS
+========================= */
+
+const botonFavoritas = document.querySelector("#favoritesToggle");
+
+botonFavoritas?.addEventListener("click", () => {
+    const grid = document.querySelector("#favoritesGrid");
+
+    if (!grid) return;
+
+    mostrarTodasLasFavoritas = !mostrarTodasLasFavoritas;
+
+    grid.classList.toggle("show-all", mostrarTodasLasFavoritas);
+
+    botonFavoritas.textContent = mostrarTodasLasFavoritas
+        ? "Mostrar menos"
+        : "Ver todas las favoritas";
+
+    botonFavoritas.setAttribute(
+        "aria-expanded",
+        String(mostrarTodasLasFavoritas)
+    );
+});
 
 window.addEventListener(
     "framewaveFavoritasActualizadas",
     actualizarFavoritas
 );
 
+window.addEventListener("resize", () => {
+    requestAnimationFrame(ajustarFilasFavoritas);
+});
 
 /* =========================
-   ABRIR FICHA AL PULSAR TARJETA
+   VER TODAS LAS PELÍCULAS
 ========================= */
 
-function gestionarAperturaFicha(event) {
-        if (!(event.target instanceof Element)) return;
+const botonVerTodas = document.querySelector("#verTodasPeliculas");
+const rejillaPeliculas = document.querySelector("#rejilla");
 
-        const card = event.target.closest(".card");
+let mostrarTodasLasPeliculas = false;
 
-        if (!card) return;
+botonVerTodas?.addEventListener("click", () => {
+    if (!rejillaPeliculas) return;
 
-        // El botón de favoritos mantiene su propio comportamiento
-        if (event.target.closest(".favorite-button")) {
-            return;
-        }
+    mostrarTodasLasPeliculas = !mostrarTodasLasPeliculas;
 
-        const id = card.dataset.id;
+    rejillaPeliculas.classList.toggle(
+        "ver-todas",
+        mostrarTodasLasPeliculas
+    );
 
-        if (!id) {
-            console.error("La tarjeta no tiene data-id.");
-            return;
-        }
+    botonVerTodas.textContent = mostrarTodasLasPeliculas
+        ? "Mostrar menos"
+        : "Ver todas";
 
-        abrirFicha(id).catch((error) => {
-            console.error("Fallo al ejecutar abrirFicha:", error);
-        });
-    }
-
-            // Abrir con ratón o pantalla táctil
-            document.addEventListener("click", gestionarAperturaFicha);
-
-            // Abrir con Enter o barra espaciadora
-            document.addEventListener("keydown", (event) => {
-                if (event.key !== "Enter" && event.key !== " ") return;
-
-        if (!(event.target instanceof Element)) return;
-
-        const card = event.target.closest(".card");
-
-        if (!card) return;
-
-        // No interferir con botones ni otros controles
-        if (
-            event.target.closest(
-                "button, a, input, textarea, select, [contenteditable='true']"
-            )
-        ) {
-            return;
-        }
-
-        event.preventDefault();
-        gestionarAperturaFicha(event);
-    });
+    botonVerTodas.setAttribute(
+        "aria-expanded",
+        String(mostrarTodasLasPeliculas)
+    );
+});
 
 /* =========================
-   INICIAR FRAMEWAVE
+   INICIALIZAR APLICACIÓN
 ========================= */
+
+const actualizarFiltroGenero = iniciarFiltroGeneros();
 
 iniciarInterfaz({
     peliculasFrameWave,
     buscarPelicula,
     abrirFicha,
-
-    cambiarIdioma: async (idioma) => {
-        idiomaActual = idioma;
-
-        establecerIdiomaTMDB(idiomaActual);
-
-        localStorage.setItem(
-            "framewaveIdioma",
-            idiomaActual
-        );
-
-        document.documentElement.lang = idiomaActual;
-
-        await iniciarCartelera();
+    cambiarIdioma: async idioma => {
+        establecerIdiomaTMDB(idioma);
+        await iniciar();
     }
 });
 
-iniciarAnimaciones();
+/* =========================
+   CARGAR CARTELERA
+========================= */
 
-iniciarCartelera();
+export async function iniciar() {
+    const rejilla = document.querySelector("#rejilla");
+
+    if (!rejilla) {
+        console.error('No se encuentra la rejilla "#rejilla".');
+        return;
+    }
+
+    rejilla.replaceChildren();
+    peliculasCargadas.length = 0;
+
+    for (const titulo of peliculasFrameWave) {
+        try {
+            const resultado = await buscarPelicula(titulo);
+
+            if (!resultado) {
+                console.warn(`No se encontró en TMDB: ${titulo}`);
+                continue;
+            }
+
+            const pelicula = Pelicula.desdeTMDB(resultado);
+
+            // Identificador editorial independiente del idioma de TMDB.
+            pelicula.tituloFrameWave = titulo;
+
+            peliculasCargadas.push(pelicula);
+
+            const tarjeta = pelicula.toCard();
+
+            tarjeta.style.setProperty(
+                "--i",
+                String(rejilla.children.length)
+            );
+
+            rejilla.append(tarjeta);
+
+        } catch (error) {
+            console.error(
+                `Error cargando "${titulo}":`,
+                error
+            );
+        }
+    }
+
+    actualizarFavoritas();
+
+    // Mantener el filtro de la cartelera tras cambiar de idioma.
+    actualizarFiltroGenero?.();
+
+    // Actualizar flechas y progreso del carrusel.
+    requestAnimationFrame(() => {
+        rejilla.dispatchEvent(new Event("scroll"));
+    });
+
+    // Si había un género seleccionado, refrescar sus tarjetas.
+    const generoActivo = document.querySelector(
+        ".genres-list a.is-selected"
+    );
+
+    if (generoActivo) {
+        const evento = new Event("click", {
+            bubbles: true,
+            cancelable: true
+        });
+
+        // No simulamos el clic, porque eso deseleccionaría el género.
+        // La selección se conserva y las películas se pueden volver a elegir.
+    }
+}
+
+iniciarPeliculasGeneros();
+iniciarAnimaciones();
+iniciar();
+

@@ -1,52 +1,81 @@
 
-import { obtenerFavoritos, alternarFavorito } from "../js/favoritos.js";
+import {
+    obtenerFavoritos,
+    alternarFavorito,
+    mostrarNotificacionFavoritos
+} from "../js/favoritos.js";
 
 export default class Pelicula {
-    constructor({ id, titulo, anio, nota, poster, generos }) {
+    constructor({
+        id,
+        titulo,
+        anio,
+        nota,
+        poster,
+        generos = [],
+        generoIds = []
+    }) {
         this.id = id;
         this.titulo = titulo;
         this.anio = anio;
         this.nota = nota;
         this.poster = poster;
         this.generos = generos;
-
+        this.generoIds = generoIds;
     }
 
-    
+    // URL del póster para las tarjetas.
     get posterUrl() {
         if (!this.poster) return null;
+
         return `https://image.tmdb.org/t/p/w342${this.poster}`;
     }
 
+    // URL del póster en mayor resolución para la ficha.
     get posterUrlGrande() {
         if (!this.poster) return null;
+
         return `https://image.tmdb.org/t/p/w780${this.poster}`;
     }
 
+    // Convierte los datos de TMDB en una instancia de Pelicula.
     static desdeTMDB({
         id,
         title,
         release_date,
         vote_average,
         poster_path = null,
+        genre_ids = [],
         genres = []
     }) {
+        // Los resultados de búsqueda contienen genre_ids.
+        // Los detalles de una película pueden contener genres.
+        const generoIds = genre_ids.length
+            ? genre_ids
+            : genres.map(genero => genero.id);
 
-    return new Pelicula({
-        id,
-        titulo: title,
-        anio: release_date ? release_date.slice(0, 4) : "----",
-        nota: vote_average,
-        poster: poster_path,
-        generos: genres.map(genero => genero.name)
+        return new Pelicula({
+            id,
+            titulo: title,
+            anio: release_date
+                ? release_date.slice(0, 4)
+                : "----",
+            nota: vote_average,
+            poster: poster_path,
+            generos: genres.map(genero => genero.name),
+            generoIds
+        });
+    }
 
-    });
-}
-
-    /* Aspecto del botón de favorito según su estado */
+    // Actualiza el aspecto y la accesibilidad del botón favorito.
     static pintarFavorito(boton, titulo, esFavorita) {
         boton.textContent = esFavorita ? "♥" : "♡";
-        boton.classList.toggle("is-favorite", esFavorita);
+
+        boton.classList.toggle(
+            "is-favorite",
+            esFavorita
+        );
+
         boton.setAttribute(
             "aria-label",
             esFavorita
@@ -55,60 +84,102 @@ export default class Pelicula {
         );
     }
 
-    
-toCard() {
-    const card = document.createElement("article");
-    card.className = "card";
-    card.dataset.id = this.id;
+    // Crea la tarjeta de la película.
+    toCard() {
+        const card = document.createElement("article");
 
-    // Accesibilidad y navegación por teclado
-    card.tabIndex = 0;
-    card.setAttribute("role", "button");
-    card.setAttribute(
-        "aria-label",
-        `Ver detalles de ${this.titulo}, ${this.anio}`
-    );
+        card.className = "card";
+        card.dataset.id = this.id;
 
-    if (this.posterUrl) {
+        // Identificadores necesarios para filtrar por género.
+        card.dataset.genreIds = this.generoIds.join(",");
+
+        // Accesibilidad y navegación por teclado.
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+
+        card.setAttribute(
+            "aria-label",
+            `Ver detalles de ${this.titulo}, ${this.anio}`
+        );
+
+        // Póster.
         const img = document.createElement("img");
-        img.src = this.posterUrl;
+
         img.alt = `Póster de ${this.titulo}`;
         img.loading = "lazy";
-        card.append(img);
-    }
 
-    const titulo = document.createElement("h3");
-    titulo.textContent = this.titulo;
+        if (this.posterUrl) {
+            img.src = this.posterUrl;
 
-    const favorito = document.createElement("button");
-    favorito.className = "favorite-button";
-    favorito.type = "button";
+            // Si no se encuentra el póster, se conserva la tarjeta.
+            img.addEventListener(
+                "error",
+                () => {
+                    img.remove();
+                    card.classList.add("sin-poster");
+                },
+                { once: true }
+            );
 
-    Pelicula.pintarFavorito(
-        favorito,
-        this.titulo,
-        obtenerFavoritos().includes(String(this.id))
-    );
+            card.append(img);
+        } else {
+            card.classList.add("sin-poster");
+        }
 
-    favorito.addEventListener("click", (event) => {
-        event.stopPropagation();
+        // Título.
+        const titulo = document.createElement("h3");
+        titulo.textContent = this.titulo;
 
-        const esFavorita = alternarFavorito(this.id);
+        // Botón de favoritos.
+        const favorito = document.createElement("button");
+
+        favorito.className = "favorite-button";
+        favorito.type = "button";
+
         Pelicula.pintarFavorito(
             favorito,
             this.titulo,
-            esFavorita
+            obtenerFavoritos().includes(String(this.id))
         );
-    });
 
-    const fila = document.createElement("div");
-    fila.className = "card-title-row";
-    fila.append(titulo, favorito);
+        favorito.addEventListener("click", event => {
+            event.stopPropagation();
 
-    const info = document.createElement("p");
-    info.textContent = `${this.anio} · ${this.nota.toFixed(1)}`;
+            const esFavorita = alternarFavorito(this.id);
 
-    card.append(fila, info);
+            Pelicula.pintarFavorito(
+                favorito,
+                this.titulo,
+                esFavorita
+            );
 
-    return card;
-}}
+                        
+            if (esFavorita) {
+                mostrarNotificacionFavoritos();
+            }
+
+            window.dispatchEvent(
+                new CustomEvent("framewaveFavoritasActualizadas")
+            );
+        });
+
+        const fila = document.createElement("div");
+        fila.className = "card-title-row";
+        fila.append(titulo, favorito);
+
+        // Año y valoración.
+        const info = document.createElement("p");
+        const nota = Number(this.nota);
+
+        info.textContent = `${this.anio} · ${
+            Number.isFinite(nota)
+                ? nota.toFixed(1)
+                : "—"
+        }`;
+
+        card.append(fila, info);
+
+        return card;
+    }
+}
