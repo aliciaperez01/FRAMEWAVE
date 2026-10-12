@@ -36,19 +36,3 @@
     right: 12px;
 }
 
-/* Tema claro */
-
-:root.light-mode .frames-arrow {
-    color: var(--texto);
-    background: rgba(243, 238, 232, 0.78);
-    border-color: rgba(113, 59, 89, 0.22);
-
-    box-shadow:
-        0 4px 18px rgba(48, 32, 45, 0.12),
-        0 0 18px rgba(112, 68, 95, 0.08);
-}
-
-:root.light-mode .frames-arrow:hover {
-    background: rgba(231, 222, 212, 0.96);
-    border-color: rgba(113, 59, 89, 0.55);
-}

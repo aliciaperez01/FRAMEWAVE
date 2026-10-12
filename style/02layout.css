@@ -169,22 +169,6 @@
     transition: background 0.3s ease;
 }
 
-:root.light-mode .header {
-    background: linear-gradient(
-        to right,
-        rgba(243, 238, 232, 0.50) 0%,
-        rgba(243, 238, 232, 0.30) 8%,
-        rgba(243, 238, 232, 0.14) 18%,
-        rgba(243, 238, 232, 0.04) 30%,
-        transparent 40%,
-        transparent 60%,
-        rgba(243, 238, 232, 0.04) 70%,
-        rgba(243, 238, 232, 0.14) 82%,
-        rgba(243, 238, 232, 0.30) 92%,
-        rgba(243, 238, 232, 0.50) 100%
-    );
-}
-
 
 /* =========================
    NAVEGACIÓN Y CONTROLES
@@ -363,19 +347,6 @@
     animation: menuAppear 0.55s ease both;
 }
 
-/* Modo claro */
-:root.light-mode .menu-list {
-    background:
-        radial-gradient(
-            ellipse at 20% 15%,
-            rgba(161, 125, 154, 0.22),
-            transparent 65%
-        ),
-        rgba(243, 238, 232, 0.9);
-    box-shadow:
-        0 15px 45px rgba(73, 49, 68, 0.10),
-        0 0 35px rgba(128, 101, 143, 0.12);
-}
 
 /* Enlaces */
 .menu-list a {
@@ -863,9 +834,6 @@
     transform: translateY(0.08em);
 }
 
-:root.light-mode .framewave-compact {
-    color: #FFFFFF;
-}
 
 
 /* =========================
@@ -997,38 +965,145 @@
 }
 
 
-/* =========================
-   SOBRE FRAMEWAVE
-========================= */
+/* ========================================
+   SOBRE FRAMEWAVE · REFLEXIÓN EDITORIAL
+======================================== */
 
+#about .section-heading {
+    max-width: 800px;
+    margin-bottom: 0;
+}
+
+/* Composición de los cuatro párrafos */
 .about-content {
-    max-width: 900px;
-    margin-top: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: min(100%, 900px);
+    margin: 42px 0 0;
 }
 
+/* Texto principal */
 .about-text {
-    max-width: 700px;
+    max-width: 760px;
+    margin: 0;
     color: var(--texto);
-    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-family: var(--fuente-texto);
+    font-size: clamp(1rem, 1.25vw, 1.12rem);
     font-weight: 400;
-    line-height: 1.6;
-    letter-spacing: -0.01em;
+    line-height: 1.95;
+    letter-spacing: 0.005em;
+    text-wrap: pretty;
 }
 
+/* Desarrollo de la reflexión */
+.about-text-secondary {
+    max-width: 720px;
+    margin-left: auto;
+    color: var(--texto-secundario);
+    font-size: clamp(0.94rem, 1.15vw, 1.02rem);
+    line-height: 1.95;
+}
+
+/* Palabras destacadas */
 .about-text em {
     color: var(--secundario);
     font-family: var(--fuente-titulo);
     font-style: italic;
 }
 
-.about-text-secondary {
-    max-width: 600px;
-    margin-top: 30px;
-    color: var(--texto-secundario);
-    font-size: 0.95rem;
-    line-height: 1.7;
+/* Cierre: frase protagonista */
+.about-text-closing {
+    position: relative;
+    max-width: 780px;
+    margin-top: 14px;
+    padding-top: 27px;
+    color: var(--oro);
+    font-family: var(--fuente-titulo);
+    font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.45;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
 }
 
+/* Pequeño gesto editorial */
+.about-text-closing::before {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 1px;
+    margin-bottom: 22px;
+    background: linear-gradient(
+        90deg,
+        var(--oro),
+        var(--secundario),
+        transparent
+    );
+    opacity: 0.85;
+}
+
+
+
+/* ========================================
+   SOBRE FRAMEWAVE · RESPONSIVE
+======================================== */
+
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1023px) {
+    .about-content {
+        gap: 24px;
+        margin-top: 34px;
+    }
+
+    .about-text {
+        max-width: 680px;
+        line-height: 1.85;
+    }
+
+    .about-text-secondary {
+        max-width: 650px;
+    }
+
+    .about-text-closing {
+        margin-top: 8px;
+    }
+}
+
+/* Móvil */
+@media (max-width: 600px) {
+    .about-content {
+        gap: 22px;
+        margin-top: 28px;
+    }
+
+    .about-text {
+        max-width: 100%;
+        font-size: 0.96rem;
+        line-height: 1.85;
+        letter-spacing: 0;
+    }
+
+    .about-text-secondary {
+        max-width: 100%;
+        margin-left: 0;
+        font-size: 0.91rem;
+        line-height: 1.85;
+    }
+
+    .about-text-closing {
+        margin-top: 8px;
+        padding-top: 22px;
+        font-size: clamp(1.35rem, 6vw, 1.7rem);
+        line-height: 1.5;
+    }
+
+    .about-text-closing::before {
+        margin-bottom: 18px;
+    }
+}
 
 /* =========================
    BUSCADOR
@@ -1077,10 +1152,6 @@
     color: var(--texto-secundario);
 }
 
-:root.light-mode .search-form.is-open {
-    background: rgba(243, 238, 232, 0.72);
-    box-shadow: 0 8px 24px rgba(73, 49, 68, 0.07);
-}
 
 
 /* =========================

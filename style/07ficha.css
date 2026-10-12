@@ -81,12 +81,6 @@
     display: block;
 }
 
-:root.light-mode .movie-detail {
-    background: rgba(243, 238, 232, 0.97);
-    box-shadow:
-        0 20px 50px rgba(48, 32, 45, 0.18),
-        0 0 45px rgba(112, 68, 95, 0.08);
-}
 
 .movie-detail::before {
     content: "";
@@ -349,6 +343,7 @@
     transform: scale(1.08);
 }
 
+
 /* =========================
    CONTADOR DE FOTOGRAMAS
 ========================= */
@@ -360,26 +355,40 @@
     bottom: auto;
     left: auto;
     transform: none;
+
+    padding: 6px 11px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
+
     background: rgba(13, 16, 24, 0.35);
     color: var(--texto-secundario);
+
     font-size: 0.68rem;
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0.04em;
-    opacity: 0.65;
+    letter-spacing: 0.07em;
+
+    opacity: 0.75;
     pointer-events: none;
+
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    transition: opacity 0.3s ease;
+
+    transition:
+        opacity 0.3s ease,
+        background 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease;
 }
 
-/* Ocultar controles cuando no se necesitan */
 
+
+/* Ocultar controles cuando no se necesitan */
 .gallery-button[hidden],
 .gallery-counter[hidden] {
     display: none;
 }
+
+
 
 /* =========================
    FICHA · TEXTO E INFORMACIÓN
@@ -578,19 +587,7 @@
     transform: scale(0.96);
 }
 
-/* Evitar fondos heredados en tema claro */
 
-:root.light-mode .movie-detail-favorite {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-}
-
-:root.light-mode .movie-detail-favorite.is-favorite,
-:root.light-mode .movie-detail-favorite[aria-pressed="true"] {
-    color: var(--principal);
-    filter: none;
-}
 
 /* =========================
    GALERÍA DE FOTOGRAMAS
@@ -671,20 +668,6 @@
     display: none !important;
 }
 
-/* Tema claro */
-
-:root.light-mode #galleryPrev,
-:root.light-mode #galleryNext {
-    background: rgba(243, 238, 232, 0.88);
-    border-color: rgba(113, 59, 89, 0.25);
-    color: var(--texto);
-}
-
-:root.light-mode #galleryPrev:hover,
-:root.light-mode #galleryNext:hover {
-    background: rgba(231, 222, 212, 0.97);
-    border-color: rgba(113, 59, 89, 0.6);
-}
 
 /* Móvil */
 

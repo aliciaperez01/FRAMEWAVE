@@ -1,151 +1,222 @@
+/* ═══════════════════════════════════════════════════════
+FRAMEWAVE · HOJA DE ESTILOS PRINCIPAL
+═══════════════════════════════════════════════════════ */
 
+/* =======================================================
+01 · IMPORTACIÓN DE MÓDULOS
+======================================================= */
 
-/* ═══════════════════════════════════════
-   FRAMEWAVE · HOJA DE ESTILOS PRINCIPAL
-   ═══════════════════════════════════════ */
-
-/* 🟣 01 · ESTRUCTURA Y ESTILOS GENERALES */
 @import url("./02layout.css");
-
-/* ✨ 02 · ANIMACIONES Y EFECTOS */
 @import url("./03animaciones.css");
-
-/* 🎬 03 · CARTELERA DE PELÍCULAS */
 @import url("./04cartelera.css");
-
-/* ♥ 04 · PELÍCULAS FAVORITAS */
 @import url("./05favoritas.css");
-
-/* 🪐 05 · ESFERA DE GÉNEROS */
 @import url("./06generos.css");
-
-/* 🎞️ 06 · FICHA DE PELÍCULA */
 @import url("./07ficha.css");
-
-/* 📽️ 07 · GALERÍA DE FOTOGRAMAS */
 @import url("./08fotogramas.css");
-
-/* 📱 08 · DISEÑO RESPONSIVE */
 @import url("./09responsive.css");
 
-
-
-/* ═══════════════════════════════════════
-   ESTILOS BASE · STYLE.CSS
-   ═══════════════════════════════════════ */
-
-/* =========================
-   FONTS
-========================= */
+/* =======================================================
+02 · FUENTES
+======================================================= */
 
 @font-face {
-    font-family: "Fraunces";
-    src: url("../fonts/Fraunces-VF.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
+font-family: "Fraunces";
+src: url("../fonts/Fraunces-VF.woff2") format("woff2");
+font-weight: 100 900;
+font-style: normal;
+font-display: swap;
 }
 
 @font-face {
-    font-family: "Fraunces";
-    src: url("../fonts/Fraunces-Italic-VF.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: italic;
-    font-display: swap;
+font-family: "Fraunces";
+src: url("../fonts/Fraunces-Italic-VF.woff2") format("woff2");
+font-weight: 100 900;
+font-style: italic;
+font-display: swap;
 }
 
 @font-face {
-    font-family: "Space Grotesk";
-    src: url("../fonts/SpaceGrotesk-VF.woff2") format("woff2");
-    font-weight: 300 700;
-    font-style: normal;
-    font-display: swap;
+font-family: "Space Grotesk";
+src: url("../fonts/SpaceGrotesk-VF.woff2") format("woff2");
+font-weight: 300 700;
+font-style: normal;
+font-display: swap;
 }
 
-
-/* =========================
-   RESET
-========================= */
+/* =======================================================
+03 · RESET
+======================================================= */
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  }
 
-
-/* =========================
-   VARIABLES
-========================= */
+/* =======================================================
+04 · VARIABLES GLOBALES
+======================================================= */
 
 :root {
-    /* Paleta fija */
-    --c-ciruela: #713B59;
-    --c-malva: #A87596;
-    --c-oro: #B89A5A;
-    --c-crema: #F0E8D8;
+/* 01 · Paleta de identidad compartida */
+--c-ciruela: #713B59;
+--c-malva: #A87596;
+--c-oro: #B89A5A;
+--c-crema: #F0E8D8;
 
-    /* Tema oscuro */
-    --fondo: #0D1018;
-    --superficie: #181D29;
-    --texto: var(--c-crema);
-    --texto-secundario: #AAA5B4;
-    --principal: var(--c-ciruela);
-    --secundario: var(--c-malva);
-    --oro: var(--c-oro);
-    --acento: var(--oro);
-    --enfasis: var(--secundario);
-    --borde: rgba(240, 232, 216, 0.15);
-    --hero-texto: var(--texto-secundario);
+ 
+/* 02 · Paleta mineral */
+--c-salvia: #718675;
+--c-salvia-clara: #D5DED0;
+--c-salvia-profunda: #465B4B;
 
-    /* Tipografía */
-    --fuente-titulo: "Fraunces", serif;
-    --fuente-texto: "Space Grotesk", sans-serif;
-    --variacion-titulo: "opsz" 72, "SOFT" 70, "WONK" 1;
+/* 03 · Fondos y superficies · Tema oscuro */
+--fondo: #0D1018;
+--superficie: #181D29;
+
+/* 04 · Textos · Tema oscuro */
+--texto: var(--c-crema);
+--texto-secundario: #AAA5B4;
+--hero-texto: var(--texto-secundario);
+
+/* 05 · Identidad cromática · Tema oscuro */
+--principal: var(--c-ciruela);
+--secundario: var(--c-malva);
+--oro: var(--c-oro);
+
+/* 06 · Acentos */
+--acento: var(--oro);
+--enfasis: var(--secundario);
+
+/* 07 · Bordes */
+--borde: rgba(240, 232, 216, 0.15);
+--borde-salvia: rgba(137, 152, 137, 0.30);
+
+/* 08 · Superficies minerales y reflejos · Tema oscuro */
+--salvia-superficie: rgba(113, 134, 117, 0.20);
+--salvia-reflejo: rgba(113, 134, 117, 0.15);
+--salvia-sombra: rgba(113, 134, 117, 0.16);
+--salvia-borde: rgba(137, 152, 137, 0.30);
+
+/* 09 · Controles de fotogramas · Tema oscuro */
+--galeria-superficie: rgba(113, 134, 117, 0.22);
+--galeria-texto: var(--c-crema);
+--galeria-borde: rgba(137, 152, 137, 0.34);
+
+/* 10 · Tipografía */
+--fuente-titulo: "Fraunces", serif;
+--fuente-texto: "Space Grotesk", sans-serif;
+--variacion-titulo: "opsz" 72, "SOFT" 70, "WONK" 1;
+ 
+
 }
 
+/* =======================================================
+05 · VARIABLES DEL TEMA CLARO
+======================================================= */
+
 :root.light-mode {
-    --fondo: #F3EEE8;
-    --superficie: #E8DFE3;
-    --texto: #302431;
-    --texto-secundario: #695666;
+/* 01 · Fondos y superficies */
+--fondo: #F3F0E8;
+--superficie: #E4E8DE;
+
+ 
+/* 02 · Textos */
+--texto: #302B30;
+--texto-secundario: #625D61;
+--hero-texto: #594F57;
+
+/* 03 · Identidad cromática */
+--principal: #70445F;
+--secundario: #986889;
+--oro: #80658F;
+
+/* 04 · Acentos */
+--acento: var(--principal);
+--enfasis: var(--principal);
+
+/* 05 · Bordes */
+--borde: rgba(78, 91, 76, 0.20);
+--borde-salvia: rgba(70, 91, 75, 0.32);
+
+/* 06 · Superficies minerales y reflejos · Tema claro */
+--salvia-superficie: rgba(113, 134, 117, 0.28);
+--salvia-reflejo: rgba(113, 134, 117, 0.22);
+--salvia-sombra: rgba(113, 134, 117, 0.20);
+--salvia-borde: rgba(70, 91, 75, 0.32);
+
+/* 07 · Controles de fotogramas · Tema claro */
+--galeria-superficie: rgba(213, 222, 208, 0.96);
+--galeria-texto: #344B3A;
+--galeria-borde: rgba(70, 91, 75, 0.38);
+
+
+/* 08 · Acentos salvia para el modo claro */
+--salvia-filtro: #E5E9DF;
+--salvia-filtro-texto: #4D594E;
+--salvia-filtro-borde: rgba(91, 117, 96, 0.30);
+--salvia-filtro-hover: rgba(213, 222, 208, 0.78);
+--salvia-filtro-hover-texto: #354638;
+--salvia-filtro-activo: #526D58;
+--salvia-filtro-activo-hover: #405A46;
+--salvia-filtro-sombra: rgba(82, 109, 88, 0.22);
+--salvia-panel: rgba(243, 240, 232, 0.97);
+--salvia-panel-borde: rgba(91, 117, 96, 0.28);
+ 
+/* Superficies y textos */
+    --fondo: #F3F0E8;
+    --superficie: #E4E8DE;
+    --texto: #302B30;
+    --texto-secundario: #625D61;
+    --hero-texto: #594F57;
+
+    /* Colores principales del tema */
     --principal: #70445F;
     --secundario: #986889;
     --oro: #80658F;
     --acento: var(--principal);
     --enfasis: var(--principal);
-    --borde: rgba(73, 49, 68, 0.16);
-    --hero-texto: #594653;
+    --borde: rgba(78, 91, 76, 0.20);
+
+    /* Paleta salvia */
+--salvia-filtro: #E5E9DF;
+--salvia-filtro-texto: #4D594E;
+--salvia-filtro-borde: rgba(91, 117, 96, 0.30);
+--salvia-filtro-hover: rgba(213, 222, 208, 0.78);
+--salvia-filtro-hover-texto: #354638;
+--salvia-filtro-activo: #526D58;
+--salvia-filtro-activo-hover: #405A46;
+--salvia-filtro-sombra: rgba(82, 109, 88, 0.22);
+--salvia-filtro-sombra-suave: rgba(91, 117, 96, 0.12);
+--salvia-panel: rgba(243, 240, 232, 0.97);
+--salvia-panel-borde: rgba(91, 117, 96, 0.28);
+
+    /* Ficha cinematográfica */
+--ficha-fondo: #F3F0E8;
+--ficha-superficie: rgba(243, 240, 232, 0.94);
+--ficha-salvia-halo: rgba(113, 134, 117, 0.16);
+--ficha-salvia-borde: rgba(91, 117, 96, 0.24);
+--ficha-sombra: rgba(48, 43, 48, 0.18);
+
+
 }
 
-/* Notificación de favoritos — modo claro */
-
-:root.light-mode #favoritosNotificacion {
-    background: rgba(243, 238, 232, 0.97);
-    color: var(--texto);
-    border-color: rgba(112, 68, 95, 0.30);
-    box-shadow: 0 10px 30px rgba(48, 36, 49, 0.14);
-}
-
-
-
-
-/* =========================
-   GENERAL
-========================= */
+/* =======================================================
+06 · ESTRUCTURA GENERAL
+======================================================= */
 
 html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 100px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--principal) var(--fondo);
+scroll-behavior: smooth;
+scroll-padding-top: 100px;
+scrollbar-width: thin;
+scrollbar-color: var(--principal) var(--fondo);
 }
 
 body {
-    min-height: 100vh;
-    background-color: var(--fondo);
-    color: var(--texto);
-    font-family: var(--fuente-texto);
+min-height: 100vh;
+background-color: var(--fondo);
+color: var(--texto);
+font-family: var(--fuente-texto);
 }
 
 h1,
@@ -153,143 +224,779 @@ h2,
 h3,
 .framewave,
 a {
-    color: inherit;
-    text-decoration: none;
+color: inherit;
+text-decoration: none;
 }
 
 button {
-    font: inherit;
+font: inherit;
 }
 
 :focus-visible {
-    outline: 2px solid var(--oro);
-    outline-offset: 3px;
+outline: 2px solid var(--oro);
+outline-offset: 3px;
 }
 
-
-
-/* =========================
-   SCROLLBAR
-========================= */
-
+/* =======================================================
+07 · BARRAS DE DESPLAZAMIENTO
+======================================================= */
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+width: 8px;
+height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--fondo);
+background: var(--fondo);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--principal);
-    border: 2px solid var(--fondo);
-    border-radius: 10px;
-    transition: background 0.3s ease;
+background: var(--principal);
+border: 2px solid var(--fondo);
+border-radius: 10px;
+transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--oro);
-}
-
-/* Barra de la ficha: más discreta */
-
-.movie-detail::-webkit-scrollbar {
-    width: 6px;
-}
-
-.movie-detail::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.movie-detail::-webkit-scrollbar-thumb {
-    background: rgba(168, 117, 150, 0.4);
-    border: none;
-    border-radius: 10px;
-}
-
-.movie-detail::-webkit-scrollbar-thumb:hover {
-    background: var(--secundario);
+background: var(--oro);
 }
 
 ::-webkit-scrollbar-button {
-    display: none;
+display: none;
 }
 
+/* Desplazamiento interno de la ficha */
 
-/* Igualar tamaño de los controles de películas */
+.movie-detail::-webkit-scrollbar {
+width: 6px;
+}
+
+.movie-detail::-webkit-scrollbar-track {
+background: transparent;
+}
+
+.movie-detail::-webkit-scrollbar-thumb {
+background: rgba(168, 117, 150, 0.4);
+border: none;
+border-radius: 10px;
+}
+
+.movie-detail::-webkit-scrollbar-thumb:hover {
+background: var(--secundario);
+}
+
+/* =======================================================
+08 · CONTROLES GENERALES DE PELÍCULAS
+======================================================= */
+
 #genreFilterToggle,
 #verTodasPeliculas {
-    box-sizing: border-box;
-    min-height: 42px;
-    padding: 10px 18px;
-    font-size: 0.9rem;
+box-sizing: border-box;
+min-height: 42px;
+padding: 10px 18px;
+font-size: 0.9rem;
 }
 
-
-
-/* =========================
-   FICHA · LEER MÁS / LEER MENOS
-========================= */
+/* =======================================================
+09 · FICHA · LEER MÁS / LEER MENOS
+======================================================= */
 
 .movie-detail-synopsis {
-    width: 100%;
-    min-width: 0;
+width: 100%;
+min-width: 0;
 }
 
-
 .movie-detail-overview {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
+display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 1;
+overflow: hidden;
 }
 
 .movie-detail-overview.is-expanded {
-    display: block;
-    -webkit-line-clamp: unset;
-    overflow: visible;
+display: block;
+-webkit-line-clamp: unset;
+overflow: visible;
 }
 
 .movie-detail-trailer {
-    margin-top: 8px;
+margin-top: 8px;
 }
 
-
 .movie-detail-read-more {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: -30px 0 20px;
-    padding: 4px 0;
-    border: none;
-    background: transparent;
-    color: var(--secundario);
-    font-family: var(--fuente-texto);
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: color 0.25s ease;
+display: inline-flex;
+align-items: center;
+gap: 6px;
+margin: -30px 0 20px;
+padding: 4px 0;
+border: none;
+background: transparent;
+color: var(--secundario);
+font-family: var(--fuente-texto);
+font-size: 0.82rem;
+cursor: pointer;
+transition: color 0.25s ease;
 }
 
 .movie-detail-read-more:hover {
-    color: var(--oro);
+color: var(--oro);
 }
 
 .movie-detail-read-more:focus-visible {
-    outline: 1px solid var(--oro);
-    outline-offset: 4px;
-    border-radius: 2px;
+outline: 1px solid var(--oro);
+outline-offset: 4px;
+border-radius: 2px;
 }
 
 .movie-detail-read-more[hidden] {
-    display: none;
+display: none;
+}
+
+/* =======================================================
+10 · TEMA CLARO · CABECERA Y NAVEGACIÓN
+======================================================= */
+
+/* Cabecera */
+
+:root.light-mode .header {
+background: linear-gradient(
+to right,
+rgba(243, 240, 232, 0.50) 0%,
+rgba(243, 240, 232, 0.30) 8%,
+rgba(243, 240, 232, 0.14) 18%,
+rgba(243, 240, 232, 0.04) 30%,
+transparent 40%,
+transparent 60%,
+rgba(243, 240, 232, 0.04) 70%,
+rgba(243, 240, 232, 0.14) 82%,
+rgba(243, 240, 232, 0.30) 92%,
+rgba(243, 240, 232, 0.50) 100%
+);
+}
+
+/* Menú desplegable */
+
+:root.light-mode .menu-list {
+background:
+radial-gradient(
+ellipse at 12% 8%,
+var(--salvia-superficie),
+transparent 65%
+),
+rgba(243, 240, 232, 0.96);
+
+ 
+box-shadow:
+    0 15px 45px rgba(48, 43, 48, 0.10),
+    0 0 32px var(--salvia-sombra);
+ 
+
+}
+
+/* Logotipo compacto */
+
+:root.light-mode .framewave-compact {
+color: #FFFFFF;
+}
+
+/* Buscador desplegado */
+
+:root.light-mode .search-form.is-open {
+background: rgba(243, 240, 232, 0.88);
+box-shadow:
+0 8px 24px rgba(48, 43, 48, 0.08),
+0 0 18px var(--salvia-reflejo);
+}
+
+/* =======================================================
+11 · TEMA CLARO · SOBRE FRAMEWAVE
+======================================================= */
+
+:root.light-mode .about-text {
+color: var(--texto);
+}
+
+:root.light-mode .about-text-secondary {
+color: var(--texto-secundario);
+}
+
+:root.light-mode .about-text-closing {
+color: var(--principal);
+}
+
+/* =======================================================
+12 · TEMA CLARO · CARTELERA
+======================================================= */
+
+/* Corazones visibles en las tarjetas */
+
+:root.light-mode #movies .favorite-button {
+color: var(--principal);
+background: var(--fondo);
+border: 1px solid var(--borde);
+opacity: 1;
+visibility: visible;
+-webkit-text-fill-color: var(--principal);
+}
+
+/* Película añadida a favoritos */
+
+:root.light-mode #movies .favorite-button.is-favorite {
+color: #FFFFFF;
+background: var(--principal);
+border-color: var(--principal);
+-webkit-text-fill-color: #FFFFFF;
+}
+
+/* Indicador de progreso */
+
+:root.light-mode .carousel-progress {
+background: var(--salvia-superficie);
+border: 1px solid var(--salvia-borde);
+box-shadow: inset 0 1px 2px rgba(48, 58, 47, 0.05);
+}
+
+/* Progreso cinematográfico */
+
+:root.light-mode .carousel-progress span {
+background: linear-gradient(
+90deg,
+var(--c-salvia) 0%,
+#899889 30%,
+var(--c-ciruela) 68%,
+var(--c-malva) 100%
+);
+
+ 
+box-shadow:
+    0 0 8px var(--salvia-sombra),
+    0 0 14px rgba(113, 59, 89, 0.12);
+ 
+
+}
+
+/* ========================================
+ 13 ·  MODO CLARO · BOTÓN VER TODAS
+======================================== */
+
+:root.light-mode .view-all-button,
+:root.light-mode #verTodasPeliculas {
+    color: var(--salvia-filtro-texto);
+    background-color: var(--salvia-filtro);
+    border-color: var(--salvia-filtro-borde);
+}
+
+:root.light-mode .view-all-button:hover,
+:root.light-mode #verTodasPeliculas:hover {
+    color: #FFFFFF;
+    background-color: var(--salvia-filtro-activo);
+    border-color: var(--salvia-filtro-activo);
+    box-shadow: 0 4px 14px var(--salvia-filtro-sombra);
+    transform: translateY(-2px);
+}
+
+:root.light-mode .view-all-button:focus-visible,
+:root.light-mode #verTodasPeliculas:focus-visible {
+    outline-color: var(--salvia-filtro-activo);
+    outline-offset: 4px;
+}
+
+/* =======================================================
+14 · TEMA CLARO · FAVORITAS
+======================================================= */
+
+/* Notificación */
+
+:root.light-mode #favoritosNotificacion {
+background: rgba(243, 240, 232, 0.97);
+color: var(--texto);
+border-color: rgba(112, 68, 95, 0.25);
+box-shadow: 0 10px 30px rgba(48, 43, 48, 0.12);
+}
+
+/* Corazón de cada tarjeta */
+
+:root.light-mode #favoritesGrid .card-title-row .favorite-button {
+background: rgba(243, 240, 232, 0.92);
+color: var(--principal);
+border-color: rgba(112, 68, 95, 0.24);
+box-shadow: 0 3px 12px rgba(48, 43, 48, 0.09);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+}
+
+/* Película guardada */
+
+:root.light-mode #favoritesGrid .card-title-row .favorite-button.is-favorite {
+background: var(--principal);
+color: #FFFFFF;
+border-color: var(--principal);
+box-shadow: 0 3px 14px rgba(112, 68, 95, 0.18);
+}
+
+/* Hover */
+
+@media (hover: hover) and (pointer: fine) {
+:root.light-mode #favoritesGrid .card-title-row .favorite-button:hover {
+background: var(--principal);
+color: #FFFFFF;
+border-color: var(--principal);
+transform: scale(1.08);
+}
+}
+
+/* Foco accesible */
+
+:root.light-mode #favoritesGrid .favorite-button:focus-visible {
+outline-color: var(--principal);
+}
+
+/* =======================================================
+15 · TEMA CLARO · GÉNEROS
+======================================================= */
+
+/* Fondo de la ventana */
+
+:root.light-mode .genre-window {
+background: rgba(48, 43, 48, 0.22);
+}
+
+/* Panel de información */
+
+:root.light-mode .genre-window .genre-window-panel {
+color: var(--texto);
+
+ 
+background:
+    radial-gradient(
+        ellipse at 0% 0%,
+        var(--salvia-superficie),
+        transparent 52%
+    ),
+    radial-gradient(
+        ellipse at 100% 100%,
+        rgba(128, 101, 143, 0.10),
+        transparent 55%
+    ),
+    rgba(243, 240, 232, 0.98);
+
+border-color: var(--salvia-borde);
+
+box-shadow:
+    0 25px 70px rgba(48, 43, 48, 0.16),
+    0 0 38px var(--salvia-sombra);
+ 
+
+}
+
+/* Póster */
+
+:root.light-mode .genre-window .genre-window-poster img {
+border-color: var(--salvia-borde);
+
+ 
+box-shadow:
+    0 12px 28px rgba(48, 43, 48, 0.12),
+    0 0 20px var(--salvia-reflejo);
+ 
+
 }
 
 
 
+/* =======================================================
+16 · TEMA CLARO · FICHA DE PELÍCULA
+======================================================= */
+
+/* Panel principal: crema, sin velo verde */
+
+:root.light-mode .movie-detail {
+background: rgba(243, 240, 232, 0.97);
+
+ 
+box-shadow:
+    0 20px 50px rgba(48, 43, 48, 0.16),
+    0 0 35px var(--salvia-reflejo);
+ 
+
+}
+
+/* Botón de cierre */
+
+:root.light-mode .movie-detail .movie-detail-close {
+background: rgba(243, 240, 232, 0.92);
+color: var(--principal);
+border: 1px solid var(--salvia-borde);
+box-shadow:
+0 3px 14px rgba(48, 43, 48, 0.09),
+0 0 10px var(--salvia-reflejo);
+
+ 
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+
+transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+ 
+
+}
+
+
+/* ========================================
+17 ·  MODO CLARO · FILTROS DE GÉNERO
+======================================== */
+
+/* Botones sin seleccionar */
+:root.light-mode .genre-filter {
+    color: var(--salvia-filtro-texto);
+    background-color: var(--salvia-filtro);
+    border-color: var(--salvia-filtro-borde);
+}
+
+/* Hover */
+:root.light-mode .genre-filter:hover {
+    color: var(--salvia-filtro-hover-texto);
+    background-color: var(--salvia-filtro-hover);
+    border-color: var(--c-salvia);
+    box-shadow: 0 3px 12px var(--salvia-filtro-sombra-suave);
+}
+
+/* Género seleccionado */
+:root.light-mode .genre-filter.is-active {
+    color: #FFFFFF;
+    background-color: var(--salvia-filtro-activo);
+    border-color: var(--salvia-filtro-activo);
+    box-shadow:
+        0 3px 12px var(--salvia-filtro-sombra),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Hover del género seleccionado */
+:root.light-mode .genre-filter.is-active:hover {
+    color: #FFFFFF;
+    background-color: var(--salvia-filtro-activo-hover);
+    border-color: var(--salvia-filtro-activo-hover);
+}
+
+/* Foco accesible */
+:root.light-mode .genre-filter:focus-visible {
+    outline-color: var(--salvia-filtro-activo);
+    outline-offset: 3px;
+}
+
+/* Panel desplegable */
+:root.light-mode .genre-filters:not([hidden]) {
+    background-color: var(--salvia-panel);
+    border-color: var(--salvia-panel-borde);
+    box-shadow:
+        0 16px 40px rgba(48, 43, 48, 0.13),
+        0 0 24px rgba(113, 134, 117, 0.10);
+}
+
+/* Hover del botón de cierre */
+
+@media (hover: hover) and (pointer: fine) {
+:root.light-mode .movie-detail .movie-detail-close:hover {
+background: var(--principal);
+color: #FFFFFF;
+border-color: var(--principal);
+transform: rotate(90deg);
+box-shadow: 0 5px 18px rgba(112, 68, 95, 0.20);
+}
+}
+
+/* Foco accesible */
+
+:root.light-mode .movie-detail .movie-detail-close:focus-visible {
+outline: 2px solid var(--principal);
+outline-offset: 3px;
+}
+
+/* Botón de favoritos de la ficha */
+
+:root.light-mode .movie-detail-favorite {
+background: transparent;
+border: none;
+box-shadow: none;
+}
+
+:root.light-mode .movie-detail-favorite.is-favorite,
+:root.light-mode .movie-detail-favorite[aria-pressed="true"] {
+color: var(--principal);
+filter: none;
+}
+
+/* Controles de galería de la ficha */
+
+:root.light-mode #galleryPrev,
+:root.light-mode #galleryNext {
+background: rgba(243, 240, 232, 0.92);
+border-color: var(--salvia-borde);
+color: var(--texto);
+}
+
+:root.light-mode #galleryPrev:hover,
+:root.light-mode #galleryNext:hover {
+background: var(--c-salvia-clara);
+border-color: var(--c-salvia);
+}
+
+/* =======================================================
+18 · TEMA CLARO · GALERÍA DE FOTOGRAMAS
+======================================================= */
+
+/* Flechas de la galería */
+
+:root.light-mode .gallery-button {
+background: var(--galeria-superficie);
+color: var(--galeria-texto);
+border-color: var(--galeria-borde);
+
+ 
+box-shadow:
+    0 3px 12px rgba(48, 58, 47, 0.12),
+    0 0 14px var(--salvia-reflejo);
+ 
+
+}
+
+/* Hover */
+
+@media (hover: hover) and (pointer: fine) {
+:root.light-mode .gallery-button:hover {
+background: var(--c-salvia);
+color: #FFFFFF;
+border-color: var(--c-salvia);
+transform: scale(1.08);
+}
+}
+
+/* Contador */
+
+:root.light-mode .gallery-counter {
+background: var(--galeria-superficie);
+color: var(--galeria-texto);
+border-color: var(--galeria-borde);
+
+ 
+box-shadow:
+    0 2px 12px rgba(48, 58, 47, 0.08);
+
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+opacity: 1;
+ 
+
+}
+
+/* Flechas del carrusel de fotogramas */
+
+:root.light-mode .frames-arrow {
+color: var(--galeria-texto);
+background: rgba(228, 232, 222, 0.96);
+border-color: var(--galeria-borde);
+
+ 
+box-shadow:
+    0 4px 18px rgba(48, 43, 48, 0.10),
+    0 0 20px var(--salvia-reflejo);
+ 
+
+}
+
+/* Hover */
+
+:root.light-mode .frames-arrow:hover {
+background: var(--c-salvia);
+color: #FFFFFF;
+border-color: var(--c-salvia);
+}
+
+/* Estados ocultos */
+
+.gallery-button[hidden],
+.gallery-counter[hidden] {
+display: none;
+}
+
+/* =======================================================
+ 19 · TEMA CLARO · VENTANA DE GÉNEROS
+======================================================= */
+
+/* Panel: superficie clara con reflejo salvia */
+
+:root.light-mode .genre-window .genre-window-panel {
+    color: var(--texto);
+
+    background:
+        radial-gradient(
+            ellipse at 0% 0%,
+            rgba(113, 134, 117, 0.22),
+            transparent 52%
+        ),
+        radial-gradient(
+            ellipse at 100% 100%,
+            rgba(128, 101, 143, 0.08),
+            transparent 55%
+        ),
+        #F3F0E8;
+
+    border-color: rgba(70, 91, 75, 0.32);
+
+    box-shadow:
+        0 30px 90px rgba(48, 43, 48, 0.20),
+        0 0 38px rgba(113, 134, 117, 0.18);
+}
+
+/* Título y textos */
+
+:root.light-mode .genre-window #genreWindowTitle {
+    color: var(--texto);
+}
+
+:root.light-mode .genre-window #genreWindowDescription {
+    color: var(--texto-secundario);
+}
 
 
 
+/* Botón de cierre */
+
+:root.light-mode .genre-window .genre-window-close {
+    color: var(--c-salvia-profunda);
+    background: rgba(213, 222, 208, 0.55);
+    border: 1px solid rgba(70, 91, 75, 0.22);
+}
+
+:root.light-mode .genre-window .genre-window-close:hover {
+    color: #FFFFFF;
+    background: var(--c-salvia);
+    border-color: var(--c-salvia);
+}
+
+/* Tarjetas de películas */
+
+:root.light-mode .genre-window .genre-window-poster {
+    color: var(--texto);
+}
+
+/* Carteles */
+
+:root.light-mode .genre-window .genre-window-poster img {
+    border-color: rgba(70, 91, 75, 0.24);
+
+    box-shadow:
+        0 12px 28px rgba(48, 43, 48, 0.12),
+        0 0 18px rgba(113, 134, 117, 0.12);
+}
+
+/* Hover y foco de las tarjetas */
+
+:root.light-mode .genre-window .genre-window-poster:hover img,
+:root.light-mode .genre-window .genre-window-poster:focus-visible img {
+    border-color: var(--c-salvia);
+    box-shadow:
+        0 20px 38px rgba(48, 43, 48, 0.18),
+        0 0 24px rgba(113, 134, 117, 0.22);
+}
+
+/* Nombre de las películas */
+
+:root.light-mode .genre-window .genre-window-poster-title {
+    color: var(--texto);
+}
+
+/* Línea decorativa superior */
+
+:root.light-mode .genre-window .genre-window-panel::before {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--c-salvia),
+        var(--c-ciruela),
+        transparent
+    );
+}
+
+/* =======================================================
+20 · TEMA OSCURO · PRESENCIA MINERAL
+======================================================= */
+
+/* Menú desplegable */
+
+:root:not(.light-mode) .menu-list {
+background:
+radial-gradient(
+ellipse at 15% 10%,
+rgba(113, 134, 117, 0.30),
+transparent 62%
+),
+var(--superficie);
+
+ 
+box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.25),
+    0 0 32px var(--salvia-sombra);
+ 
+
+}
+
+/* Indicador de progreso */
+
+:root:not(.light-mode) .carousel-progress {
+background: var(--salvia-superficie);
+border-color: var(--salvia-borde);
+}
+
+/* Panel de géneros */
+
+:root:not(.light-mode) .genre-window .genre-window-panel {
+background:
+radial-gradient(
+ellipse at 0% 0%,
+rgba(113, 134, 117, 0.23),
+transparent 48%
+),
+radial-gradient(
+ellipse at 100% 100%,
+rgba(168, 117, 150, 0.10),
+transparent 55%
+),
+var(--superficie);
+
+ 
+border-color: var(--salvia-borde);
+
+box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.28),
+    0 0 35px var(--salvia-reflejo);
+ 
+
+}
+
+/* Ficha de película */
+
+:root:not(.light-mode) .movie-detail {
+box-shadow:
+0 20px 50px rgba(0, 0, 0, 0.30),
+0 0 40px var(--salvia-reflejo);
+}
+
+/* Controles de fotogramas */
+
+:root:not(.light-mode) .gallery-button,
+:root:not(.light-mode) .gallery-counter {
+border-color: var(--galeria-borde);
+}
+
+:root:not(.light-mode) .frames-arrow {
+box-shadow:
+0 4px 18px rgba(0, 0, 0, 0.22),
+0 0 20px var(--salvia-reflejo);
+}
 
 
