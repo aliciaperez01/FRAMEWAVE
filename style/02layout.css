@@ -934,16 +934,16 @@
 }
 
 
-/* =========================
+
+/* ========================================
    INTRODUCCIÓN EDITORIAL · GÉNEROS
-========================= */
+======================================== */
 
 #genres .section-heading {
     max-width: 900px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
-/* Pequeña entradilla bajo el título */
 #genres .section-heading > p:first-of-type {
     margin-top: 18px;
     color: var(--oro);
@@ -954,31 +954,45 @@
     letter-spacing: -0.015em;
 }
 
-
-/* Texto editorial debajo de la esfera */
+/* Texto editorial */
 
 #genres .genres-description {
     width: min(100%, 760px);
-    margin: 12px auto 0;
+    margin: 0 auto;
     padding: 0;
     color: var(--texto-secundario);
     font-family: var(--fuente-texto);
-    font-size: clamp(0.92rem, 1.15vw, 1.02rem);
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
     font-weight: 400;
-    line-height: 1.95;
+    line-height: 1.9;
     letter-spacing: 0.005em;
     text-align: center;
     text-wrap: pretty;
 }
 
+/* Escritorio: composición asimétrica */
 
 @media (min-width: 1024px) {
     #genres .genres-description {
-        width: min(100%, 900px);
-        max-width: 900px;
-        margin: -60px auto 0 0;
+        width: min(100%, 820px);
+        max-width: 820px;
+        margin: -35px auto 0 0;
+        font-size: 0.96rem;
         line-height: 2;
         text-align: left;
+    }
+}
+
+/* Móvil y tablet: lectura centrada */
+
+@media (max-width: 1023px) {
+    #genres .genres-description {
+        width: min(100%, 620px);
+        margin: 0 auto;
+        padding: 0 4px;
+        font-size: clamp(0.88rem, 2.2vw, 0.98rem);
+        line-height: 1.85;
+        text-align: center;
     }
 }
 
