@@ -9,43 +9,64 @@ import { abrirFicha } from "./ficha.js";
 import { iniciarInterfaz } from "./script.js";
 import { iniciarAnimaciones } from "./animaciones.js";
 
+
 /* =========================
    SELECCIÓN FRAMEWAVE
+   Orden cromático de carteles
 ========================= */
 
 export const peliculasFrameWave = [
-    "Solo los amantes sobreviven",
-    "Holy Motors",
+
+    // 01 · AZULES, NEGROS Y NOCTURNOS
+    "Under The Skin",
+    "Enter the Void",
     "Mulholland Drive",
-    "Gummo",
-    "The Substance",
-    "Déjame entrar",
     "Fallen Angels",
-    "The Love Witch",
-    "Poor Things",
+    "Lost in Translation",
     "A Scanner Darkly",
     "Waking Life",
+    "Air Doll",
+
+    // 02 · VERDES, TURQUESAS Y TONOS FRÍOS
     "La Belle Verte",
-    "The Neon Demon",
-    "Enter the Void",
+    "El Atlas de las Nubes",
+    "La forma del agua",
     "The Lobster",
     "The Lure",
-    "Being John Malkovich",
-    "Byzantium",
-    "La hermanastra fea",
-    "Gaua",
-    "Mārama",
     "The VVitch",
     "Breathing In",
+    "Mārama",
+
+    // 03 · TIERRA, GRISES Y TONOS URBANOS
+    "Gummo",
+    "Trainspotting",
+    "Athena",
     "La acompañante",
-    "La favorita",
-    "El laberinto del fauno",
-    "La forma del agua",
-    "Crimson Peak",
-    "Air Doll",
     "Don't Worry Darling",
+    "Being John Malkovich",
+    "Holy Motors",
+    "La favorita",
+
+    // 04 · AMARILLOS, OCRES Y TONOS DORADOS
+    "El Quinto Elemento",
+    "Big Fish",
+    "Poor Things",
+    "El Imaginario del Doctor Parnassus",
+    "La hermanastra fea",
     "La cura del bienestar",
-    "Lost in Translation"
+    "Abierto Hasta El Amanecer",
+    "The Love Witch",
+
+    // 05 · NARANJAS, ROJOS Y TONOS CÁLIDOS
+    "The Substance",
+    "Crimson Peak",
+    "Byzantium",
+    "Solo los amantes sobreviven",
+
+    // 06 · ROSAS, VIOLETAS Y CONTRASTES
+    "The Neon Demon",
+    "Black Swan",
+    "Gaua",
 ];
 
 /* =========================
@@ -90,6 +111,8 @@ function iniciarPeliculasGeneros() {
 
     if (!esfera) return;
 
+    
+
     const clasificacionEditorial = {
         "Ciencia ficción": {
             descripcion:
@@ -97,8 +120,9 @@ function iniciarPeliculasGeneros() {
             peliculas: [
                 "The Substance",
                 "A Scanner Darkly",
-                "The Lobster",
-                "Don't Worry Darling"
+                "El Atlas de las Nubes",
+                "Under The Skin",
+                "El Quinto Elemento"
             ]
         },
 
@@ -107,20 +131,22 @@ function iniciarPeliculasGeneros() {
                 "Mundos imposibles, criaturas extraordinarias y una realidad que se transforma ante nuestros ojos.",
             peliculas: [
                 "Poor Things",
-                "The Lure",
                 "El laberinto del fauno",
-                "La forma del agua"
+                "La forma del agua",
+                "El Imaginario del Doctor Parnassus",
+                "Big Fish"
             ]
         },
 
         "Horror": {
             descripcion:
-                "Lo inquietante, lo monstruoso y los miedos que permanecen mucho después de que termina la película.",
+                "Lo que permanece oculto, lo que se transforma y aquello que nunca llegamos a comprender del todo.",
             peliculas: [
                 "The VVitch",
-                "Déjame entrar",
-                "The Neon Demon",
-                "La cura del bienestar"
+                "La cura del bienestar",
+                "Crimson Peak",
+                "Mārama",
+                "Abierto Hasta El Amanecer"
             ]
         },
 
@@ -129,9 +155,10 @@ function iniciarPeliculasGeneros() {
                 "Identidades fragmentadas, obsesiones y personajes que habitan territorios inciertos de la mente.",
             peliculas: [
                 "Mulholland Drive",
-                "The Neon Demon",
                 "La favorita",
-                "Lost in Translation"
+                "Black Swan",
+                "Lost in Translation",
+                "Trainspotting"
             ]
         },
 
@@ -139,10 +166,11 @@ function iniciarPeliculasGeneros() {
             descripcion:
                 "Cuentos retorcidos, belleza inquietante y universos donde lo maravilloso también puede ser terrible.",
             peliculas: [
-                "Crimson Peak",
-                "Gaua",
                 "La hermanastra fea",
-                "The Love Witch"
+                "Gaua",
+                "The Love Witch",
+                "Byzantium",
+                "The Lure"
             ]
         },
 
@@ -151,9 +179,10 @@ function iniciarPeliculasGeneros() {
                 "Sueños, símbolos y narrativas que rompen las reglas de la lógica para explorar otras formas de percibir el mundo.",
             peliculas: [
                 "Holy Motors",
-                "Mulholland Drive",
+                "Waking Life",
                 "Being John Malkovich",
-                "Waking Life"
+                "La Belle Verte",
+                "Enter the Void"
             ]
         },
 
@@ -163,8 +192,9 @@ function iniciarPeliculasGeneros() {
             peliculas: [
                 "Solo los amantes sobreviven",
                 "Fallen Angels",
-                "The Love Witch",
-                "Lost in Translation"
+                "Air Doll",
+                "The Neon Demon",
+                "The Lobster"
             ]
         },
 
@@ -172,13 +202,15 @@ function iniciarPeliculasGeneros() {
             descripcion:
                 "Cine que juega con la forma, el ritmo y las imágenes para descubrir maneras diferentes de contar historias.",
             peliculas: [
-                "Holy Motors",
-                "Enter the Void",
                 "Gummo",
-                "Air Doll"
+                "Breathing In",
+                "La acompañante",
+                "Don't Worry Darling",
+                "Athena"
             ]
         }
     };
+    
 
     /* Crear la ventana una sola vez */
 

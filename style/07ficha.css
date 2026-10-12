@@ -187,7 +187,12 @@
         max-width: 1000px;
         max-height: 86dvh;
         padding: 24px;
-        overflow: hidden;
+        
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
     }
 
     /* Distribución en una sola columna */
@@ -213,21 +218,23 @@
         box-sizing: border-box;
     }
 
-    /* Marco horizontal alineado con el ancho interior de la ficha */
+    
+    /* Marco horizontal integrado en la ficha */
     .movie-detail-overlay .movie-detail-poster-container {
         position: relative;
         display: block;
         box-sizing: border-box;
-        width: 100%;
-        height: clamp(180px, 24vh, 260px);
+        width: calc(100% + 48px);
+        height: clamp(220px, 30vw, 340px);
         aspect-ratio: auto;
-        margin: 0;
+        margin: -24px -24px 0;
         padding: 0;
         overflow: hidden;
-        border-radius: 12px;
+        border-radius: 0;
+        background: transparent;
     }
 
-    /* Imagen horizontal adaptada al marco */
+    /* Imagen fundida progresivamente con el fondo */
     .movie-detail-overlay .movie-detail-poster-container > .movie-detail-poster {
         display: block;
         box-sizing: border-box;
@@ -236,30 +243,28 @@
         max-width: 100%;
         margin: 0;
         padding: 0;
-
-        /* Rellena el marco conservando las proporciones */
         object-fit: cover;
         object-position: center;
-
         border: 0;
         border-radius: 0;
 
-        /* Degradado actual hacia el fondo */
         -webkit-mask-image: linear-gradient(
             to bottom,
             #000 0%,
-            #000 45%,
-            rgba(0, 0, 0, 0.85) 62%,
-            rgba(0, 0, 0, 0.4) 80%,
+            #000 35%,
+            rgba(0, 0, 0, 0.95) 48%,
+            rgba(0, 0, 0, 0.72) 62%,
+            rgba(0, 0, 0, 0.35) 78%,
             transparent 100%
         );
 
         mask-image: linear-gradient(
             to bottom,
             #000 0%,
-            #000 45%,
-            rgba(0, 0, 0, 0.85) 62%,
-            rgba(0, 0, 0, 0.4) 80%,
+            #000 35%,
+            rgba(0, 0, 0, 0.95) 48%,
+            rgba(0, 0, 0, 0.72) 62%,
+            rgba(0, 0, 0, 0.35) 78%,
             transparent 100%
         );
     }
@@ -785,3 +790,4 @@
 .movie-detail-metadata #movieDetailMeta {
     display: contents;
 }
+

@@ -317,20 +317,8 @@ export async function abrirFicha(id) {
         }
 
 
-        /* =========================
-           IMAGEN HORIZONTAL
-        ========================= */
-
-        mostrarFotogramaHorizontal(
-            fotogramas,
-            detalle
-        );
-
-
-        /* =========================
-           GALERÍA DE FOTOGRAMAS
-        ========================= */
-
+        // La galería gestiona la imagen principal y sus controles.
+// Así evitamos que dos funciones compitan por el mismo src.
         try {
             mostrarGaleriaFotogramas(
                 fotogramas,
@@ -341,7 +329,7 @@ export async function abrirFicha(id) {
                 "Error cargando la galería:",
                 error
             );
-        }
+        }   
 
 
         /* =========================

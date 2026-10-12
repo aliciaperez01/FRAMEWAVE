@@ -284,29 +284,38 @@ export function iniciarInterfaz({
 
         /* Mover carrusel */
 
-        function moverCarrusel(direccion) {
-            const tarjeta =
-                moviesGrid.querySelector(".card");
+        
+    function moverCarrusel(direccion) {
+        const tarjeta = moviesGrid.querySelector(".card");
 
-            if (!tarjeta) return;
+        if (!tarjeta) return;
 
-            const estilos =
-                getComputedStyle(moviesGrid);
+        const estilos = getComputedStyle(moviesGrid);
+        const espacio = parseFloat(estilos.columnGap) || 0;
 
-            const espacio =
-                parseFloat(estilos.columnGap) || 0;
+        const distanciaTarjeta =
+            tarjeta.getBoundingClientRect().width + espacio;
 
-            const distancia =
-                tarjeta.getBoundingClientRect().width + espacio;
+        // Avanzar cuatro tarjetas en cada pulsación.
+        const numeroTarjetas = 4;
+        const distancia = distanciaTarjeta * numeroTarjetas;
 
-            const destino =
-                moviesGrid.scrollLeft + distancia * direccion;
+        const maxScroll =
+            moviesGrid.scrollWidth - moviesGrid.clientWidth;
 
-            moviesGrid.scrollTo({
-                left: destino,
-                behavior: "smooth"
-            });
-        }
+        const destino = Math.max(
+            0,
+            Math.min(
+                moviesGrid.scrollLeft + distancia * direccion,
+                maxScroll
+            )
+        );
+
+        moviesGrid.scrollTo({
+            left: destino,
+            behavior: "smooth"
+        });
+    }
 
 
         /* Eventos de las flechas */

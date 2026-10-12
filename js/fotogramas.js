@@ -1,7 +1,6 @@
 
-
-/* ========================= 
-    GALERÍA DE FOTOGRAMAS 
+/* =========================
+   GALERÍA DE FOTOGRAMAS
 ========================= */
 
 export function mostrarGaleriaFotogramas(fotogramas, detalle) {
@@ -17,7 +16,6 @@ export function mostrarGaleriaFotogramas(fotogramas, detalle) {
     const galleryCounter =
         document.getElementById("galleryCounter");
 
-    // Comprobar que los elementos de la galería existen.
     if (
         !movieDetailPoster ||
         !galleryPrev ||
@@ -30,13 +28,58 @@ export function mostrarGaleriaFotogramas(fotogramas, detalle) {
         return;
     }
 
-    // Utilizar los fotogramas disponibles.
-    // Si no hay ninguno, recurrir a la imagen de fondo de TMDB.
-    const galeria = fotogramas?.length
-        ? fotogramas.filter(fotograma => fotograma.file_path)
-        : detalle?.backdrop_path
-            ? [{ file_path: detalle.backdrop_path }]
-            : [];
+    const imagenes = Array.isArray(fotogramas)
+        ? fotogramas.filter(imagen => imagen?.file_path)
+        : [];
+
+    // En escritorio, priorizar el fotograma horizontal
+    // con mayor resolución para la cabecera de la ficha.
+    const escritorio = window.matchMedia(
+        "(min-width: 1024px)"
+    ).matches;
+
+    let galeria = [...imagenes];
+
+    if (escritorio) {
+        const horizontales = galeria
+            .filter(imagen => {
+                const ancho = Number(imagen.width ?? 0);
+                const alto = Number(imagen.height ?? 0);
+
+                return (
+                    ancho > 0 &&
+                    alto > 0 &&
+                    ancho / alto >= 1.5
+                );
+            })
+            .sort((a, b) => {
+                const resolucionA =
+                    Number(a.width) * Number(a.height);
+
+                const resolucionB =
+                    Number(b.width) * Number(b.height);
+
+                return resolucionB - resolucionA;
+            });
+
+        if (horizontales.length) {
+            const primera = horizontales[0];
+
+            galeria = [
+                primera,
+                ...galeria.filter(
+                    imagen => imagen.file_path !== primera.file_path
+                )
+            ];
+        }
+    }
+
+    // Si no hay fotogramas, recurrir al fondo de TMDB.
+    if (!galeria.length && detalle?.backdrop_path) {
+        galeria = [{
+            file_path: detalle.backdrop_path
+        }];
+    }
 
     let indiceFotograma = 0;
 
@@ -54,21 +97,23 @@ export function mostrarGaleriaFotogramas(fotogramas, detalle) {
 
         const fotograma = galeria[indiceFotograma];
 
-        // Recuperar la imagen panorámica.
+        // Resolución adecuada para el marco de la ficha.
+        const resolucion = escritorio ? "w1280" : "original";
+
+        movieDetailPoster.removeAttribute("srcset");
+        movieDetailPoster.removeAttribute("sizes");
+
         movieDetailPoster.src =
-            `https://image.tmdb.org/t/p/original${fotograma.file_path}`;
+            `https://image.tmdb.org/t/p/${resolucion}${fotograma.file_path}`;
 
         movieDetailPoster.alt =
             `Fotograma ${indiceFotograma + 1} de ${
-                detalle.title || detalle.name || "la película"
+                detalle?.title || detalle?.name || "la película"
             }`;
 
-        // Actualizar el contador.
         galleryCounter.textContent =
             `${indiceFotograma + 1} / ${galeria.length}`;
 
-        // Las flechas y el contador solo aparecen
-        // cuando hay más de un fotograma.
         const mostrarFlechas = galeria.length > 1;
 
         galleryPrev.hidden = !mostrarFlechas;
@@ -76,7 +121,6 @@ export function mostrarGaleriaFotogramas(fotogramas, detalle) {
         galleryCounter.hidden = !mostrarFlechas;
     }
 
-    // Fotograma anterior.
     galleryPrev.onclick = () => {
         if (!galeria.length) return;
 
@@ -86,7 +130,6 @@ export function mostrarGaleriaFotogramas(fotogramas, detalle) {
         mostrarFotograma();
     };
 
-    // Fotograma siguiente.
     galleryNext.onclick = () => {
         if (!galeria.length) return;
 
@@ -96,7 +139,5 @@ export function mostrarGaleriaFotogramas(fotogramas, detalle) {
         mostrarFotograma();
     };
 
-    // Mostrar el primer fotograma al abrir la ficha.
     mostrarFotograma();
 }
-

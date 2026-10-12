@@ -327,12 +327,12 @@
 
 .genre-window .genre-window-posters {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
 
-    gap: clamp(12px, 2.5vw, 24px);
+    gap: clamp(10px, 1.8vw, 20px);
 
     width: 100%;
-    max-width: 820px;
+    max-width: 1000px;
     margin-inline: auto;
 }
 
@@ -568,5 +568,6 @@
         --spread: 1.12;
         max-width: 1300px;
         height: 520px;
+        transform: translateY(-50px);
     }
 }

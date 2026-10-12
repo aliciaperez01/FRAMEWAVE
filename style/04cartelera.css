@@ -410,10 +410,66 @@
 }
 
 
+
 /* ========================================
    6. INTERACCIÓN DE LAS TARJETAS
 ======================================== */
 
+/* Interacción cinematográfica al pasar el cursor */
+@media (hover: hover) and (pointer: fine) {
+
+    #rejilla > .card {
+        transform-origin: center center;
+    }
+
+    /* Elevar y destacar la tarjeta activa */
+    #rejilla > .card:hover {
+        z-index: 3;
+        transform: translateY(-7px) scale(1.035);
+        opacity: 1;
+        filter: brightness(1.08);
+    }
+
+    /* Atenuar las tarjetas vecinas solo en el carrusel */
+    #rejilla:not(.ver-todas):has(> .card:hover) > .card:not(:hover) {
+        opacity: 0.62;
+        filter: brightness(0.78);
+    }
+
+    /* Intensificar el halo de la tarjeta activa */
+    #rejilla > .card:hover::before {
+        opacity: 0.38;
+        transform: scale(1.12);
+    }
+
+    /* Dar más profundidad al póster */
+    #rejilla > .card:hover img {
+        box-shadow:
+            0 18px 35px rgba(0, 0, 0, 0.28),
+            0 28px 55px rgba(0, 0, 0, 0.16),
+            0 0 0 1px var(--secundario);
+    }
+
+    /* Realzar el título */
+    #rejilla > .card:hover h3 {
+        color: var(--oro);
+        transform: translateY(2px);
+    }
+
+    #rejilla > .card:hover h3::before {
+        width: 38px;
+        opacity: 1;
+    }
+
+    #rejilla > .card:hover p {
+        opacity: 1;
+    }
+
+    /* Movimiento más contenido en "Ver todas" */
+    #rejilla.ver-todas > .card:hover {
+        transform: translateY(-5px) scale(1.02);
+    }
+}
 
 /* ========================================
    7. ACCESIBILIDAD DE TARJETAS

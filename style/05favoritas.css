@@ -285,41 +285,57 @@
 }
 
 /* ========================================
-   8. NOTIFICACIÓN DE FAVORITOS
+8. NOTIFICACIÓN DE FAVORITOS
 ======================================== */
 
 #favoritosNotificacion {
-    position: fixed;
-    right: 20px;
-    bottom: 24px;
-    z-index: 9999;
-    max-width: calc(100vw - 40px);
-    padding: 13px 19px;
-    border: 1px solid rgba(184, 154, 90, 0.45);
-    border-radius: 12px;
-    background: rgba(24, 29, 41, 0.94);
-    color: var(--texto);
-    font-family: var(--fuente-texto);
-    font-size: 0.85rem;
-    letter-spacing: 0.015em;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(8px);
-    transition:
-        opacity 0.25s ease,
-        transform 0.25s ease,
-        visibility 0.25s ease;
-    pointer-events: none;
+position: fixed;
+
+
+top: max(20px, env(safe-area-inset-top));
+right: 20px;
+bottom: auto;
+z-index: 9999;
+
+max-width: calc(100vw - 40px);
+padding: 13px 19px;
+
+border: 1px solid rgba(184, 154, 90, 0.45);
+border-radius: 12px;
+
+background: rgba(24, 29, 41, 0.94);
+color: var(--texto);
+
+font-family: var(--fuente-texto);
+font-size: 0.85rem;
+letter-spacing: 0.015em;
+
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+backdrop-filter: blur(14px);
+-webkit-backdrop-filter: blur(14px);
+
+opacity: 0;
+visibility: hidden;
+transform: translateY(-8px);
+
+transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0.25s ease;
+
+pointer-events: none;
+
+
 }
 
 #favoritosNotificacion.is-visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+opacity: 1;
+visibility: visible;
+transform: translateY(0);
 }
+
+
 
 /* ========================================
    9. MOVIMIENTO REDUCIDO

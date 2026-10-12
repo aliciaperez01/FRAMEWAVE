@@ -118,6 +118,16 @@
     --hero-texto: #594653;
 }
 
+/* Notificación de favoritos — modo claro */
+
+:root.light-mode #favoritosNotificacion {
+    background: rgba(243, 238, 232, 0.97);
+    color: var(--texto);
+    border-color: rgba(112, 68, 95, 0.30);
+    box-shadow: 0 10px 30px rgba(48, 36, 49, 0.14);
+}
+
+
 
 
 /* =========================
