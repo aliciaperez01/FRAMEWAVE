@@ -114,98 +114,70 @@ font-display: swap;
 
 }
 
+
 /* =======================================================
-05 · VARIABLES DEL TEMA CLARO
+   05 · VARIABLES DEL TEMA CLARO
 ======================================================= */
 
 :root.light-mode {
-/* 01 · Fondos y superficies */
---fondo: #F3F0E8;
---superficie: #E4E8DE;
-
- 
-/* 02 · Textos */
---texto: #302B30;
---texto-secundario: #625D61;
---hero-texto: #594F57;
-
-/* 03 · Identidad cromática */
---principal: #70445F;
---secundario: #986889;
---oro: #80658F;
-
-/* 04 · Acentos */
---acento: var(--principal);
---enfasis: var(--principal);
-
-/* 05 · Bordes */
---borde: rgba(78, 91, 76, 0.20);
---borde-salvia: rgba(70, 91, 75, 0.32);
-
-/* 06 · Superficies minerales y reflejos · Tema claro */
---salvia-superficie: rgba(113, 134, 117, 0.28);
---salvia-reflejo: rgba(113, 134, 117, 0.22);
---salvia-sombra: rgba(113, 134, 117, 0.20);
---salvia-borde: rgba(70, 91, 75, 0.32);
-
-/* 07 · Controles de fotogramas · Tema claro */
---galeria-superficie: rgba(213, 222, 208, 0.96);
---galeria-texto: #344B3A;
---galeria-borde: rgba(70, 91, 75, 0.38);
-
-
-/* 08 · Acentos salvia para el modo claro */
---salvia-filtro: #E5E9DF;
---salvia-filtro-texto: #4D594E;
---salvia-filtro-borde: rgba(91, 117, 96, 0.30);
---salvia-filtro-hover: rgba(213, 222, 208, 0.78);
---salvia-filtro-hover-texto: #354638;
---salvia-filtro-activo: #526D58;
---salvia-filtro-activo-hover: #405A46;
---salvia-filtro-sombra: rgba(82, 109, 88, 0.22);
---salvia-panel: rgba(243, 240, 232, 0.97);
---salvia-panel-borde: rgba(91, 117, 96, 0.28);
-
-/* favoritos · ficha de pelicula */
---ficha-corazon-claro: var(--c-salvia-profunda);
- 
-/* Superficies y textos */
+    /* Fondos y superficies */
     --fondo: #F3F0E8;
     --superficie: #E4E8DE;
+
+    /* Textos */
     --texto: #302B30;
     --texto-secundario: #625D61;
     --hero-texto: #594F57;
 
-    /* Colores principales del tema */
+    /* Identidad cromática */
     --principal: #70445F;
     --secundario: #986889;
     --oro: #80658F;
     --acento: var(--principal);
     --enfasis: var(--principal);
-    --borde: rgba(78, 91, 76, 0.20);
 
-    /* Paleta salvia */
---salvia-filtro: #E5E9DF;
---salvia-filtro-texto: #4D594E;
---salvia-filtro-borde: rgba(91, 117, 96, 0.30);
---salvia-filtro-hover: rgba(213, 222, 208, 0.78);
---salvia-filtro-hover-texto: #354638;
---salvia-filtro-activo: #526D58;
---salvia-filtro-activo-hover: #405A46;
---salvia-filtro-sombra: rgba(82, 109, 88, 0.22);
---salvia-filtro-sombra-suave: rgba(91, 117, 96, 0.12);
---salvia-panel: rgba(243, 240, 232, 0.97);
---salvia-panel-borde: rgba(91, 117, 96, 0.28);
+    /* Bordes */
+    --borde: rgba(78, 91, 76, 0.20);
+    --borde-salvia: rgba(70, 91, 75, 0.32);
+
+    /* Superficies minerales y reflejos */
+    --salvia-superficie: rgba(113, 134, 117, 0.28);
+    --salvia-reflejo: rgba(113, 134, 117, 0.22);
+    --salvia-sombra: rgba(113, 134, 117, 0.20);
+    --salvia-borde: rgba(70, 91, 75, 0.32);
+
+    /* Controles de fotogramas */
+    --galeria-superficie: rgba(213, 222, 208, 0.96);
+    --galeria-texto: #344B3A;
+    --galeria-borde: rgba(70, 91, 75, 0.38);
+
+    /* Filtros de género */
+    --salvia-filtro: #E5E9DF;
+    --salvia-filtro-texto: #4D594E;
+    --salvia-filtro-borde: rgba(91, 117, 96, 0.30);
+    --salvia-filtro-hover: rgba(213, 222, 208, 0.78);
+    --salvia-filtro-hover-texto: #354638;
+    --salvia-filtro-activo: #526D58;
+    --salvia-filtro-activo-hover: #405A46;
+    --salvia-filtro-sombra: rgba(82, 109, 88, 0.22);
+    --salvia-filtro-sombra-suave: rgba(91, 117, 96, 0.12);
+
+    /* Paneles de filtros */
+    --salvia-panel: rgba(243, 240, 232, 0.97);
+    --salvia-panel-borde: rgba(91, 117, 96, 0.28);
+
+    /* Corazón de favoritos en la ficha */
+    --ficha-corazon-claro: var(--c-salvia-profunda);
 
     /* Ficha cinematográfica */
---ficha-fondo: #F3F0E8;
---ficha-superficie: rgba(243, 240, 232, 0.94);
---ficha-salvia-halo: rgba(113, 134, 117, 0.16);
---ficha-salvia-borde: rgba(91, 117, 96, 0.24);
---ficha-sombra: rgba(48, 43, 48, 0.18);
-
-
+    --ficha-fondo: #F3F0E8;
+    --ficha-superficie: rgba(243, 240, 232, 0.94);
+    --ficha-salvia-halo: rgba(113, 134, 117, 0.16);
+    --ficha-salvia-borde: rgba(91, 117, 96, 0.24);
+    --ficha-sombra: rgba(48, 43, 48, 0.18);
 }
+
+
 
 /* =======================================================
 06 · ESTRUCTURA GENERAL

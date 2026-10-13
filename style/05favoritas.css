@@ -30,19 +30,7 @@
     display: none;
 }
 
-/* Tablet */
-@media (min-width: 600px) and (max-width: 1023px) {
-    #favoritesGrid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
 
-/* Escritorio */
-@media (min-width: 1024px) {
-    #favoritesGrid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-}
 
 /* ========================================
    2. TARJETAS
@@ -381,16 +369,7 @@ transform: translateY(0);
     display: none;
 }
 
-@media (max-width: 600px) {
-    .favorites-chart {
-        padding: 1rem 0.5rem;
-        margin-top: 2rem;
-    }
 
-    .favorites-chart-container {
-        margin-top: 1.5rem;
-    }
-}
 
 
 
