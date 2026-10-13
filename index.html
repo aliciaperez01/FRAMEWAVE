@@ -15,10 +15,9 @@
 
     <link rel="stylesheet" href="./style/01style.css">
     <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
->
-
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
 </head>
 
 <body>
@@ -289,20 +288,17 @@
 
         <!-- GÉNEROS -->
 
-            
         <section class="section" id="genres">
 
             <header class="section-heading reveal">
 
-           
-            <span class="section-kicker">02 · CRUZAR LAS FRONTERAS</span>
+                <span class="section-kicker">02 · CRUZAR LAS FRONTERAS</span>
 
-            <h2>Géneros</h2>
+                <h2>Géneros</h2>
 
-            <p>Cada género, otros mundos.</p>
+                <p>Cada género, otros mundos.</p>
 
             </header>
-
 
             <div class="genres-list">
                 <a href="#" data-genre="Ciencia ficción">Ciencia ficción</a>
@@ -315,8 +311,6 @@
                 <a href="#" data-genre="Experimental">Experimental</a>
             </div>
 
-            
-            
             <p class="genres-description">
                 Cada género abre una puerta a universos propios,
                 donde habitan obsesiones, sueños, inquietudes y preguntas sin respuesta.
@@ -327,14 +321,12 @@
                 los instintos y la imaginación se confunden.
             </p>
 
-
             <div
                 class="genre-movies"
                 id="genreMovies"
                 aria-live="polite"
                 aria-label="Películas del género seleccionado"
             ></div>
-
 
         </section>
 
@@ -366,83 +358,82 @@
                 Ver todas las favoritas
             </button>
 
-            
-        <div class="favorites-chart">
-            <h3>Tu mapa cinematográfico</h3>
+            <div class="favorites-chart">
+                <h3>Tu mapa cinematográfico</h3>
 
-            <p>
-                Los géneros que habitan tu colección de favoritas.
-            </p>
+                <p>
+                    Los géneros que habitan tu colección de favoritas.
+                </p>
 
-            <div id="favoritesChartEmpty">
-                Añade películas a favoritas para descubrir tus géneros.
+                <div id="favoritesChartEmpty">
+                    Añade películas a favoritas para descubrir tus géneros.
+                </div>
+
+                <div class="favorites-chart-container" hidden>
+                    <canvas
+                        id="favoritesGenreChart"
+                        role="img"
+                        aria-label="Distribución de géneros de tus películas favoritas"
+                    ></canvas>
+                </div>
             </div>
-
-            <div class="favorites-chart-container" hidden>
-                <canvas
-                    id="favoritesGenreChart"
-                    role="img"
-                    aria-label="Distribución de géneros de tus películas favoritas"
-                ></canvas>
-            </div>
-        </div>
 
         </section>
 
-        
-<!-- SOBRE FRAMEWAVE -->
+        <!-- SOBRE FRAMEWAVE -->
 
-<section class="section" id="about">
+        <section class="section" id="about">
 
-    <header class="section-heading reveal">
+            <header class="section-heading reveal">
 
-        <span class="section-kicker">
-            04 · UNA CINEMATECA PERSONAL
-        </span>
+                <span class="section-kicker">
+                    04 · UNA CINEMATECA PERSONAL
+                </span>
 
-        <h2>Sobre FrameWave</h2>
+                <h2>Sobre FrameWave</h2>
 
-        <p>Películas que miran el mundo desde otro lugar.</p>
+                <p>Películas que miran el mundo desde otro lugar.</p>
 
-    </header>
+            </header>
 
-        <div class="about-content">
+            <div class="about-content">
 
-            <p class="about-text">
-                Cada película es una forma de mirar: la del director, que transforma
-                su propia sensibilidad en imágenes, y la del espectador, que las
-                habita desde su experiencia y les otorga nuevos significados.
-                Una vez filmada, la obra queda suspendida en el tiempo: cada imagen,
-                cada gesto y cada instante permanecen, intactos, disponibles para
-                ser encontrados una y otra vez. Sin embargo, nunca volvemos a ellos
-                de la misma manera.
-            </p>
+                <p class="about-text">
+                    Cada película es una forma de mirar: la del director, que transforma
+                    su propia sensibilidad en imágenes, y la del espectador, que las
+                    habita desde su experiencia y les otorga nuevos significados.
+                    Una vez filmada, la obra queda suspendida en el tiempo: cada imagen,
+                    cada gesto y cada instante permanecen, intactos, disponibles para
+                    ser encontrados una y otra vez. Sin embargo, nunca volvemos a ellos
+                    de la misma manera.
+                </p>
 
-            <p class="about-text about-text-secondary">
-                La primera vez es irrepetible. No sabemos qué nos espera y todo
-                sucede ante nosotros por primera vez. Después, la película permanece,
-                pero nosotros cambiamos. Cada visionado descubre nuevos sentidos,
-                despierta otras emociones y transforma lo que creíamos conocer.
-                Así, lo que tuvo lugar durante un tiempo finito adquiere una
-                existencia infinita: la obra conserva su forma mientras su
-                significado continúa expandiéndose en cada mirada.
-            </p>
+                <p class="about-text about-text-secondary">
+                    La primera vez es irrepetible. No sabemos qué nos espera y todo
+                    sucede ante nosotros por primera vez. Después, la película permanece,
+                    pero nosotros cambiamos. Cada visionado descubre nuevos sentidos,
+                    despierta otras emociones y transforma lo que creíamos conocer.
+                    Así, lo que tuvo lugar durante un tiempo finito adquiere una
+                    existencia infinita: la obra conserva su forma mientras su
+                    significado continúa expandiéndose en cada mirada.
+                </p>
 
-            <p class="about-text about-text-secondary">
-                Porque hay películas que no se limitan a contar historias, sino que
-                construyen mundos, cuestionan nuestra realidad y nos permiten
-                contemplar lo invisible. Obras capaces de sobrevivir al instante
-                en que fueron creadas, de atravesar el tiempo y de seguir
-                transformándose dentro de nosotros.
-            </p>
+                <p class="about-text about-text-secondary">
+                    Porque hay películas que no se limitan a contar historias, sino que
+                    construyen mundos, cuestionan nuestra realidad y nos permiten
+                    contemplar lo invisible. Obras capaces de sobrevivir al instante
+                    en que fueron creadas, de atravesar el tiempo y de seguir
+                    transformándose dentro de nosotros.
+                </p>
 
-            <p class="about-text about-text-closing">
-                La película termina; las imágenes permanecen, y cada mirada
-                vuelve a darles vida.
-        </p>
-    </div>
-</section>
+                <p class="about-text about-text-closing">
+                    La película termina; las imágenes permanecen, y cada mirada
+                    vuelve a darles vida.
+                </p>
 
+            </div>
+
+        </section>
 
         <!-- FICHA DE PELÍCULA -->
 
@@ -554,33 +545,41 @@
                     </div>
 
 
-                <!-- MAPA · PAÍSES DE PRODUCCIÓN -->
+                <!-- MAPA Y TRÁILER -->
+                <div class="movie-detail-tools">
 
-                <section
-                    class="movie-detail-map"
-                    aria-labelledby="movieDetailMapTitle"
-                >
-                    <h3 id="movieDetailMapTitle">
-                        Geografía cinematográfica
-                    </h3>
+                    <section class="movie-detail-map">
+                        <details class="movie-map-disclosure">
+                            <summary>
+                                <span>Geografía cinematográfica</span>
+                                <span class="movie-map-arrow" aria-hidden="true">⌄</span>
+                            </summary>
 
-                    <p id="movieDetailMapCountries">
-                        Países de producción
-                    </p>
+                            <p id="movieDetailMapCountries">Países de producción</p>
 
-                    <div
-                        id="movieProductionMap"
-                        role="region"
-                        aria-label="Mapa de los países de producción de la película"
-                    ></div>
-                </section>
+                            <div
+                                id="movieProductionMap"
+                                role="region"
+                                aria-label="Mapa de los países de producción de la película"
+                            ></div>
+                        </details>
+                    </section>
 
+                    <section class="movie-detail-trailer">
+                        <details class="movie-trailer-disclosure">
+                            <summary>
+                                <span>Ver tráiler</span>
+                                <span class="movie-trailer-arrow" aria-hidden="true">⌄</span>
+                            </summary>
 
+                            <h3>Enlace al vídeo</h3>
 
-                    <div
-                        id="movieDetailTrailer"
-                        class="movie-detail-trailer"
-                    ></div>
+                            <div id="movieDetailTrailer"></div>
+                        </details>
+                    </section>
+
+                </div>
+
 
                 </div>
 
@@ -596,13 +595,11 @@
         <p>© 2026 FrameWave</p>
     </footer>
 
-    
-<!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT -->
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script type="module" src="js/cartelera.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="js/cartelera.js"></script>
 
 </body>
 </html>

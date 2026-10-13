@@ -1,849 +1,933 @@
-
-
 /* =========================
-   FICHA DE PELÍCULA
+FICHA DE PELÍCULA
 ========================= */
 
 .movie-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
+position: fixed;
+inset: 0;
+z-index: 200;
+display: none;
+align-items: center;
+justify-content: center;
+padding: 30px;
 }
 
 .movie-modal.is-open {
-    display: flex;
+display: flex;
 }
 
 .movie-modal-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(13, 16, 24, 0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+position: absolute;
+inset: 0;
+background: rgba(13, 16, 24, 0.55);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
 }
 
 /* =========================
-   FICHA · ESTRUCTURA
+FICHA · ESTRUCTURA
 ========================= */
 
 .movie-detail {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    isolation: isolate;
-    width: calc(100% - 28px);
-    max-width: 680px;
-    max-height: 82dvh;
-    margin: 0;
-    padding: 16px;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(113, 59, 89, 0.10),
-            transparent 38%
-        ),
-        rgba(24, 29, 41, 0.97);
-    border: 1px solid rgba(168, 117, 150, 0.18);
-    border-radius: 18px;
-    box-shadow:
-        0 30px 90px rgba(0, 0, 0, 0.42),
-        0 0 55px rgba(113, 59, 89, 0.12);
-    scrollbar-width: thin;
-    scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+z-index: 1000;
+isolation: isolate;
+width: calc(100% - 28px);
+max-width: 680px;
+max-height: 82dvh;
+margin: 0;
+padding: 16px;
+box-sizing: border-box;
+overflow-x: hidden;
+overflow-y: auto;
+overscroll-behavior: contain;
+background:
+linear-gradient(
+145deg,
+rgba(113, 59, 89, 0.10),
+transparent 38%
+),
+rgba(24, 29, 41, 0.97);
+border: 1px solid rgba(168, 117, 150, 0.18);
+border-radius: 18px;
+box-shadow:
+0 30px 90px rgba(0, 0, 0, 0.42),
+0 0 55px rgba(113, 59, 89, 0.12);
+scrollbar-width: thin;
+scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
 }
 
 .movie-detail:not(.is-open) {
-    display: none;
-}
-
-/* ========================= 
-    FICHA · MODO CLARO 
-=========================  */
-
-:root.light-mode .movie-detail { 
-    border: none; 
-    outline: none; 
-}
-
-/* =========================
-   FICHA · ADAPTACIÓN RESPONSIVE
-========================= */
-/* Móvil y tablet: ficha vertical */
-
-.movie-detail {
-    width: calc(100% - 28px);
-    max-width: 680px;
-    max-height: 82dvh;
+display: none;
 }
 
 .movie-detail.is-open {
-    display: block;
+display: block;
 }
 
+/* Modo claro */
+
+:root.light-mode .movie-detail {
+border: none;
+outline: none;
+}
+
+/* Línea decorativa superior */
 
 .movie-detail::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(184, 154, 90, 0.75),
-        rgba(168, 117, 150, 0.55),
-        transparent
-    );
-    pointer-events: none;
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+z-index: 5;
+height: 1px;
+background: linear-gradient(
+90deg,
+transparent,
+rgba(184, 154, 90, 0.75),
+rgba(168, 117, 150, 0.55),
+transparent
+);
+pointer-events: none;
 }
 
 /* =========================
-   FICHA · DISTRIBUCIÓN
+FICHA · DISTRIBUCIÓN
 ========================= */
 
 .movie-detail-content {
+display: grid;
+grid-template-columns: minmax(0, 1fr);
+align-items: start;
+gap: 20px;
+width: 100%;
+min-width: 0;
+}
+
+.movie-detail-visual {
+position: relative;
+width: 100%;
+min-width: 0;
+}
+
+/* Cartel */
+
+.movie-detail-poster-container {
+position: relative;
+width: calc(100% + 32px);
+aspect-ratio: 2 / 1;
+margin: -16px -16px 0;
+overflow: hidden;
+background: transparent;
+}
+
+.movie-detail-poster-container > .movie-detail-poster {
+display: block;
+width: 100%;
+height: 100%;
+margin: 0;
+object-fit: cover;
+object-position: center 30%;
+image-rendering: auto;
+border: 0;
+border-radius: 0;
+-webkit-mask-image: linear-gradient(
+to bottom,
+#000 0%,
+#000 55%,
+rgba(0, 0, 0, 0.85) 70%,
+rgba(0, 0, 0, 0.4) 85%,
+transparent 100%
+);
+mask-image: linear-gradient(
+to bottom,
+#000 0%,
+#000 55%,
+rgba(0, 0, 0, 0.85) 70%,
+rgba(0, 0, 0, 0.4) 85%,
+transparent 100%
+);
+}
+
+/* =========================
+ESCRITORIO · MARCO CINEMATOGRÁFICO
+========================= */
+
+@media (min-width: 1024px) {
+.movie-detail-overlay .movie-detail {
+box-sizing: border-box;
+width: min(1000px, calc(100vw - 64px));
+max-width: 1000px;
+max-height: 86dvh;
+padding: 24px;
+overflow-x: hidden;
+overflow-y: auto;
+overscroll-behavior: contain;
+scrollbar-width: thin;
+scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
+}
+
+ 
+.movie-detail-overlay .movie-detail-content {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
-    gap: 20px;
+    gap: 0;
     width: 100%;
     min-width: 0;
+    box-sizing: border-box;
 }
 
-/* Imagen y galería */
-
-.movie-detail-visual {
-    width: 100%;
-    min-width: 0;
-}
-
-/* Contenedor de la imagen y las flechas */
-
-.movie-detail-poster-container {
+.movie-detail-overlay .movie-detail-visual {
+    grid-column: 1;
+    grid-row: 1;
     position: relative;
-    width: calc(100% + 32px);
-    margin: -16px -16px 0;
-    aspect-ratio: 2 / 1;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.movie-detail-overlay .movie-detail-poster-container {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    width: calc(100% + 48px);
+    height: clamp(220px, 30vw, 340px);
+    aspect-ratio: auto;
+    margin: -24px -24px 0;
+    padding: 0;
     overflow: hidden;
+    border-radius: 0;
     background: transparent;
 }
 
-/* Cartel cinematográfico */
-
-.movie-detail-poster-container > .movie-detail-poster {
+.movie-detail-overlay .movie-detail-poster-container > .movie-detail-poster {
     display: block;
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
+    max-width: 100%;
     margin: 0;
+    padding: 0;
     object-fit: cover;
-    object-position: center 30%;
-    image-rendering: auto;
+    object-position: center;
     border: 0;
     border-radius: 0;
-
-    /* Degradado suave hacia el fondo */
     -webkit-mask-image: linear-gradient(
         to bottom,
         #000 0%,
-        #000 55%,
-        rgba(0, 0, 0, 0.85) 70%,
-        rgba(0, 0, 0, 0.4) 85%,
+        #000 35%,
+        rgba(0, 0, 0, 0.95) 48%,
+        rgba(0, 0, 0, 0.72) 62%,
+        rgba(0, 0, 0, 0.35) 78%,
         transparent 100%
     );
     mask-image: linear-gradient(
         to bottom,
         #000 0%,
-        #000 55%,
-        rgba(0, 0, 0, 0.85) 70%,
-        rgba(0, 0, 0, 0.4) 85%,
+        #000 35%,
+        rgba(0, 0, 0, 0.95) 48%,
+        rgba(0, 0, 0, 0.72) 62%,
+        rgba(0, 0, 0, 0.35) 78%,
         transparent 100%
     );
 }
 
-.movie-detail-visual {
+.movie-detail-overlay .movie-detail-info {
+    grid-column: 1;
+    grid-row: 2;
     position: relative;
+    z-index: 1;
+    align-self: start;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin-top: -18px;
+    padding: 0 0 8px;
 }
 
-
-/* =========================
-   ESCRITORIO · MARCO CINEMATOGRÁFICO
-========================= */
-
-@media (min-width: 1024px) {
-
-    /* Ficha principal */
-    .movie-detail-overlay .movie-detail {
-        box-sizing: border-box;
-        width: min(1000px, calc(100vw - 64px));
-        max-width: 1000px;
-        max-height: 86dvh;
-        padding: 24px;
-        
-        overflow-x: hidden;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
-    }
-
-    /* Distribución en una sola columna */
-    .movie-detail-overlay .movie-detail-content {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-        align-items: start;
-        gap: 0;
-        width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-
-    /* Contenedor visual */
-    .movie-detail-overlay .movie-detail-visual {
-        grid-column: 1;
-        grid-row: 1;
-        position: relative;
-        width: 100%;
-        min-width: 0;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    
-    /* Marco horizontal integrado en la ficha */
-    .movie-detail-overlay .movie-detail-poster-container {
-        position: relative;
-        display: block;
-        box-sizing: border-box;
-        width: calc(100% + 48px);
-        height: clamp(220px, 30vw, 340px);
-        aspect-ratio: auto;
-        margin: -24px -24px 0;
-        padding: 0;
-        overflow: hidden;
-        border-radius: 0;
-        background: transparent;
-    }
-
-    /* Imagen fundida progresivamente con el fondo */
-    .movie-detail-overlay .movie-detail-poster-container > .movie-detail-poster {
-        display: block;
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        margin: 0;
-        padding: 0;
-        object-fit: cover;
-        object-position: center;
-        border: 0;
-        border-radius: 0;
-
-        -webkit-mask-image: linear-gradient(
-            to bottom,
-            #000 0%,
-            #000 35%,
-            rgba(0, 0, 0, 0.95) 48%,
-            rgba(0, 0, 0, 0.72) 62%,
-            rgba(0, 0, 0, 0.35) 78%,
-            transparent 100%
-        );
-
-        mask-image: linear-gradient(
-            to bottom,
-            #000 0%,
-            #000 35%,
-            rgba(0, 0, 0, 0.95) 48%,
-            rgba(0, 0, 0, 0.72) 62%,
-            rgba(0, 0, 0, 0.35) 78%,
-            transparent 100%
-        );
-    }
-
-    /* Información alineada con el marco */
-    .movie-detail-overlay .movie-detail-info {
-        grid-column: 1;
-        grid-row: 2;
-        position: relative;
-        z-index: 1;
-        align-self: start;
-        box-sizing: border-box;
-        width: 100%;
-        min-width: 0;
-        margin-top: -18px;
-        padding: 0 0 8px;
-    }
-
-    /* Título */
-    .movie-detail-overlay .movie-detail-heading {
-        margin-top: 0;
-    }
-
-    /* Sin modificar el resto del texto */
-    .movie-detail-overlay .movie-detail-overview {
-        -webkit-line-clamp: 5;
-    }
+.movie-detail-overlay .movie-detail-heading {
+    margin-top: 0;
 }
 
+.movie-detail-overlay .movie-detail-overview {
+    -webkit-line-clamp: 5;
+}
+ 
 
-
-
-
-/* =========================
-   TABLET · TÍTULO Y FAVORITOS
-   CONSERVAR DISEÑO VERTICAL
-========================= */
+}
 
 /* =========================
-   GALERÍA SUPERPUESTA
+GALERÍA SUPERPUESTA
 ========================= */
 
 .movie-detail-gallery {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-    box-sizing: border-box;
-    pointer-events: none;
+position: absolute;
+inset: 0;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 10px;
+box-sizing: border-box;
+pointer-events: none;
 }
 
-/* Botones de la galería */
-
 .gallery-button {
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 50%;
-    background: rgba(13, 16, 24, 0.7);
-    color: var(--texto);
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-    pointer-events: auto;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition:
-        background 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.25s ease;
+display: grid;
+place-items: center;
+flex: 0 0 auto;
+width: 36px;
+height: 36px;
+padding: 0;
+border: 1px solid rgba(255, 255, 255, 0.25);
+border-radius: 50%;
+background: rgba(13, 16, 24, 0.7);
+color: var(--texto);
+font-size: 1.5rem;
+line-height: 1;
+cursor: pointer;
+pointer-events: auto;
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px);
+transition:
+background 0.25s ease,
+border-color 0.25s ease,
+transform 0.25s ease;
 }
 
 .gallery-button:hover {
-    background: rgba(113, 59, 89, 0.9);
-    border-color: var(--secundario);
-    transform: scale(1.08);
+background: rgba(113, 59, 89, 0.9);
+border-color: var(--secundario);
+transform: scale(1.08);
 }
 
-
-/* =========================
-   CONTADOR DE FOTOGRAMAS
-========================= */
+/* Contador de fotogramas */
 
 .gallery-counter {
-    position: absolute;
-    right: 1%;
-    top: 70%;
-    bottom: auto;
-    left: auto;
-    transform: none;
-
-    padding: 6px 11px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-
-    background: rgba(13, 16, 24, 0.35);
-    color: var(--texto-secundario);
-
-    font-size: 0.68rem;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.07em;
-
-    opacity: 0.75;
-    pointer-events: none;
-
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-
-    transition:
-        opacity 0.3s ease,
-        background 0.3s ease,
-        border-color 0.3s ease,
-        color 0.3s ease;
+position: absolute;
+right: 1%;
+top: 70%;
+bottom: auto;
+left: auto;
+transform: none;
+padding: 6px 11px;
+border: 1px solid rgba(255, 255, 255, 0.08);
+border-radius: 20px;
+background: rgba(13, 16, 24, 0.35);
+color: var(--texto-secundario);
+font-size: 0.68rem;
+font-variant-numeric: tabular-nums;
+letter-spacing: 0.07em;
+opacity: 0.75;
+pointer-events: none;
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+transition:
+opacity 0.3s ease,
+background 0.3s ease,
+border-color 0.3s ease,
+color 0.3s ease;
 }
 
-
-
-/* Ocultar controles cuando no se necesitan */
 .gallery-button[hidden],
 .gallery-counter[hidden] {
-    display: none;
+display: none;
 }
 
-
-
 /* =========================
-   FICHA · TEXTO E INFORMACIÓN
+FICHA · TEXTO E INFORMACIÓN
 ========================= */
 
 .movie-detail-info {
-    position: relative;
-    grid-row: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    width: 100%;
-    min-width: 0;
-    padding: 0 0 24px;
-    color: var(--texto);
-    text-align: left;
+position: relative;
+grid-row: 2;
+display: flex;
+flex-direction: column;
+align-items: stretch;
+gap: 0;
+width: 100%;
+min-width: 0;
+padding: 0 0 24px;
+color: var(--texto);
+text-align: left;
 }
 
-/* Título y corazón en la misma línea */
+/* Título */
 
 .movie-detail-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    width: 100%;
-    margin: -8px 0 14px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 16px;
+width: 100%;
+margin: -8px 0 14px;
 }
 
 .movie-detail-heading h2 {
-    flex: 1;
-    min-width: 0;
-    margin: 0;
-    color: var(--texto);
-    font-family: var(--fuente-titulo);
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.035em;
-    text-align: left;
-    overflow-wrap: anywhere;
+flex: 1;
+min-width: 0;
+margin: 0;
+color: var(--texto);
+font-family: var(--fuente-titulo);
+font-size: clamp(1.8rem, 4vw, 3rem);
+font-weight: 500;
+line-height: 1.05;
+letter-spacing: -0.035em;
+text-align: left;
+overflow-wrap: anywhere;
 }
 
 /* Año, puntuación y metadatos */
 
 .movie-detail-metadata {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 14px;
-    width: 100%;
-    margin: 0 0 12px;
-    color: var(--texto-secundario);
-    font-family: var(--fuente-texto);
-    font-size: 0.82rem;
-    line-height: 1.6;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 6px 10px;
+width: 100%;
+margin: 0 0 12px;
+color: var(--texto-secundario);
+font-family: var(--fuente-texto);
+font-size: 0.82rem;
+line-height: 1.6;
 }
 
 #movieDetailYear {
-    color: var(--oro);
-    font-weight: 600;
-    letter-spacing: 0.06em;
+color: var(--oro);
+font-weight: 600;
+letter-spacing: 0.06em;
 }
 
 #movieDetailMeta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px 12px;
-    min-width: 0;
+display: contents;
+flex-wrap: wrap;
+align-items: center;
+gap: 6px 12px;
+min-width: 0;
 }
 
 /* País y datos adicionales */
 
 .movie-detail-extra {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 7px 14px;
-    width: 100%;
-    margin: 0 0 20px;
-    color: var(--texto-secundario);
-    font-size: 0.8rem;
-    line-height: 1.6;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 7px 14px;
+width: 100%;
+margin: 0 0 20px;
+color: var(--texto-secundario);
+font-size: 0.8rem;
+line-height: 1.6;
 }
 
-/* Descripción */
+/* Sinopsis */
 
 .movie-detail-overview {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    width: 100%;
-    margin: 0 0 8px;
-    color: var(--texto-secundario);
-    font-family: var(--fuente-texto);
-    font-size: 0.94rem;
-    font-weight: 400;
-    line-height: 1.8;
-    overflow-wrap: anywhere;
+display: -webkit-box;
+-webkit-line-clamp: 1;
+-webkit-box-orient: vertical;
+overflow: hidden;
+width: 100%;
+margin: 0 0 8px;
+color: var(--texto-secundario);
+font-family: var(--fuente-texto);
+font-size: 0.94rem;
+font-weight: 400;
+line-height: 1.8;
+overflow-wrap: anywhere;
 }
 
-/* Tráiler */
-
-.movie-detail-trailer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    margin-top: 0;
-    padding-top: 10px;
-    border-top: 1px solid var(--borde);
-}
+/* =========================
+TRÁILER · ENLACE DE YOUTUBE
+========================= */
 
 .movie-detail-trailer a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    max-width: 100%;
-    padding: 11px 18px;
-    border: 1px solid var(--secundario);
-    border-radius: 999px;
-    background: rgba(168, 117, 150, 0.1);
-    color: var(--texto);
-    font-family: var(--fuente-texto);
-    font-size: 0.82rem;
-    text-decoration: none;
-    transition:
-        background 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.25s ease;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+max-width: 100%;
+padding: 11px 18px;
+border: 1px solid var(--secundario);
+border-radius: 999px;
+background: rgba(168, 117, 150, 0.1);
+color: var(--texto);
+font-family: var(--fuente-texto);
+font-size: 0.82rem;
+text-decoration: none;
+overflow-wrap: anywhere;
+transition:
+background 0.25s ease,
+border-color 0.25s ease,
+transform 0.25s ease;
 }
 
 .movie-detail-trailer a:hover {
-    transform: translateY(-2px);
-    border-color: var(--oro);
-    background: rgba(168, 117, 150, 0.2);
+transform: translateY(-2px);
+border-color: var(--oro);
+background: rgba(168, 117, 150, 0.2);
 }
 
 .movie-detail-trailer a:focus-visible {
-    outline: 2px solid var(--oro);
-    outline-offset: 4px;
+outline: 2px solid var(--oro);
+outline-offset: 4px;
 }
 
 /* =========================
-   FAVORITOS · FICHA
+FAVORITOS · FICHA
 ========================= */
 
-/* Estilo base */
 .movie-detail .movie-detail-favorite {
-    color: var(--ficha-corazon-oscuro);
-    -webkit-text-fill-color: currentColor;
-    background: transparent;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    text-shadow: none;
-    filter: none;
-
-    font-size: 1.5rem;
-
-    transition:
-        color 0.3s ease,
-        transform 0.3s ease,
-        filter 0.3s ease;
+color: var(--ficha-corazon-oscuro);
+-webkit-text-fill-color: currentColor;
+background: transparent;
+border: none;
+outline: none;
+box-shadow: none;
+text-shadow: none;
+filter: none;
+font-size: 1.5rem;
+transition:
+color 0.3s ease,
+transform 0.3s ease,
+filter 0.3s ease;
 }
 
 /* Modo oscuro */
+
 :root:not(.light-mode) .movie-detail .movie-detail-favorite {
-    color: var(--ficha-corazon-oscuro);
+color: var(--ficha-corazon-oscuro);
+}
+
+:root:not(.light-mode) .movie-detail .movie-detail-favorite:hover {
+color: #D7B7D0;
+transform: scale(1.07);
 }
 
 /* Modo claro */
+
 :root.light-mode .movie-detail .movie-detail-favorite {
-    color: var(--ficha-corazon-claro);
-    -webkit-text-fill-color: currentColor;
-    background: transparent;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    text-shadow: none;
-    filter: none;
+color: var(--ficha-corazon-claro);
+-webkit-text-fill-color: currentColor;
+background: transparent;
+border: none;
+outline: none;
+box-shadow: none;
+text-shadow: none;
+filter: none;
 }
 
-/* Hover · modo oscuro */
-:root:not(.light-mode) .movie-detail .movie-detail-favorite:hover {
-    color: #D7B7D0;
-    transform: scale(1.07);
-}
-
-/* Hover · modo claro */
 :root.light-mode .movie-detail .movie-detail-favorite:hover {
-    color: var(--ficha-corazon-claro);
-    transform: scale(1.07);
+color: var(--ficha-corazon-claro);
+transform: scale(1.07);
 }
 
 /* Favorito activo · modo oscuro */
-:root:not(.light-mode)
-.movie-detail .movie-detail-favorite.is-favorite,
-:root:not(.light-mode)
-.movie-detail .movie-detail-favorite[aria-pressed="true"] {
-    color: var(--secundario);
-    filter: drop-shadow(0 0 3px rgba(168, 117, 150, 0.2));
+
+:root:not(.light-mode) .movie-detail .movie-detail-favorite.is-favorite,
+:root:not(.light-mode) .movie-detail .movie-detail-favorite[aria-pressed="true"] {
+color: var(--secundario);
+filter: drop-shadow(0 0 3px rgba(168, 117, 150, 0.2));
 }
 
 /* Favorito activo · modo claro */
-:root.light-mode
-.movie-detail .movie-detail-favorite.is-favorite,
-:root.light-mode
-.movie-detail .movie-detail-favorite[aria-pressed="true"] {
-    color: var(--ficha-corazon-claro);
-    -webkit-text-fill-color: currentColor;
-    background: transparent;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    text-shadow: none;
-    filter: none;
+
+:root.light-mode .movie-detail .movie-detail-favorite.is-favorite,
+:root.light-mode .movie-detail .movie-detail-favorite[aria-pressed="true"] {
+color: var(--ficha-corazon-claro);
+-webkit-text-fill-color: currentColor;
+background: transparent;
+border: none;
+outline: none;
+box-shadow: none;
+text-shadow: none;
+filter: none;
 }
 
 /* Pulsación */
-.movie-detail .movie-detail-favorite:active {
-    transform: scale(0.96);
-}
 
+.movie-detail .movie-detail-favorite:active {
+transform: scale(0.96);
+}
 
 /* =========================
-   GALERÍA DE FOTOGRAMAS
+GALERÍA DE FOTOGRAMAS
 ========================= */
 
-/* Imagen */
-
 #movieDetailPoster {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+display: block;
+width: 100%;
+height: 100%;
+object-fit: cover;
 }
-
-/* Flechas */
 
 #galleryPrev,
 #galleryNext {
-    position: absolute;
-    top: 50%;
-    z-index: 20;
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    padding: 0;
-    transform: translateY(-50%);
-    border: 1px solid rgba(168, 117, 150, 0.32);
-    border-radius: 50%;
-    background: rgba(13, 16, 24, 0.58);
-    color: var(--texto);
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-    opacity: 0.82;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.18),
-        0 0 20px rgba(113, 59, 89, 0.12);
-    transition:
-        opacity 0.3s ease,
-        color 0.3s ease,
-        background 0.3s ease,
-        border-color 0.3s ease,
-        box-shadow 0.3s ease,
-        transform 0.3s ease;
+position: absolute;
+top: 50%;
+z-index: 20;
+display: grid;
+place-items: center;
+width: 42px;
+height: 42px;
+padding: 0;
+transform: translateY(-50%);
+border: 1px solid rgba(168, 117, 150, 0.32);
+border-radius: 50%;
+background: rgba(13, 16, 24, 0.58);
+color: var(--texto);
+font-family: "Space Grotesk", sans-serif;
+font-size: 1.5rem;
+line-height: 1;
+cursor: pointer;
+opacity: 0.82;
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+box-shadow:
+0 4px 18px rgba(0, 0, 0, 0.18),
+0 0 20px rgba(113, 59, 89, 0.12);
+transition:
+opacity 0.3s ease,
+color 0.3s ease,
+background 0.3s ease,
+border-color 0.3s ease,
+box-shadow 0.3s ease,
+transform 0.3s ease;
 }
 
 #galleryPrev {
-    left: 8px;
+left: 8px;
 }
 
 #galleryNext {
-    right: 8px;
+right: 8px;
 }
 
 #galleryPrev:hover,
 #galleryNext:hover {
-    transform: translateY(-50%) scale(1.08);
-    opacity: 1;
-    background: rgba(113, 59, 89, 0.82);
-    border-color: rgba(184, 154, 90, 0.7);
-    box-shadow:
-        0 0 22px rgba(168, 117, 150, 0.22),
-        0 0 32px rgba(184, 154, 90, 0.1);
+transform: translateY(-50%) scale(1.08);
+opacity: 1;
+background: rgba(113, 59, 89, 0.82);
+border-color: rgba(184, 154, 90, 0.7);
+box-shadow:
+0 0 22px rgba(168, 117, 150, 0.22),
+0 0 32px rgba(184, 154, 90, 0.1);
 }
 
 #galleryPrev:focus-visible,
 #galleryNext:focus-visible {
-    outline: 2px solid var(--oro);
-    outline-offset: 3px;
+outline: 2px solid var(--oro);
+outline-offset: 3px;
 }
 
 #galleryPrev[hidden],
 #galleryNext[hidden] {
-    display: none !important;
+display: none !important;
 }
 
-
-/* Móvil */
-
 /* =========================
-   CERRAR FICHA
+CERRAR FICHA
 ========================= */
 
 .movie-detail .movie-detail-close {
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    z-index: 1100;
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    border: 0;
-    border-radius: 50%;
-    background: rgba(13, 16, 24, 0.72);
-    color: var(--texto);
-    font-size: 1.8rem;
-    cursor: pointer;
+position: absolute;
+top: 12px;
+right: 14px;
+z-index: 1100;
+display: grid;
+place-items: center;
+width: 42px;
+height: 42px;
+border: 0;
+border-radius: 50%;
+background: rgba(13, 16, 24, 0.72);
+color: var(--texto);
+font-size: 1.8rem;
+cursor: pointer;
 }
 
 /* =========================
-   FICHA · SUPERPOSICIÓN MÓVIL
-========================= */
-
-/* =========================
-   CAPA EXTERIOR DE LA FICHA
+CAPA EXTERIOR DE LA FICHA
 ========================= */
 
 .movie-detail-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    box-sizing: border-box;
+position: fixed;
+inset: 0;
+z-index: 10000;
+display: none;
+align-items: center;
+justify-content: center;
+padding: 16px;
+box-sizing: border-box;
 }
 
 .movie-detail-overlay.is-open {
-    display: flex;
+display: flex;
 }
 
 .movie-detail-backdrop {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background: rgba(13, 16, 24, 0.62);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    cursor: pointer;
+position: absolute;
+inset: 0;
+z-index: 0;
+background: rgba(13, 16, 24, 0.62);
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px);
+cursor: pointer;
 }
 
 .movie-detail-overlay .movie-detail {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
-    z-index: 1;
-    margin: auto;
-    flex-shrink: 0;
+position: relative;
+top: auto;
+left: auto;
+transform: none;
+z-index: 1;
+margin: auto;
+flex-shrink: 0;
 }
 
 .movie-detail-overlay .movie-detail.is-open {
-    display: block;
+display: block;
 }
 
-/* =========================
-   FICHA · CORAZÓN EN METADATOS
-   TODAS LAS PANTALLAS
-========================= */
+/* Corazón en los metadatos */
 
 .movie-detail-metadata .movie-detail-favorite {
-    display: inline-grid;
-    place-items: center;
-    flex: 0 0 28px;
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    min-height: 28px;
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    border: none;
-    box-shadow: none;
+display: inline-grid;
+place-items: center;
+flex: 0 0 28px;
+width: 28px;
+height: 28px;
+min-width: 28px;
+min-height: 28px;
+margin: 0;
+padding: 0;
+background: transparent;
+border: none;
+box-shadow: none;
 }
 
-/* Metadatos y corazón alineados */
 
-.movie-detail-metadata {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px 10px;
+/* =========================
+   MAPA Y TRÁILER · DESPLEGABLES
+========================= */
+
+.movie-detail-tools {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1rem;
+    width: 100%;
+    margin: 1.5rem 0;
+    box-sizing: border-box;
 }
 
-/* Integrar los datos internos en la misma fila */
-
-.movie-detail-metadata #movieDetailMeta {
+.movie-detail-map,
+.movie-detail-trailer,
+.movie-map-disclosure,
+.movie-trailer-disclosure {
     display: contents;
 }
 
-/* =========================
-   MAPA · PAÍSES DE PRODUCCIÓN
-========================= */
+/* BOTONES EN LA MISMA FILA */
 
-.movie-detail-map {
-    width: 100%;
-    margin: 2rem 0;
+.movie-map-disclosure summary,
+.movie-trailer-disclosure summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: left;
+    border: 1px solid var(--c-salvia);
+    border-radius: 10px;
+    color: var(--texto-principal);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.2s ease;
 }
 
-.movie-detail-map h3 {
-    margin-bottom: 0.5rem;
+.movie-map-disclosure summary {
+    grid-column: 1;
+    grid-row: 1;
 }
+
+.movie-trailer-disclosure summary {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.movie-map-disclosure summary::-webkit-details-marker,
+.movie-trailer-disclosure summary::-webkit-details-marker {
+    display: none;
+}
+
+.movie-map-disclosure summary:hover,
+.movie-trailer-disclosure summary:hover {
+    background: var(--c-salvia-clara);
+}
+
+/* FLECHAS */
+
+.movie-map-arrow,
+.movie-trailer-arrow {
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.movie-map-disclosure[open] .movie-map-arrow,
+.movie-trailer-disclosure[open] .movie-trailer-arrow {
+    transform: rotate(180deg);
+}
+
+/* CONTENIDO DEL MAPA */
 
 #movieDetailMapCountries {
-    margin-bottom: 1rem;
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+    margin: 0.75rem 0;
     color: var(--texto-secundario);
     line-height: 1.6;
+    
 }
 
 #movieProductionMap {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: end;
     width: 100%;
-    height: 300px;
+    height: 180px;
     overflow: hidden;
     border: 1px solid var(--c-salvia);
     border-radius: 12px;
     background: #181D29;
+    box-sizing: border-box;
 }
 
+/* TÍTULO INTERIOR DEL TRÁILER */
+
+.movie-trailer-disclosure h3 {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    margin: 0.75rem 0;
+    position: relative;
+    top: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    color: var(--texto-principal);
+}
+
+/* CONTENIDO DEL TRÁILER */
+
+#movieDetailTrailer {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: end;
+    width: 100%;
+    min-width: 0;
+    min-height: 180px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#movieDetailTrailer iframe {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 12px;
+}
+
+#movieDetailTrailer .movie-trailer-link {
+    display: inline-flex;
+    max-width: 100%;
+    margin: 0.5rem 0;
+    overflow-wrap: anywhere;
+}
+
+/* MÓVIL */
+
 @media (max-width: 600px) {
+    .movie-detail-tools {
+        gap: 0.65rem;
+    }
+
+    .movie-map-disclosure summary,
+    .movie-trailer-disclosure summary {
+        gap: 0.35rem;
+        min-height: 48px;
+        padding: 0.75rem 0.55rem;
+        font-size: 0.82rem;
+    }
+
     #movieProductionMap {
-        height: 240px;
+        height: 150px;
+    }
+
+    #movieDetailTrailer {
+        min-height: 150px;
     }
 }
 
+/* TABLET */
+
+@media (min-width: 601px) and (max-width: 1023px) {
+    #movieProductionMap {
+        height: 165px;
+    }
+
+    #movieDetailTrailer {
+        min-height: 165px;
+    }
+}
+
+/* FILA DE TEXTO · ALTURA CONSTANTE */
+
+#movieDetailMapCountries,
+.movie-trailer-disclosure h3 {
+    grid-row: 2;
+    height: 3.5rem;
+    min-height: 3.5rem;
+    margin: 0.75rem 0;
+    box-sizing: border-box;
+    align-self: stretch;
+    display: flex;
+    align-items: flex-end;
+}
+
+/* TEXTO DE LOS PAÍSES */
+
+#movieDetailMapCountries {
+    grid-column: 1;
+    color: var(--texto-secundario);
+    line-height: 1.6;
+    overflow: hidden;
+}
+
+/* TÍTULO DEL TRÁILER */
+
+.movie-trailer-disclosure h3 {
+    grid-column: 2;
+    transform: translateY(-0.4rem);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    color: var(--texto-principal);
+}

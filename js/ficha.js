@@ -79,90 +79,6 @@ prepararCapaFicha();
 
 
 
-
-/* =========================
-   FOTOGRAMA HORIZONTAL · CABECERA
-========================= */
-
-function mostrarFotogramaHorizontal(fotogramas, detalle) {
-    const contenedor = movieModal?.querySelector(
-        ".movie-detail-poster-container"
-    );
-
-    if (!contenedor) {
-        console.warn(
-            "No se encuentra el contenedor de la imagen de la ficha."
-        );
-        return;
-    }
-
-    // Buscar imágenes horizontales de TMDB
-    const imagenes = Array.isArray(fotogramas)
-        ? fotogramas
-        : [];
-
-    const fotograma = imagenes
-        .filter(imagen => {
-            const ruta = imagen.file_path;
-            const ancho = Number(imagen.width ?? 0);
-            const alto = Number(imagen.height ?? 0);
-
-            return (
-                ruta &&
-                ancho > 0 &&
-                alto > 0 &&
-                ancho / alto >= 1.5
-            );
-        })
-        .sort((a, b) => {
-            const resolucionA =
-                Number(a.width) * Number(a.height);
-
-            const resolucionB =
-                Number(b.width) * Number(b.height);
-
-            return resolucionB - resolucionA;
-        })[0];
-
-    // Priorizar el fotograma panorámico.
-    // Si no hay ninguno, utilizar el fondo de la película.
-    const ruta =
-        fotograma?.file_path ??
-        detalle.backdrop_path;
-
-    if (!ruta) {
-        console.warn(
-            "No hay un fotograma horizontal disponible para esta película."
-        );
-        return;
-    }
-
-    // Reutilizar la imagen existente o crearla si falta
-    let imagen = contenedor.querySelector(
-        ".movie-detail-poster"
-    );
-
-    if (!imagen) {
-        imagen = document.createElement("img");
-        imagen.className = "movie-detail-poster";
-        contenedor.appendChild(imagen);
-    }
-
-    // Evitar que una fuente alternativa sustituya la imagen
-    imagen.removeAttribute("srcset");
-    imagen.removeAttribute("sizes");
-
-    imagen.alt =
-        `Fotograma de ${detalle.title ?? "la película"}`;
-
-    imagen.loading = "eager";
-    imagen.decoding = "async";
-
-    imagen.src =
-        `https://image.tmdb.org/t/p/w1280${ruta}`;
-}
-
-
 /* =========================
    FICHA TÉCNICA
 ========================= */
@@ -481,6 +397,10 @@ function cerrarFicha() {
         return;
     }
 
+    // Cerrar los desplegables del mapa y del tráiler.
+    document.querySelector(".movie-map-disclosure")?.removeAttribute("open");
+    document.querySelector(".movie-trailer-disclosure")?.removeAttribute("open");
+
     const posicionGuardada = scrollAnterior;
 
     movieDetailClose?.blur();
@@ -490,14 +410,14 @@ function cerrarFicha() {
 
     movieDetailOverlay?.classList.remove("is-open");
 
-    // Restaurar los estilos originales del body
+    // Restaurar los estilos originales del body.
     document.body.style.position = "";
     document.body.style.top = "";
     document.body.style.left = "";
     document.body.style.right = "";
     document.body.style.width = "";
 
-    // Restaurar la posición de scroll
+    // Restaurar la posición de scroll.
     document.documentElement.style.scrollBehavior = "auto";
 
     requestAnimationFrame(() => {
@@ -508,6 +428,8 @@ function cerrarFicha() {
         });
     });
 }
+
+
 
 
 /* =========================

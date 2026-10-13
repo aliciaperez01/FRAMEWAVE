@@ -501,8 +501,6 @@ async function cargarGenerosParaGrafica() {
     try {
         const respuesta = await pedirTMDB("/genre/movie/list");
 
-        console.log("Géneros recibidos:", respuesta.genres);
-
         respuesta.genres.forEach(genero => {
             nombresGenerosTMDB.set(genero.id, genero.name);
         });
@@ -515,7 +513,6 @@ async function cargarGenerosParaGrafica() {
         );
     }
 }
-
 
 
 function actualizarGraficaFavoritas() {
@@ -890,21 +887,8 @@ export async function iniciar() {
         rejilla.dispatchEvent(new Event("scroll"));
     });
 
-    // Si había un género seleccionado, refrescar sus tarjetas.
-    const generoActivo = document.querySelector(
-        ".genres-list a.is-selected"
-    );
-
-    if (generoActivo) {
-        const evento = new Event("click", {
-            bubbles: true,
-            cancelable: true
-        });
-
-        // No simulamos el clic, porque eso deseleccionaría el género.
-        // La selección se conserva y las películas se pueden volver a elegir.
-    }
 }
+
 
 iniciarPeliculasGeneros();
 
