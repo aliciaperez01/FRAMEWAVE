@@ -291,11 +291,6 @@
     transform: rotate(35deg);
 }
 
-/* Idioma */
-#languageButton {
-    font-size: 0.76rem;
-    letter-spacing: 0.12em;
-}
 
 /* Foco accesible */
 .control-button:focus-visible {

@@ -1,13 +1,11 @@
 
-const CLAVE_FAVORITOS = "framewaveFavoritas";
+
+import {
+    obtenerFavoritos,
+    guardarFavoritos
+} from "./storage.js";
 
 let temporizadorNotificacion;
-
-export function obtenerFavoritos() {
-    return JSON.parse(
-        localStorage.getItem(CLAVE_FAVORITOS) ?? "[]"
-    );
-}
 
 export function alternarFavorito(id) {
     const favoritos = obtenerFavoritos();
@@ -17,10 +15,7 @@ export function alternarFavorito(id) {
         ? favoritos.filter(favorito => favorito !== idPelicula)
         : [...favoritos, idPelicula];
 
-    localStorage.setItem(
-        CLAVE_FAVORITOS,
-        JSON.stringify(nuevosFavoritos)
-    );
+    guardarFavoritos(nuevosFavoritos);
 
     window.dispatchEvent(
         new Event("framewaveFavoritasActualizadas")

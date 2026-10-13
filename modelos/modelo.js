@@ -1,9 +1,13 @@
 
 import {
-    obtenerFavoritos,
+    obtenerFavoritos
+} from "../js/storage.js";
+
+import {
     alternarFavorito,
     mostrarNotificacionFavoritos
 } from "../js/favoritos.js";
+
 
 export default class Pelicula {
     constructor({

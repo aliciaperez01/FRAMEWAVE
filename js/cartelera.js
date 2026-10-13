@@ -1,10 +1,8 @@
 
+
 import Pelicula from "../modelos/modelo.js";
-import {
-    pedirTMDB,
-    establecerIdiomaTMDB
-} from "../api_services/tmdb.js";
-import { obtenerFavoritos } from "./favoritos.js";
+import { pedirTMDB } from "../api_services/tmdb.js";
+import { obtenerFavoritos } from "./storage.js";
 import { abrirFicha } from "./ficha.js";
 import { iniciarInterfaz } from "./script.js";
 import { iniciarAnimaciones } from "./animaciones.js";
@@ -489,6 +487,181 @@ function iniciarFiltroGeneros() {
     return actualizarFiltro;
 }
 
+
+
+/* =========================
+   GRÁFICA · GÉNEROS FAVORITOS
+========================= */
+
+let graficaGenerosFavoritas = null;
+const nombresGenerosTMDB = new Map();
+
+
+async function cargarGenerosParaGrafica() {
+    try {
+        const respuesta = await pedirTMDB("/genre/movie/list");
+
+        console.log("Géneros recibidos:", respuesta.genres);
+
+        respuesta.genres.forEach(genero => {
+            nombresGenerosTMDB.set(genero.id, genero.name);
+        });
+
+        actualizarGraficaFavoritas();
+    } catch (error) {
+        console.error(
+            "Error al cargar los géneros de la gráfica:",
+            error
+        );
+    }
+}
+
+
+
+function actualizarGraficaFavoritas() {
+    const canvas = document.querySelector("#favoritesGenreChart");
+    const contenedor = document.querySelector(".favorites-chart-container");
+    const mensajeVacio = document.querySelector("#favoritesChartEmpty");
+
+    if (!canvas || !contenedor || !mensajeVacio) return;
+
+    const idsFavoritos = obtenerFavoritos().map(String);
+
+    const favoritas = peliculasCargadas.filter(pelicula =>
+        idsFavoritos.includes(String(pelicula.id))
+    );
+
+    if (favoritas.length === 0) {
+        contenedor.hidden = true;
+        mensajeVacio.hidden = false;
+
+        graficaGenerosFavoritas?.destroy();
+        graficaGenerosFavoritas = null;
+
+        return;
+    }
+
+    if (nombresGenerosTMDB.size === 0) return;
+
+    const recuentoGeneros = new Map();
+
+    favoritas.forEach(pelicula => {
+        pelicula.generoIds.forEach(idGenero => {
+            const nombre = nombresGenerosTMDB.get(idGenero);
+
+            if (nombre) {
+                recuentoGeneros.set(
+                    nombre,
+                    (recuentoGeneros.get(nombre) || 0) + 1
+                );
+            }
+        });
+    });
+
+    const etiquetas = [...recuentoGeneros.keys()];
+    const cantidades = [...recuentoGeneros.values()];
+
+    mensajeVacio.hidden = true;
+    contenedor.hidden = false;
+
+  
+    contenedor.style.height =
+        `${Math.max(280, etiquetas.length * 36)}px`;
+
+    if (!graficaGenerosFavoritas) {
+        graficaGenerosFavoritas = new Chart(canvas, {
+            type: "bar",
+
+            data: {
+                labels: etiquetas,
+
+                datasets: [{
+                    label: "Películas",
+                    data: cantidades,
+
+                    backgroundColor: [
+                        "#718675",
+                        "#A87596",
+                        "#B89A5A",
+                        "#8A91B5",
+                        "#465B4B",
+                        "#D5DED0",
+                        "#986889",
+                        "#80658F"
+                    ],
+
+                    borderRadius: 6,
+                    borderSkipped: false,
+                    barThickness: 17,
+                    maxBarThickness: 20
+                }]
+            },
+
+            options: {
+                indexAxis: "y",
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+
+                    tooltip: {
+                        callbacks: {
+                            label: contexto =>
+                                ` ${contexto.parsed.x} películas`
+                        }
+                    }
+                },
+
+                scales: {
+                    x: {
+                        beginAtZero: true,
+
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1
+                        },
+
+                        grid: {
+                            color: "rgba(113, 134, 117, 0.15)"},
+
+                        border: {display: false
+
+                        }
+                    },
+
+                    y: {
+                        grid: {display: false
+
+                        },
+
+                        border: {
+                            display: false
+                        },
+
+                        ticks: {
+                            padding: 12
+                        }
+                    }
+                }
+            }
+        });
+
+        return;
+    }
+
+    graficaGenerosFavoritas.data.labels = etiquetas;
+    graficaGenerosFavoritas.data.datasets[0].data = cantidades;
+
+    contenedor.style.height =
+        `${Math.max(280, etiquetas.length * 36)}px`;
+
+    graficaGenerosFavoritas.update(); 
+} 
+
+
 /* =========================
    ACTUALIZAR FAVORITAS
 ========================= */
@@ -606,7 +779,10 @@ botonFavoritas?.addEventListener("click", () => {
 
 window.addEventListener(
     "framewaveFavoritasActualizadas",
-    actualizarFavoritas
+    () => {
+        actualizarFavoritas();
+        actualizarGraficaFavoritas();
+    }
 );
 
 window.addEventListener("resize", () => {
@@ -642,6 +818,7 @@ botonVerTodas?.addEventListener("click", () => {
     );
 });
 
+
 /* =========================
    INICIALIZAR APLICACIÓN
 ========================= */
@@ -651,11 +828,7 @@ const actualizarFiltroGenero = iniciarFiltroGeneros();
 iniciarInterfaz({
     peliculasFrameWave,
     buscarPelicula,
-    abrirFicha,
-    cambiarIdioma: async idioma => {
-        establecerIdiomaTMDB(idioma);
-        await iniciar();
-    }
+    abrirFicha
 });
 
 /* =========================
@@ -707,8 +880,9 @@ export async function iniciar() {
     }
 
     actualizarFavoritas();
+    actualizarGraficaFavoritas();
 
-    // Mantener el filtro de la cartelera tras cambiar de idioma.
+    // Mantener el filtro de la cartelera.
     actualizarFiltroGenero?.();
 
     // Actualizar flechas y progreso del carrusel.
@@ -733,6 +907,12 @@ export async function iniciar() {
 }
 
 iniciarPeliculasGeneros();
+
 iniciarAnimaciones();
+
 iniciar();
+
+cargarGenerosParaGrafica();
+
+actualizarGraficaFavoritas();
 

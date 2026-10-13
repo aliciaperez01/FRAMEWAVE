@@ -14,6 +14,11 @@
     <title>FrameWave</title>
 
     <link rel="stylesheet" href="./style/01style.css">
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
+
 </head>
 
 <body>
@@ -79,15 +84,6 @@
                 aria-label="Cambiar tema de color"
             >
                 <span class="theme-icon" aria-hidden="true">◐</span>
-            </button>
-
-            <button
-                class="control-button language-button"
-                id="languageButton"
-                type="button"
-                aria-label="Cambiar idioma"
-            >
-                EN
             </button>
 
         </div>
@@ -370,6 +366,27 @@
                 Ver todas las favoritas
             </button>
 
+            
+        <div class="favorites-chart">
+            <h3>Tu mapa cinematográfico</h3>
+
+            <p>
+                Los géneros que habitan tu colección de favoritas.
+            </p>
+
+            <div id="favoritesChartEmpty">
+                Añade películas a favoritas para descubrir tus géneros.
+            </div>
+
+            <div class="favorites-chart-container" hidden>
+                <canvas
+                    id="favoritesGenreChart"
+                    role="img"
+                    aria-label="Distribución de géneros de tus películas favoritas"
+                ></canvas>
+            </div>
+        </div>
+
         </section>
 
         
@@ -425,7 +442,6 @@
         </p>
     </div>
 </section>
-
 
 
         <!-- FICHA DE PELÍCULA -->
@@ -537,6 +553,30 @@
 
                     </div>
 
+
+                <!-- MAPA · PAÍSES DE PRODUCCIÓN -->
+
+                <section
+                    class="movie-detail-map"
+                    aria-labelledby="movieDetailMapTitle"
+                >
+                    <h3 id="movieDetailMapTitle">
+                        Geografía cinematográfica
+                    </h3>
+
+                    <p id="movieDetailMapCountries">
+                        Países de producción
+                    </p>
+
+                    <div
+                        id="movieProductionMap"
+                        role="region"
+                        aria-label="Mapa de los países de producción de la película"
+                    ></div>
+                </section>
+
+
+
                     <div
                         id="movieDetailTrailer"
                         class="movie-detail-trailer"
@@ -556,9 +596,13 @@
         <p>© 2026 FrameWave</p>
     </footer>
 
-    <!-- JAVASCRIPT -->
+    
+<!-- JAVASCRIPT -->
 
-    <script type="module" src="js/cartelera.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="js/cartelera.js"></script>
+
 
 </body>
 </html>

@@ -1,13 +1,15 @@
 
+
 /* =========================
    INICIALIZAR INTERFAZ
 ========================= */
 
+import { guardarBusqueda } from "./storage.js";
+
 export function iniciarInterfaz({
     peliculasFrameWave,
     buscarPelicula,
-    abrirFicha,
-    cambiarIdioma
+    abrirFicha
 }) {
 
     /* =========================
@@ -29,50 +31,6 @@ export function iniciarInterfaz({
         }
     });
 
-
-    /* =========================
-       IDIOMA
-    ========================= */
-
-    const languageButton =
-        document.getElementById("languageButton");
-
-    if (languageButton) {
-        const idiomaInicial =
-            document.documentElement.lang === "en" ? "en" : "es";
-
-        languageButton.textContent =
-            idiomaInicial === "es" ? "EN" : "ES";
-
-        languageButton.addEventListener("click", async () => {
-            const idiomaNuevo =
-                document.documentElement.lang === "es" ? "en" : "es";
-
-            try {
-                if (cambiarIdioma) {
-                    await cambiarIdioma(idiomaNuevo);
-                }
-
-                document.documentElement.lang = idiomaNuevo;
-
-                languageButton.textContent =
-                    idiomaNuevo === "es" ? "EN" : "ES";
-
-                languageButton.setAttribute(
-                    "aria-label",
-                    idiomaNuevo === "es"
-                        ? "Change language to English"
-                        : "Cambiar idioma a español"
-                );
-
-            } catch (error) {
-                console.error(
-                    "Error al cambiar el idioma:",
-                    error
-                );
-            }
-        });
-    }
 
 
     /* =========================
@@ -172,6 +130,9 @@ export function iniciarInterfaz({
                     searchInput.placeholder = "No está :(";
                     return;
                 }
+                
+                guardarBusqueda(peliculaEncontrada);
+                searchInput.value = "";
 
                 searchForm.classList.remove("is-open");
                 searchMessage?.classList.remove("is-visible");
@@ -179,7 +140,7 @@ export function iniciarInterfaz({
 
                 abrirFicha(pelicula.id);
 
-            } catch (error) {
+                } catch (error) {
                 console.error(
                     "Error al buscar la película:",
                     error

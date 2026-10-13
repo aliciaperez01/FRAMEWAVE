@@ -337,6 +337,9 @@ transform: translateY(0);
 
 
 
+
+
+
 /* ========================================
    9. MOVIMIENTO REDUCIDO
 ======================================== */
@@ -352,5 +355,43 @@ transform: translateY(0);
         transition: none;
     }
 }
+
+
+
+/* =========================
+   GRÁFICA · MAPA EDITORIAL
+========================= */
+
+.favorites-chart {
+    width: 100%;
+    max-width: 760px;
+    margin: 3rem auto 0;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+.favorites-chart-container {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    margin: 2rem auto 0;
+}
+
+.favorites-chart-container[hidden] {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .favorites-chart {
+        padding: 1rem 0.5rem;
+        margin-top: 2rem;
+    }
+
+    .favorites-chart-container {
+        margin-top: 1.5rem;
+    }
+}
+
+
 
 

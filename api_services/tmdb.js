@@ -5,13 +5,6 @@ const BASE_URL = "https://api.themoviedb.org/3";
 
 let idiomaTMDB = "es-ES";
 
-/* =========================
-   CAMBIAR IDIOMA DE TMDB
-========================= */
-
-export function establecerIdiomaTMDB(idioma) {
-    idiomaTMDB = idioma === "en" ? "en-US" : "es-ES";
-}
 
 /* =========================
    PETICIONES A TMDB

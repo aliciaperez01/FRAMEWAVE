@@ -1,8 +1,12 @@
 
 
 import {
-    obtenerFavoritos,
-    alternarFavorito
+    obtenerFavoritos
+} from "./storage.js";
+
+import {
+    alternarFavorito,
+    mostrarNotificacionFavoritos
 } from "./favoritos.js";
 
 import {
@@ -12,6 +16,10 @@ import {
 import {
     mostrarGaleriaFotogramas
 } from "./fotogramas.js";
+
+import {
+    mostrarMapaProduccion
+} from "./mapa.js";
 
 
 /* =========================
@@ -70,42 +78,6 @@ function prepararCapaFicha() {
 prepararCapaFicha();
 
 
-/* =========================
-   NOTIFICACIÓN · FAVORITOS
-========================= */
-
-function mostrarNotificacionFavoritos() {
-    let notificacion = document.getElementById(
-        "favoritosNotificacion"
-    );
-
-    if (!notificacion) {
-        notificacion = document.createElement("div");
-        notificacion.id = "favoritosNotificacion";
-
-        notificacion.setAttribute("role", "status");
-        notificacion.setAttribute("aria-live", "polite");
-
-        document.body.appendChild(notificacion);
-    }
-
-    notificacion.textContent = "Se ha añadido a favoritos";
-
-    // Reiniciar la animación y el temporizador
-    notificacion.classList.remove("is-visible");
-
-    clearTimeout(
-        mostrarNotificacionFavoritos.temporizador
-    );
-
-    requestAnimationFrame(() => {
-        notificacion.classList.add("is-visible");
-    });
-
-    mostrarNotificacionFavoritos.temporizador = setTimeout(() => {
-        notificacion.classList.remove("is-visible");
-    }, 2400);
-}
 
 
 /* =========================
@@ -302,20 +274,23 @@ export async function abrirFicha(id) {
        CARGAR INFORMACIÓN
     ========================= */
 
-    try {
-        const {
-            detalle,
-            videos,
-            director,
-            fotogramas
-        } = await obtenerDetallesPelicula(id);
+  try {
+    const {
+        detalle,
+        videos,
+        director,
+        fotogramas
+    } = await obtenerDetallesPelicula(id);
 
-        if (!detalle) {
-            throw new Error(
-                "No se han recibido los detalles de la película."
-            );
-        }
+    if (!detalle) {
+        throw new Error(
+            "No se han recibido los detalles de la película."
+        );
+    }
 
+    mostrarMapaProduccion(
+        detalle.production_countries ?? []
+    );
 
         // La galería gestiona la imagen principal y sus controles.
 // Así evitamos que dos funciones compitan por el mismo src.
