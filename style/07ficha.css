@@ -625,49 +625,72 @@ box-shadow: none;
     display: contents;
 }
 
-/* BOTONES EN LA MISMA FILA */
+
+/* BOTONES MAPA Y TRÁILER · ESTILO BASE */
 
 .movie-map-disclosure summary,
 .movie-trailer-disclosure summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    min-height: 48px;
-    padding: 0.75rem 1rem;
-    box-sizing: border-box;
-    font-family: inherit;
-    font-size: 0.9rem;
-    font-weight: 500;
-    line-height: 1.4;
-    text-align: left;
-    border: 1px solid var(--c-salvia);
-    border-radius: 10px;
-    color: var(--texto-principal);
-    cursor: pointer;
-    list-style: none;
-    transition: background 0.2s ease;
-}
-
-.movie-map-disclosure summary {
-    grid-column: 1;
-    grid-row: 1;
-}
-
-.movie-trailer-disclosure summary {
-    grid-column: 2;
-    grid-row: 1;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 0.5rem;
+min-height: 48px;
+padding: 0.75rem 1rem;
+box-sizing: border-box;
+font-family: inherit;
+font-size: 0.9rem;
+font-weight: 500;
+line-height: 1.4;
+text-align: left;
+border: 1px solid var(--c-salvia);
+border-radius: 10px;
+color: var(--texto-principal);
+cursor: pointer;
+list-style: none;
+transition: background-color 0.25s ease-in-out;
 }
 
 .movie-map-disclosure summary::-webkit-details-marker,
 .movie-trailer-disclosure summary::-webkit-details-marker {
-    display: none;
+display: none;
 }
+
+
+/* VERDE SALVIA AL PASAR EL CURSOR */
 
 .movie-map-disclosure summary:hover,
 .movie-trailer-disclosure summary:hover {
-    background: var(--c-salvia-clara);
+background-color: rgba(113, 134, 117, 0.14);
 }
+
+/* EVITAR EL DESTELLO AZUL DEL NAVEGADOR */
+
+.movie-map-disclosure summary,
+.movie-trailer-disclosure summary {
+-webkit-tap-highlight-color: transparent;
+}
+
+/* FOCO VISIBLE PARA TECLADO */
+
+.movie-map-disclosure summary:focus-visible,
+.movie-trailer-disclosure summary:focus-visible {
+outline: 2px solid var(--c-salvia);
+outline-offset: 3px;
+}
+
+\* BOTONES EN LA MISMA FILA \*/
+
+.movie-map-disclosure summary {
+grid-column: 1;
+grid-row: 1;
+}
+
+.movie-trailer-disclosure summary {
+grid-column: 2;
+grid-row: 1;
+}
+
+
 
 /* FLECHAS */
 

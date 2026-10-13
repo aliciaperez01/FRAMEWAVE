@@ -407,10 +407,13 @@ function iniciarFiltroGeneros() {
 
     let generoSeleccionado = "all";
 
+    
     function cerrarDesplegable() {
         contenedor.hidden = true;
+        dropdown.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
     }
+
 
     function actualizarFiltro() {
         const idGenero = GENEROS_TMDB[generoSeleccionado];
@@ -438,12 +441,16 @@ function iniciarFiltroGeneros() {
         });
     }
 
-    toggle.addEventListener("click", () => {
-        const abrir = contenedor.hidden;
+    
+        toggle.addEventListener("click", () => {
+            const abrir = contenedor.hidden;
 
-        contenedor.hidden = !abrir;
-        toggle.setAttribute("aria-expanded", String(abrir));
-    });
+            contenedor.hidden = !abrir;
+            dropdown.classList.toggle("is-open", abrir);
+            toggle.setAttribute("aria-expanded", String(abrir));
+        });
+
+
 
     botones.forEach(boton => {
         boton.addEventListener("click", () => {

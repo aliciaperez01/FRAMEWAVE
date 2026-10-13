@@ -1,12 +1,13 @@
 
+/* ========================================
+   FRAMEWAVE · RESPONSIVE
+   Adaptaciones por componente y dispositivo
+======================================== */
 
 
 /* ========================================
-   1. NAVEGACIÓN · MENÚ EDITORIAL
-   MÓVIL · TABLET · ESCRITORIO
+   1. NAVEGACIÓN · ESTRUCTURA
 ======================================== */
-
-/* Estructura compartida */
 
 .mobile-navigation {
     display: flex;
@@ -42,131 +43,13 @@
     display: none;
 }
 
-/* =========================
-   HERO · RESPONSIVE
-========================= */
-
-@media (max-width: 600px) {
-    .hero-description {
-        top: 40vh;
-        width: 90vw;
-    }
-
-    .hero-kicker {
-        margin-bottom: 9px;
-        font-size: 0.55rem;
-        letter-spacing: 0.13em;
-    }
-
-    .hero-description h1 {
-        max-width: 100%;
-        margin: 10px auto;
-        font-size: clamp(1.4rem, 6vw, 2rem);
-        line-height: 1.15;
-        letter-spacing: -0.025em;
-    }
-
-    .hero-text {
-        max-width: 340px;
-        margin-top: 14px;
-        font-size: 0.78rem;
-        line-height: 1.65;
-    }
-
-    .hero-divider {
-        width: min(230px, 65vw);
-    }
-
-    .hero-divider-main {
-        gap: 9px;
-        margin-top: 14px;
-        margin-bottom: 15px;
-    }
-
-    .hero-star {
-        width: 22px;
-        height: 22px;
-    }
-
-    .hero-star::before {
-        inset: -5px;
-    }
-
-    .hero-star::after {
-        inset: -9px;
-    }
-
-    .framewave-compact {
-        font-size: clamp(2rem, 8.5vw, 3.2rem);
-    }
-}
-
-
-/* Tablet */
-@media (min-width: 601px) and (max-width: 1023px) {
-    .about-content {
-        gap: 24px;
-        margin-top: 34px;
-    }
-
-    .about-text {
-        max-width: 680px;
-        line-height: 1.85;
-    }
-
-    .about-text-secondary {
-        max-width: 650px;
-    }
-
-    .about-text-closing {
-        margin-top: 8px;
-    }
-}
-
-/* Móvil */
-@media (max-width: 600px) {
-    .about-content {
-        gap: 22px;
-        margin-top: 28px;
-    }
-
-    .about-text {
-        max-width: 100%;
-        font-size: 0.96rem;
-        line-height: 1.85;
-        letter-spacing: 0;
-    }
-
-    .about-text-secondary {
-        max-width: 100%;
-        margin-left: 0;
-        font-size: 0.91rem;
-        line-height: 1.85;
-    }
-
-    .about-text-closing {
-        margin-top: 8px;
-        padding-top: 22px;
-        font-size: clamp(1.35rem, 6vw, 1.7rem);
-        line-height: 1.5;
-    }
-
-    .about-text-closing::before {
-        margin-bottom: 18px;
-    }
-}
-
-/* ========================================
-   MENÚ ABIERTO · CRISTAL CINEMATOGRÁFICO
-======================================== */
-
+/* Menú abierto · cristal cinematográfico */
 
 .navigation .menu-list.is-open {
     position: absolute;
     top: calc(100% + 16px);
     left: 0;
     right: auto;
-
     z-index: 110;
 
     display: flex;
@@ -214,7 +97,7 @@
     animation: menuAppear 0.4s ease both;
 }
 
-/* Modo claro */
+/* Menú abierto · modo claro */
 
 :root.light-mode .navigation .menu-list.is-open {
     border-color: rgba(128, 101, 143, 0.28);
@@ -333,10 +216,28 @@
     outline-offset: 2px;
 }
 
-/* ========================================
-   ANIMACIONES
-======================================== */
+/* Escritorio · navegación y cabecera */
 
+@media (min-width: 1024px) {
+    .navigation {
+        min-width: max-content;
+    }
+
+    .header {
+        gap: 16px;
+        padding: 18px 30px;
+    }
+
+    .header-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: clamp(8px, 1.2vw, 18px);
+        flex-shrink: 0;
+    }
+}
+
+/* Animaciones del menú */
 
 @keyframes menuAppear {
     from {
@@ -364,32 +265,7 @@
     }
 }
 
-/* ========================================
-   ESCRITORIO
-======================================== */
-
-@media (min-width: 1024px) {
-    .navigation {
-        min-width: max-content;
-    }
-
-    .header {
-        gap: 16px;
-        padding: 18px 30px;
-    }
-
-    .header-controls {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: clamp(8px, 1.2vw, 18px);
-        flex-shrink: 0;
-    }
-}
-
-/* ========================================
-   ACCESIBILIDAD · MOVIMIENTO REDUCIDO
-======================================== */
+/* Accesibilidad · movimiento reducido */
 
 @media (prefers-reduced-motion: reduce) {
     .navigation .menu-list.is-open {
@@ -409,18 +285,141 @@
 
 
 /* ========================================
-   13. TAMAÑO CONTROLADO · TABLET Y ESCRITORIO
+   2. HERO Y LOGOTIPO · MÓVIL
 ======================================== */
 
-/* TABLET */
+@media (max-width: 600px) {
+    .hero-description {
+        top: 40vh;
+        width: 90vw;
+    }
+
+    .hero-kicker {
+        margin-bottom: 9px;
+        font-size: 0.55rem;
+        letter-spacing: 0.13em;
+    }
+
+    .hero-description h1 {
+        max-width: 100%;
+        margin: 10px auto;
+        font-size: clamp(1.4rem, 6vw, 2rem);
+        line-height: 1.15;
+        letter-spacing: -0.025em;
+    }
+
+    .hero-text {
+        max-width: 340px;
+        margin-top: 14px;
+        font-size: 0.78rem;
+        line-height: 1.65;
+    }
+
+    .hero-divider {
+        width: min(230px, 65vw);
+    }
+
+    .hero-divider-main {
+        gap: 9px;
+        margin-top: 14px;
+        margin-bottom: 15px;
+    }
+
+    .hero-star {
+        width: 22px;
+        height: 22px;
+    }
+
+    .hero-star::before {
+        inset: -5px;
+    }
+
+    .hero-star::after {
+        inset: -9px;
+    }
+
+    .framewave-compact {
+        font-size: clamp(2rem, 8.5vw, 3.2rem);
+    }
+}
+
+
+/* ========================================
+   3. SOBRE FRAMEWAVE · TABLET
+======================================== */
+
+@media (min-width: 601px) and (max-width: 1023px) {
+    .about-content {
+        gap: 24px;
+        margin-top: 34px;
+    }
+
+    .about-text {
+        max-width: 680px;
+        line-height: 1.85;
+    }
+
+    .about-text-secondary {
+        max-width: 650px;
+    }
+
+    .about-text-closing {
+        margin-top: 8px;
+    }
+}
+
+
+/* ========================================
+   3. SOBRE FRAMEWAVE · MÓVIL
+======================================== */
+
+@media (max-width: 600px) {
+    .about-content {
+        gap: 22px;
+        margin-top: 28px;
+    }
+
+    .about-text {
+        max-width: 100%;
+        font-size: 0.96rem;
+        line-height: 1.85;
+        letter-spacing: 0;
+    }
+
+    .about-text-secondary {
+        max-width: 100%;
+        margin-left: 0;
+        font-size: 0.91rem;
+        line-height: 1.85;
+    }
+
+    .about-text-closing {
+        margin-top: 8px;
+        padding-top: 22px;
+        font-size: clamp(1.35rem, 6vw, 1.7rem);
+        line-height: 1.5;
+    }
+
+    .about-text-closing::before {
+        margin-bottom: 18px;
+    }
+}
+
+
+/* ========================================
+   4. CARTELERA · TABLET
+======================================== */
+
 @media (min-width: 768px) and (max-width: 1199px) {
 
     /* Carrusel */
+
     #rejilla:not(.ver-todas) {
         grid-auto-columns: 165px;
     }
 
-    /* Ver todas: 5 fichas por fila */
+    /* Ver todas · cinco fichas por fila */
+
     #rejilla.ver-todas {
         grid-template-columns: repeat(5, minmax(0, 1fr));
         grid-auto-flow: row;
@@ -437,15 +436,21 @@
     }
 }
 
-/* ESCRITORIO */
+
+/* ========================================
+   4. CARTELERA · ESCRITORIO
+======================================== */
+
 @media (min-width: 1200px) {
 
     /* Carrusel */
+
     #rejilla:not(.ver-todas) {
         grid-auto-columns: 180px;
     }
 
-    /* Ver todas: 8 fichas por fila */
+    /* Ver todas · ocho fichas por fila */
+
     #rejilla.ver-todas {
         grid-template-columns: repeat(8, minmax(0, 1fr));
         grid-auto-flow: row;
@@ -463,12 +468,14 @@
 
 
 /* ========================================
-   14. TEXTO DE LAS TARJETAS · TABLET Y ESCRITORIO
+   4. TARJETAS · TIPOGRAFÍA
+   TABLET Y ESCRITORIO
 ======================================== */
 
 @media (min-width: 768px) {
 
     /* Título de la película */
+
     #rejilla .card h3 {
         font-size: 0.95rem;
         line-height: 1.35;
@@ -481,6 +488,7 @@
     }
 
     /* Año de estreno */
+
     #rejilla .card p {
         font-size: 0.7rem;
         line-height: 1.5;
@@ -490,7 +498,7 @@
 
 
 /* ========================================
-   FAVORITAS · TABLET Y ESCRITORIO
+   5. FAVORITAS · TABLET
 ======================================== */
 
 @media (min-width: 600px) and (max-width: 1023px) {
@@ -498,6 +506,11 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
+
+
+/* ========================================
+   5. FAVORITAS · ESCRITORIO
+======================================== */
 
 @media (min-width: 1024px) {
     #favoritesGrid {
@@ -507,7 +520,7 @@
 
 
 /* ========================================
-   GRÁFICA DE FAVORITAS · MÓVIL
+   5. GRÁFICA DE FAVORITAS · MÓVIL
 ======================================== */
 
 @media (max-width: 600px) {
@@ -522,7 +535,9 @@
 }
 
 
-/* Tablet */
+/* ========================================
+   6. GÉNEROS · VENTANA · TABLET Y MÓVIL
+======================================== */
 
 @media (max-width: 760px) {
     .genre-window .genre-window-panel {
@@ -541,7 +556,10 @@
     }
 }
 
-/* Móvil */
+
+/* ========================================
+   6. GÉNEROS · VENTANA · MÓVIL ESTRECHO
+======================================== */
 
 @media (max-width: 420px) {
     .genre-window {
@@ -568,28 +586,9 @@
     }
 }
 
-/* Accesibilidad: movimiento reducido */
-
-@media (prefers-reduced-motion: reduce) {
-    .genre-window,
-    .genre-window .genre-window-panel,
-    .genre-window .genre-window-poster {
-        animation: none;
-    }
-
-    .genre-window .genre-window-poster img,
-    .genre-window .genre-window-close {
-        transition: none;
-    }
-
-    .genre-window .genre-window-poster:hover img,
-    .genre-window .genre-window-poster:focus-visible img {
-        transform: none;
-    }
-}
 
 /* ========================================
-   ESFERA DE GÉNEROS · TABLET
+   6. GÉNEROS · ESFERA · TABLET
 ======================================== */
 
 @media (min-width: 761px) and (max-width: 1023px) {
@@ -598,8 +597,9 @@
     }
 }
 
+
 /* ========================================
-   ESFERA DE GÉNEROS · MÓVIL
+   6. GÉNEROS · ESFERA · MÓVIL
 ======================================== */
 
 @media (max-width: 600px) {
@@ -616,8 +616,7 @@
         font-size: clamp(1.2rem, 5vw, 1.7rem);
     }
 
-    /* Reparte la esfera en horizontal para evitar que los textos
-       queden cortados en pantallas estrechas. */
+    /* Distribución horizontal de los géneros */
 
     .genres-list a:nth-child(2) {
         --x: -105px;
@@ -667,8 +666,9 @@
     }
 }
 
+
 /* ========================================
-   ESFERA DE GÉNEROS · ESCRITORIO
+   6. GÉNEROS · ESFERA · ESCRITORIO
 ======================================== */
 
 @media (min-width: 1024px) {
@@ -680,115 +680,173 @@
     }
 }
 
-/* =========================
-ESCRITORIO · MARCO CINEMATOGRÁFICO
-========================= */
+
+/* ========================================
+   6. GÉNEROS · TEXTO EDITORIAL · ESCRITORIO
+======================================== */
 
 @media (min-width: 1024px) {
-.movie-detail-overlay .movie-detail {
-box-sizing: border-box;
-width: min(1000px, calc(100vw - 64px));
-max-width: 1000px;
-max-height: 86dvh;
-padding: 24px;
-overflow-x: hidden;
-overflow-y: auto;
-overscroll-behavior: contain;
-scrollbar-width: thin;
-scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
+    #genres .genres-description {
+        width: min(100%, 820px);
+        max-width: 820px;
+        margin: -35px auto 0 0;
+        font-size: 0.96rem;
+        line-height: 2;
+        text-align: left;
+    }
 }
 
- 
-.movie-detail-overlay .movie-detail-content {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
-    gap: 0;
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
+
+/* ========================================
+   6. GÉNEROS · TEXTO EDITORIAL · MÓVIL Y TABLET
+======================================== */
+
+@media (max-width: 1023px) {
+    #genres .genres-description {
+        width: min(100%, 620px);
+        margin: 0 auto;
+        padding: 0 4px;
+        font-size: clamp(0.88rem, 2.2vw, 0.98rem);
+        line-height: 1.85;
+        text-align: center;
+    }
 }
 
-.movie-detail-overlay .movie-detail-visual {
-    grid-column: 1;
-    grid-row: 1;
-    position: relative;
-    width: 100%;
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+/* ========================================
+   6. GÉNEROS · ACCESIBILIDAD
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .genre-window,
+    .genre-window .genre-window-panel,
+    .genre-window .genre-window-poster {
+        animation: none;
+    }
+
+    .genre-window .genre-window-poster img,
+    .genre-window .genre-window-close {
+        transition: none;
+    }
+
+    .genre-window .genre-window-poster:hover img,
+    .genre-window .genre-window-poster:focus-visible img {
+        transform: none;
+    }
 }
 
-.movie-detail-overlay .movie-detail-poster-container {
-    position: relative;
-    display: block;
-    box-sizing: border-box;
-    width: calc(100% + 48px);
-    height: clamp(220px, 30vw, 340px);
-    aspect-ratio: auto;
-    margin: -24px -24px 0;
-    padding: 0;
-    overflow: hidden;
-    border-radius: 0;
-    background: transparent;
+
+/* ========================================
+   7. FICHA DE PELÍCULA · ESCRITORIO
+======================================== */
+
+@media (min-width: 1024px) {
+    .movie-detail-overlay .movie-detail {
+        box-sizing: border-box;
+        width: min(1000px, calc(100vw - 64px));
+        max-width: 1000px;
+        max-height: 86dvh;
+        padding: 24px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
+    }
+
+    .movie-detail-overlay .movie-detail-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 0;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .movie-detail-overlay .movie-detail-visual {
+        grid-column: 1;
+        grid-row: 1;
+        position: relative;
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .movie-detail-overlay .movie-detail-poster-container {
+        position: relative;
+        display: block;
+        box-sizing: border-box;
+        width: calc(100% + 48px);
+        height: clamp(220px, 30vw, 340px);
+        aspect-ratio: auto;
+        margin: -24px -24px 0;
+        padding: 0;
+        overflow: hidden;
+        border-radius: 0;
+        background: transparent;
+    }
+
+    .movie-detail-overlay .movie-detail-poster-container > .movie-detail-poster {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        object-fit: cover;
+        object-position: center;
+        border: 0;
+        border-radius: 0;
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 35%,
+            rgba(0, 0, 0, 0.95) 48%,
+            rgba(0, 0, 0, 0.72) 62%,
+            rgba(0, 0, 0, 0.35) 78%,
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 35%,
+            rgba(0, 0, 0, 0.95) 48%,
+            rgba(0, 0, 0, 0.72) 62%,
+            rgba(0, 0, 0, 0.35) 78%,
+            transparent 100%
+        );
+    }
+
+    .movie-detail-overlay .movie-detail-info {
+        grid-column: 1;
+        grid-row: 2;
+        position: relative;
+        z-index: 1;
+        align-self: start;
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        margin-top: -18px;
+        padding: 0 0 8px;
+    }
+
+    .movie-detail-overlay .movie-detail-heading {
+        margin-top: 0;
+    }
+
+    .movie-detail-overlay .movie-detail-overview {
+        -webkit-line-clamp: 5;
+    }
 }
 
-.movie-detail-overlay .movie-detail-poster-container > .movie-detail-poster {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    object-fit: cover;
-    object-position: center;
-    border: 0;
-    border-radius: 0;
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        #000 0%,
-        #000 35%,
-        rgba(0, 0, 0, 0.95) 48%,
-        rgba(0, 0, 0, 0.72) 62%,
-        rgba(0, 0, 0, 0.35) 78%,
-        transparent 100%
-    );
-    mask-image: linear-gradient(
-        to bottom,
-        #000 0%,
-        #000 35%,
-        rgba(0, 0, 0, 0.95) 48%,
-        rgba(0, 0, 0, 0.72) 62%,
-        rgba(0, 0, 0, 0.35) 78%,
-        transparent 100%
-    );
-}
 
-.movie-detail-overlay .movie-detail-info {
-    grid-column: 1;
-    grid-row: 2;
-    position: relative;
-    z-index: 1;
-    align-self: start;
-    box-sizing: border-box;
-    width: 100%;
-    min-width: 0;
-    margin-top: -18px;
-    padding: 0 0 8px;
-}
-
-.movie-detail-overlay .movie-detail-heading {
-    margin-top: 0;
-}
-
-.movie-detail-overlay .movie-detail-overview {
-    -webkit-line-clamp: 5;
-}}
-
-
-/* MÓVIL */
+/* ========================================
+   7. FICHA DE PELÍCULA · MÓVIL
+======================================== */
 
 @media (max-width: 600px) {
     .movie-detail-tools {
@@ -812,7 +870,10 @@ scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
     }
 }
 
-/* TABLET */
+
+/* ========================================
+   7. FICHA DE PELÍCULA · TABLET
+======================================== */
 
 @media (min-width: 601px) and (max-width: 1023px) {
     #movieProductionMap {
@@ -825,28 +886,3 @@ scrollbar-color: rgba(168, 117, 150, 0.4) transparent;
 }
 
 
-/* Escritorio: composición asimétrica */
-
-@media (min-width: 1024px) {
-    #genres .genres-description {
-        width: min(100%, 820px);
-        max-width: 820px;
-        margin: -35px auto 0 0;
-        font-size: 0.96rem;
-        line-height: 2;
-        text-align: left;
-    }
-}
-
-/* Móvil y tablet: lectura centrada */
-
-@media (max-width: 1023px) {
-    #genres .genres-description {
-        width: min(100%, 620px);
-        margin: 0 auto;
-        padding: 0 4px;
-        font-size: clamp(0.88rem, 2.2vw, 0.98rem);
-        line-height: 1.85;
-        text-align: center;
-    }
-}
