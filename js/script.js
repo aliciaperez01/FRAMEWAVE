@@ -79,6 +79,15 @@ export function iniciarInterfaz({
         const placeholderOriginal =
             searchInput.placeholder;
 
+        function normalizarTitulo(titulo) {
+            return titulo
+                .trim()
+                .toLocaleLowerCase("es")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, " ");
+        }
+
         searchInput.addEventListener("input", () => {
             searchInput.placeholder = placeholderOriginal;
 
@@ -104,14 +113,13 @@ export function iniciarInterfaz({
         searchForm.addEventListener("submit", async (event) => {
             event.preventDefault();
 
-            const texto =
-                searchInput.value.trim().toLowerCase();
+            const texto = normalizarTitulo(searchInput.value);
 
             if (!texto) return;
 
             const peliculaEncontrada =
                 peliculasFrameWave.find(
-                    titulo => titulo.toLowerCase() === texto
+                    titulo => normalizarTitulo(titulo) === texto
                 );
 
             if (!peliculaEncontrada) {
@@ -127,10 +135,11 @@ export function iniciarInterfaz({
                     await buscarPelicula(peliculaEncontrada);
 
                 if (!pelicula) {
+                    searchInput.value = "";
                     searchInput.placeholder = "No está :(";
                     return;
                 }
-                
+
                 guardarBusqueda(peliculaEncontrada);
                 searchInput.value = "";
 
@@ -138,9 +147,9 @@ export function iniciarInterfaz({
                 searchMessage?.classList.remove("is-visible");
                 searchInput.blur();
 
-                abrirFicha(pelicula.id);
+                await abrirFicha(pelicula.id);
 
-                } catch (error) {
+            } catch (error) {
                 console.error(
                     "Error al buscar la película:",
                     error
@@ -148,7 +157,6 @@ export function iniciarInterfaz({
             }
         });
     }
-
 
     /* =========================
        ABRIR FICHA DESDE TARJETAS
