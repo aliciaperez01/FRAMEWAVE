@@ -55,26 +55,6 @@
 }
 
 
-/* =========================
-   FOTOGRAMAS · FLECHAS
-   MODO CLARO
-========================= */
-
-:root.light-mode .frames-arrow:hover {
-    color: var(--texto);
-    background: var(--salvia-superficie);
-    border-color: var(--borde-salvia);
-
-    box-shadow:
-        0 0 18px var(--salvia-sombra),
-        0 0 28px var(--salvia-reflejo);
-
-    transform: translateY(-50%) scale(1.08);
-}
-
-:root.light-mode .frames-arrow:focus-visible {
-    outline-color: var(--c-salvia-profunda);
-}
 
 
 
