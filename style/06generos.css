@@ -475,3 +475,35 @@
     }
 }
 
+
+/* Ajuste móvil · separar Romance de Experimental */
+
+    .genres-list a:nth-child(6) {
+        transform:
+            translate(-50%, -50%)
+            translate(
+                calc(var(--x) * var(--spread)),
+                calc(var(--y) * var(--spread))
+            )
+            translate(var(--move-x), var(--move-y))
+            translateX(15px)
+            scale(var(--scale));
+    }
+
+
+/* Separar Surrealismo */
+
+@media (max-width: 600px) {
+    .genres-list a:nth-child(7) {
+        transform:
+            translate(-50%, -50%)
+            translate(
+                calc(var(--x) * var(--spread)),
+                calc(var(--y) * var(--spread))
+            )
+            translate(var(--move-x), var(--move-y))
+            translateX(-20px)
+            scale(var(--scale));
+    }
+}
+
